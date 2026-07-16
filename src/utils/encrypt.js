@@ -1,36 +1,45 @@
-import { EncryptStorage } from 'encrypt-storage';
+import CryptoJS from 'crypto-js';
 
 const MIN_SECRET_KEY_LENGTH = 10;
 const secretKey = import.meta.env.VITE_PARAMETER1?.trim();
 
 if (!secretKey || secretKey.length < MIN_SECRET_KEY_LENGTH) {
   throw new Error(
-    `[encrypt-storage] VITE_PARAMETER1 debe existir y tener al menos ${MIN_SECRET_KEY_LENGTH} caracteres.`
+    `[encrypted-storage] VITE_PARAMETER1 debe existir y tener al menos ${MIN_SECRET_KEY_LENGTH} caracteres.`
   );
 }
 
-/**
- * Única instancia de EncryptStorage para toda la aplicación.
- *
- * stateManagementUse evita que EncryptStorage haga JSON.parse del valor
- * persistido. Pinia necesita recibir el string serializado para hidratar el store.
- */
-const encryptStorage = new EncryptStorage(secretKey, {
-  storageType: 'sessionStorage',
-  stateManagementUse: true,
-});
+const storage = window.sessionStorage;
+
+const encrypt = (value) => CryptoJS.AES.encrypt(String(value), secretKey).toString();
+
+const decrypt = (encryptedValue) => {
+  const bytes = CryptoJS.AES.decrypt(encryptedValue, secretKey);
+  const value = bytes.toString(CryptoJS.enc.Utf8);
+
+  if (!value) {
+    throw new Error('No se pudo descifrar el valor almacenado.');
+  }
+
+  return value;
+};
 
 const removeItem = (key) => {
-  encryptStorage.removeItem(key);
+  storage.removeItem(key);
 };
 
 const getRawItem = (key) => {
+  const encryptedValue = storage.getItem(key);
+
+  if (encryptedValue === null) {
+    return null;
+  }
+
   try {
-    const value = encryptStorage.getItem(key);
-    return value == null ? null : String(value);
+    return decrypt(encryptedValue);
   } catch (error) {
     // Una clave cambiada o un valor viejo/corrupto no debe impedir que cargue la app.
-    console.warn(`[encrypt-storage] Se descartó el valor inválido "${key}".`, error);
+    console.warn(`[encrypted-storage] Se descartó el valor inválido "${key}".`, error);
     removeItem(key);
     return null;
   }
@@ -38,18 +47,18 @@ const getRawItem = (key) => {
 
 /**
  * Adaptador compatible con pinia-plugin-persistedstate.
- * getItem siempre devuelve string | null, igual que Web Storage.
+ * Devuelve exactamente string | null, igual que Web Storage.
  */
 export const piniaEncryptedSessionStorage = {
   getItem: getRawItem,
   setItem(key, value) {
-    encryptStorage.setItem(key, String(value));
+    storage.setItem(key, encrypt(String(value)));
   },
   removeItem,
 };
 
 /**
- * Adaptador de uso general que conserva el comportamiento previo:
+ * Adaptador de uso general que conserva el comportamiento histórico:
  * objetos, booleanos y números vuelven a su tipo original al leerlos.
  */
 const parsedEncryptedSessionStorage = {
@@ -69,7 +78,7 @@ const parsedEncryptedSessionStorage = {
   setItem(key, value) {
     const serializedValue =
       typeof value === 'object' ? JSON.stringify(value) : String(value);
-    encryptStorage.setItem(key, serializedValue);
+    storage.setItem(key, encrypt(serializedValue));
   },
   removeItem,
 };
