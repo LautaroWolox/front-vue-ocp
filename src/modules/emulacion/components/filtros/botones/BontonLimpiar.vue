@@ -1,20 +1,11 @@
 <template>
-    <div>
-        <Button id="BotonLimpiar" class="text-primary border-primary" label="LIMPIAR" severity="info" rounded outlined @click="limpiar" size="large" />
-    </div>
+  <FmButton label="LIMPIAR" icon="pi-align-left" variant="outline" @click="limpiar" />
 </template>
 
 <script setup>
-import Button from 'primevue/button';
-
-const emit = defineEmits(['clear']);
+const emit = defineEmits(['clear'])
 
 const limpiar = () => {
-    emit("clear", true);
+  emit('clear', true)
 }
-
-
 </script>
-
-<style scoped>
-</style>

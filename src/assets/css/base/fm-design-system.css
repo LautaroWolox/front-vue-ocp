@@ -1,0 +1,626 @@
+/* ========================================================================
+   FIELD MANAGER DESIGN SYSTEM GLOBAL
+   ------------------------------------------------------------------------
+   ACA SE CENTRALIZAN LOS ESTILOS COMPARTIDOS DEL PROYECTO.
+
+   OBJETIVO:
+   - Que botones, filtros, grillas, paneles, modales y acciones sean iguales
+     en todas las pantallas.
+   - Que una pantalla nueva pueda reutilizar estas clases/componentes sin copiar CSS.
+   - Que si una pantalla necesita un ajuste puntual, lo haga localmente con scoped
+     o una clase especifica de modulo, sin romper el resto.
+
+   REGLA DE USO PARA NUEVAS PANTALLAS:
+   - Pantalla: .fm-screen
+   - Panel/acordeon visual: .fm-card / .fm-panel / <FmPanel>
+   - Filtros: .fm-filter-grid + .fm-field
+   - Acciones: .fm-actions + <FmButton>
+   - Grilla: .fm-grid-shell + .fm-pass-grid / <FmGridShell>
+   - Modales de alerta: <FmAlertDialog>
+
+   NO poner estilos globales de una pantalla especifica aca.
+   Los estilos especificos deben vivir dentro de la carpeta de cada pantalla.
+   ======================================================================== */
+
+:root {
+  --fm-cyan: #00a9bd;
+  --fm-cyan-strong: #008fa1;
+  --fm-cyan-soft: #e0f7fa;
+  --fm-cyan-row: #9eeff7;
+  --fm-cyan-dark-text: #003f47;
+  --fm-white: #ffffff;
+  --fm-bg: #f5f7f8;
+  --fm-panel-bg: #ffffff;
+  --fm-panel-header-bg: #f7f7f7;
+  --fm-grid-header-bg: #f4f7f9;
+  --fm-grid-empty-bg: #eafcff;
+  --fm-border: #d8d8d8;
+  --fm-grid-border: #c9d3da;
+  --fm-grid-border-soft: #dce3e8;
+  --fm-text: #263238;
+  --fm-text-muted: #607d8b;
+  --fm-danger: #d73333;
+  --fm-warning-bg: #fff6f6;
+  --fm-radius-xs: 3px;
+  --fm-radius-sm: 4px;
+  --fm-radius-md: 6px;
+  --fm-radius-lg: 10px;
+  --fm-shadow-button: 0 4px 11px rgba(0, 0, 0, .13);
+  --fm-shadow-button-hover: 0 8px 18px rgba(0, 143, 161, .30);
+  --fm-shadow-popup: 0 16px 45px rgba(0, 0, 0, .25);
+  --fm-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* ========================================================================
+   PANTALLA / CONTENEDORES
+   ======================================================================== */
+
+.fm-screen {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  color: var(--fm-text);
+  font-family: var(--fm-font);
+  font-size: 13px;
+}
+
+.fm-screen--pad {
+  padding: 6px 8px;
+}
+
+.fm-section {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 6px;
+}
+
+.fm-card,
+.fm-panel {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--fm-border);
+  background: var(--fm-panel-bg);
+  margin-bottom: 6px;
+}
+
+.fm-card__header,
+.fm-panel-header {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  background: var(--fm-panel-header-bg);
+  border-bottom: 1px solid var(--fm-border);
+  color: #111;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.fm-card__body,
+.fm-panel-content {
+  background: var(--fm-panel-bg);
+}
+
+.fm-card__body--accent,
+.fm-panel-content--accent {
+  border-left: 4px solid var(--fm-cyan);
+}
+
+/* ========================================================================
+   FILTROS
+   ======================================================================== */
+
+.fm-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px 14px;
+  width: 100%;
+  max-width: 100%;
+  padding: 14px 22px 12px;
+}
+
+.fm-field {
+  min-width: 0;
+}
+
+.fm-field--span-2 { grid-column: span 2; }
+.fm-field--span-3 { grid-column: span 3; }
+.fm-field--span-4 { grid-column: span 4; }
+.fm-field--span-6 { grid-column: span 6; }
+.fm-field--span-8 { grid-column: span 8; }
+.fm-field--span-12 { grid-column: span 12; }
+
+.fm-field label,
+.fm-field__label {
+  display: block;
+  margin-bottom: 6px;
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.fm-field .p-inputtext,
+.fm-field .p-select,
+.fm-field .p-multiselect,
+.fm-input,
+.fm-select {
+  width: 100%;
+  height: 30px;
+  min-height: 30px;
+  border-color: #c7d1d8;
+  border-radius: var(--fm-radius-xs);
+  background: #fff;
+  color: var(--fm-text);
+  font-size: 13px;
+}
+
+.fm-field .p-inputtext:focus,
+.fm-field .p-select.p-focus,
+.fm-field .p-multiselect.p-focus,
+.fm-input:focus,
+.fm-select:focus {
+  border-color: var(--fm-cyan) !important;
+  box-shadow: 0 0 0 2px rgba(0,188,212,.14) !important;
+}
+
+/* ========================================================================
+   ACCIONES / BOTONES
+   ======================================================================== */
+
+.fm-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.fm-action-button,
+.fm-btn {
+  height: 38px;
+  min-width: 158px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--fm-radius-md);
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: .1px;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: var(--fm-shadow-button);
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.fm-action-button svg,
+.fm-btn svg,
+.fm-action-button .pi,
+.fm-btn .pi {
+  width: 17px;
+  height: 17px;
+  font-size: 17px;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.fm-action-button--primary,
+.fm-btn--primary {
+  background: var(--fm-cyan);
+  border: 1px solid var(--fm-cyan);
+  color: #fff;
+}
+
+.fm-action-button--primary:hover:not(:disabled),
+.fm-btn--primary:hover:not(:disabled) {
+  background: var(--fm-cyan-strong);
+  border-color: var(--fm-cyan-strong);
+  box-shadow: var(--fm-shadow-button-hover);
+  transform: translateY(-1px);
+}
+
+.fm-action-button--outline,
+.fm-btn--outline {
+  background: #fff;
+  border: 1px solid var(--fm-cyan);
+  color: var(--fm-cyan);
+}
+
+.fm-action-button--outline:hover:not(:disabled),
+.fm-btn--outline:hover:not(:disabled) {
+  background: var(--fm-cyan-soft);
+  border-color: var(--fm-cyan-strong);
+  color: var(--fm-cyan-strong);
+  box-shadow: var(--fm-shadow-button-hover);
+  transform: translateY(-1px);
+}
+
+.fm-action-button:disabled,
+.fm-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.fm-icon-button,
+.fm-icon-btn {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  border-radius: var(--fm-radius-md);
+  color: #455a64;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: color .16s ease, background-color .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+
+.fm-icon-button:hover:not(:disabled),
+.fm-icon-btn:hover:not(:disabled) {
+  color: var(--fm-cyan);
+  background: var(--fm-cyan-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,169,189,.18);
+}
+
+.fm-icon-button svg,
+.fm-icon-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ========================================================================
+   GRILLAS / TABLAS
+   ======================================================================== */
+
+.fm-grid-shell {
+  width: 100%;
+  max-width: 100%;
+  border-left: 4px solid var(--fm-cyan);
+  background: #fff;
+}
+
+.fm-grid-title {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  border: 1px solid var(--fm-border);
+  border-bottom: 0;
+  background: var(--fm-panel-header-bg);
+  color: #111;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.fm-grid-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding-left: 4px;
+}
+
+.fm-pass-grid,
+.fm-pt-datatable {
+  width: 100%;
+  max-width: 100%;
+  border-left: 4px solid var(--fm-cyan);
+  background: #fff;
+}
+
+.fm-pass-grid .p-datatable-wrapper,
+.fm-pt-datatable .p-datatable-wrapper {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #d1d1d1;
+  background: #fff;
+  overflow: auto !important;
+}
+
+.fm-pass-grid .p-datatable-table,
+.fm-pt-datatable-table {
+  width: max-content;
+  min-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.fm-pass-grid .p-datatable-thead > tr > th,
+.fm-pass-grid .p-datatable-tbody > tr > td,
+.fm-pt-datatable .p-datatable-thead > tr > th,
+.fm-pt-datatable .p-datatable-tbody > tr > td {
+  border-right: 1px solid var(--fm-grid-border) !important;
+  border-bottom: 1px solid var(--fm-grid-border-soft) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  vertical-align: middle;
+}
+
+.fm-pass-grid .p-datatable-thead > tr > th,
+.fm-pt-datatable .p-datatable-thead > tr > th {
+  height: 35px !important;
+  padding: 4px 7px !important;
+  background: var(--fm-grid-header-bg) !important;
+  color: #263f50 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.fm-pass-grid .p-datatable-thead > tr.p-filter-row > th,
+.fm-pt-datatable .p-datatable-thead > tr.p-filter-row > th {
+  height: 34px !important;
+  padding: 3px 5px !important;
+  background: #fff !important;
+}
+
+.fm-pass-grid .p-datatable-tbody > tr > td,
+.fm-pt-datatable .p-datatable-tbody > tr > td {
+  height: 35px !important;
+  padding: 5px 8px !important;
+  color: var(--fm-text) !important;
+  font-size: 12px !important;
+}
+
+.fm-pass-grid .p-datatable-tbody > tr:hover > td,
+.fm-pt-datatable .p-datatable-tbody > tr:hover > td {
+  background: #edfafd !important;
+}
+
+.fm-pass-grid .p-datatable-tbody > tr.p-highlight > td,
+.fm-pass-grid .p-datatable-tbody > tr.p-datatable-row-selected > td,
+.fm-pass-grid .p-datatable-tbody > tr.fm-selected-row > td,
+.fm-pt-datatable .p-datatable-tbody > tr.p-highlight > td,
+.fm-pt-datatable .p-datatable-tbody > tr.p-datatable-row-selected > td,
+.fm-pt-datatable .p-datatable-tbody > tr.fm-selected-row > td {
+  background: var(--fm-cyan-row) !important;
+  color: var(--fm-text) !important;
+}
+
+.fm-pass-grid .p-column-resizer,
+.fm-pt-datatable .p-column-resizer {
+  width: 8px !important;
+  right: -4px !important;
+  cursor: col-resize !important;
+  background: transparent !important;
+}
+
+.fm-pass-grid .p-column-resizer:hover,
+.fm-pt-datatable .p-column-resizer:hover {
+  background: rgba(0,169,189,.35) !important;
+}
+
+.fm-column-filter {
+  width: 100%;
+  min-width: 0;
+  height: 25px;
+  border: 1px solid #c7d1d8;
+  border-radius: var(--fm-radius-xs);
+  padding: 3px 6px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.fm-column-filter:focus {
+  outline: none;
+  border-color: var(--fm-cyan);
+  box-shadow: 0 0 0 2px rgba(0,188,212,.14);
+}
+
+.fm-filter-cell {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  min-width: 0;
+}
+
+.fm-filter-prefix,
+.fm-filter-more {
+  flex: 0 0 auto;
+  color: #000;
+  font-size: 11px;
+}
+
+.fm-cell-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fm-grid-empty,
+.fm-pass-grid .p-datatable-empty-message td,
+.fm-pt-datatable .p-datatable-empty-message td {
+  height: 110px !important;
+  background: var(--fm-grid-empty-bg) !important;
+  color: #407080 !important;
+  text-align: center !important;
+}
+
+.fm-pass-grid .p-checkbox-checked .p-checkbox-box,
+.fm-pass-grid .p-checkbox.p-highlight .p-checkbox-box,
+.fm-pt-datatable .p-checkbox-checked .p-checkbox-box,
+.fm-pt-datatable .p-checkbox.p-highlight .p-checkbox-box {
+  background: var(--fm-cyan) !important;
+  border-color: var(--fm-cyan) !important;
+}
+
+.fm-pass-grid .p-checkbox-checked .p-checkbox-icon,
+.fm-pass-grid .p-checkbox.p-highlight .p-checkbox-icon,
+.fm-pt-datatable .p-checkbox-checked .p-checkbox-icon,
+.fm-pt-datatable .p-checkbox.p-highlight .p-checkbox-icon {
+  color: #111 !important;
+}
+
+/* ========================================================================
+   SELECTS / MULTISELECTS / COMBOS
+   ======================================================================== */
+
+.fm-pt-select,
+.fm-pt-multiselect,
+.p-select,
+.p-multiselect {
+  min-height: 30px !important;
+  border-color: #bdbdbd !important;
+  border-radius: var(--fm-radius-xs) !important;
+  background: #fff !important;
+}
+
+.fm-pt-select:hover,
+.fm-pt-multiselect:hover,
+.p-select:hover,
+.p-multiselect:hover {
+  border-color: var(--fm-cyan) !important;
+}
+
+.fm-pt-select-panel,
+.fm-pt-multiselect-panel,
+.p-select-overlay,
+.p-multiselect-overlay {
+  border-color: var(--fm-cyan) !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.18) !important;
+}
+
+.p-select-option,
+.p-multiselect-option {
+  min-height: 32px !important;
+  padding: 7px 12px !important;
+  font-size: 13px !important;
+  line-height: 18px !important;
+}
+
+.p-select-option.p-select-option-selected,
+.p-multiselect-option.p-multiselect-option-selected,
+.fm-pt-select-option.p-select-option-selected,
+.fm-pt-multiselect-option.p-multiselect-option-selected {
+  background: var(--fm-cyan) !important;
+  color: #fff !important;
+}
+
+.p-select-option:hover,
+.p-multiselect-option:hover {
+  background: var(--fm-cyan-soft) !important;
+  color: var(--fm-text) !important;
+}
+
+/* ========================================================================
+   DIALOGOS / ALERTAS
+   ======================================================================== */
+
+.fm-alert-body {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  min-height: 112px;
+  padding: 18px 8px;
+  color: var(--fm-text);
+  font-size: 17px;
+}
+
+.fm-alert-triangle {
+  width: 64px;
+  height: 56px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.fm-alert-triangle:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 32px solid transparent;
+  border-right: 32px solid transparent;
+  border-bottom: 56px solid var(--fm-danger);
+  filter: drop-shadow(0 4px 8px rgba(215,51,51,.28));
+}
+
+.fm-alert-triangle:after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 0;
+  height: 0;
+  border-left: 23px solid transparent;
+  border-right: 23px solid transparent;
+  border-bottom: 40px solid #fff;
+}
+
+.fm-alert-triangle span {
+  position: relative;
+  z-index: 2;
+  margin-top: 15px;
+  color: var(--fm-danger);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ========================================================================
+   RESPONSIVE DEL DESIGN SYSTEM GLOBAL
+   ======================================================================== */
+
+@media (max-width: 900px) {
+  .fm-filter-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .fm-field--span-2,
+  .fm-field--span-3,
+  .fm-field--span-4,
+  .fm-field--span-6 {
+    grid-column: span 3;
+  }
+
+  .fm-field--span-8,
+  .fm-field--span-12 {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 600px) {
+  .fm-filter-grid {
+    grid-template-columns: 1fr;
+    padding: 10px 8px;
+  }
+
+  .fm-field,
+  .fm-field--span-2,
+  .fm-field--span-3,
+  .fm-field--span-4,
+  .fm-field--span-6,
+  .fm-field--span-8,
+  .fm-field--span-12 {
+    grid-column: 1 / -1;
+  }
+
+  .fm-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fm-action-button,
+  .fm-btn {
+    width: 100%;
+    min-width: 100%;
+  }
+}

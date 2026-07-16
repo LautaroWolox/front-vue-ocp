@@ -1,0 +1,252 @@
+/* ========================================================================
+   JOBTYPE POPUP DATATABLE FINAL
+   ------------------------------------------------------------------------
+   La grilla del popup usa PrimeVue DataTable real, igual que la grilla
+   principal del proyecto. Sin lineas dibujadas a mano.
+   ======================================================================== */
+
+.jobtype-popup-grid-shell {
+  width: 100% !important;
+  min-width: 0 !important;
+  border: 1px solid #9fb8c7 !important;
+  border-left: 4px solid #00a9bd !important;
+  background: #ffffff !important;
+  overflow: hidden !important;
+}
+
+.jobtype-popup-datatable.p-datatable,
+.jobtype-popup-datatable .p-datatable,
+.jobtype-popup-datatable .p-datatable-table-container,
+.jobtype-popup-datatable .p-datatable-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.jobtype-popup-datatable .p-datatable-table-container,
+.jobtype-popup-datatable .p-datatable-wrapper {
+  height: 210px !important;
+  min-height: 210px !important;
+  max-height: 210px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  scrollbar-gutter: stable !important;
+  border-bottom: 1px solid #9fb8c7 !important;
+}
+
+.jobtype-popup-datatable .p-datatable-table {
+  table-layout: fixed !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+.jobtype-popup-datatable .p-datatable-thead > tr > th {
+  height: 31px !important;
+  min-height: 31px !important;
+  padding: 0 7px !important;
+  border-right: 1px solid #9fb8c7 !important;
+  border-bottom: 1px solid #9fb8c7 !important;
+  background: #f8fafb !important;
+  color: #163849 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+.jobtype-popup-datatable .p-datatable-thead > tr > th:last-child,
+.jobtype-popup-datatable .p-datatable-tbody > tr > td:last-child {
+  border-right: 0 !important;
+}
+
+.jobtype-popup-datatable .p-datatable-thead > tr.p-datatable-filter-row > th {
+  height: 31px !important;
+  min-height: 31px !important;
+  padding: 3px 5px !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #9fb8c7 !important;
+}
+
+.jobtype-popup-datatable .jobtype-popup-filter-cell,
+.jobtype-popup-datatable .fm-filter-cell {
+  width: 100% !important;
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: 12px minmax(0, 1fr) 16px !important;
+  align-items: center !important;
+  gap: 3px !important;
+}
+
+.jobtype-popup-datatable .fm-filter-prefix,
+.jobtype-popup-datatable .fm-filter-more {
+  color: #000000 !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+}
+
+.jobtype-popup-datatable .fm-column-filter,
+.jobtype-popup-datatable .p-inputtext {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  max-height: 22px !important;
+  padding: 0 5px !important;
+  border: 1px solid #c7d6df !important;
+  border-radius: 2px !important;
+  background: #ffffff !important;
+  color: #0f2f3d !important;
+  font-size: 11px !important;
+  line-height: 22px !important;
+  box-shadow: none !important;
+}
+
+.jobtype-popup-datatable .p-datatable-tbody > tr > td {
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  padding: 0 7px !important;
+  border-right: 1px solid #b7cbd6 !important;
+  border-bottom: 1px solid #c1d2dc !important;
+  background: #ffffff !important;
+  color: #0f2f3d !important;
+  font-size: 12px !important;
+  line-height: 31px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.jobtype-popup-datatable .p-datatable-tbody > tr:hover > td {
+  background: #eefbfc !important;
+}
+
+.jobtype-popup-datatable .p-datatable-tbody > tr.p-highlight > td,
+.jobtype-popup-datatable .p-datatable-tbody > tr.jobtype-row-selected > td {
+  background: #e8f8fb !important;
+  color: #0f2f3d !important;
+  font-weight: 600 !important;
+}
+
+.jobtype-popup-datatable .p-datatable-empty-message > td,
+.jobtype-popup-grid-empty {
+  height: 146px !important;
+  padding: 38px 12px !important;
+  color: #6f8594 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.jobtype-popup-datatable .p-paginator,
+.jobtype-popup-datatable .p-datatable-paginator-bottom {
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 8px !important;
+  border: 0 !important;
+  background: #ffffff !important;
+  color: #4c6578 !important;
+  font-size: 11px !important;
+  overflow: visible !important;
+}
+
+.jobtype-popup-datatable .p-paginator-start,
+.jobtype-popup-datatable .p-paginator-content-start,
+.jobtype-popup-datatable [data-pc-section="start"] {
+  position: absolute !important;
+  left: 18px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  overflow: visible !important;
+  z-index: 2 !important;
+}
+
+.jobtype-popup-datatable .p-paginator-current {
+  color: #4c6578 !important;
+  font-size: 11px !important;
+}
+
+.jobtype-popup-datatable .p-paginator-page,
+.jobtype-popup-datatable .p-paginator-first,
+.jobtype-popup-datatable .p-paginator-prev,
+.jobtype-popup-datatable .p-paginator-next,
+.jobtype-popup-datatable .p-paginator-last {
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  color: #6e8798 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button,
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button:enabled,
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button:hover,
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button:focus,
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button:active {
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  position: relative !important;
+  left: 0 !important;
+  top: 0 !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #4f6673 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button:disabled,
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button.p-disabled {
+  color: #b7c1c8 !important;
+  background: transparent !important;
+  opacity: .78 !important;
+}
+
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button .p-button-icon,
+.jobtype-popup-datatable .jobtype-modal-icon-button.p-button .pi {
+  width: 16px !important;
+  min-width: 16px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  font-size: 16px !important;
+  line-height: 16px !important;
+  color: currentColor !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-popup-datatable .p-datatable-table-container,
+.jobtype-modal.jobtype-modal--expanded .jobtype-popup-datatable .p-datatable-wrapper {
+  height: 382px !important;
+  max-height: 382px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-popup-datatable .p-datatable-empty-message > td,
+.jobtype-modal.jobtype-modal--expanded .jobtype-popup-grid-empty {
+  height: 318px !important;
+  padding: 122px 12px !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-popup-grid-shell {
+  width: 100% !important;
+}

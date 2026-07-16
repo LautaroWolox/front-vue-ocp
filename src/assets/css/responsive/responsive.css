@@ -1,0 +1,485 @@
+/* ========================================================================
+   RESPONSIVE GLOBAL FIELD MANAGER
+   ------------------------------------------------------------------------
+   ACA SE CENTRALIZA LA ADAPTACION RESPONSIVE DEL PROYECTO REAL.
+
+   Objetivo:
+   - No romper la estructura existente.
+   - No tocar la logica de pantallas.
+   - Hacer que layout, menu, filtros, grillas, botones y modales funcionen en:
+     monitores grandes, notebooks, tablets, TV y celulares.
+
+   Breakpoints usados:
+   - >= 1440px : monitores grandes / TV / escritorio amplio.
+   - <= 1200px : notebooks y pantallas medianas.
+   - <= 900px  : tablets horizontales y notebooks chicas.
+   - <= 768px  : tablets verticales y celulares grandes.
+   - <= 480px  : celulares chicos.
+   ======================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  background: #f5f7f8;
+}
+
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
+}
+
+/* ========================================================================
+   LAYOUT GENERAL
+   ======================================================================== */
+
+.fm-responsive-page,
+.ot-fallidas-ct,
+[class*="Screen"],
+[class*="screen"],
+.p-component {
+  max-width: 100%;
+}
+
+.ot-fallidas-ct,
+.fm-module-page,
+.fm-panel,
+.fm-panel-content,
+.p-accordion,
+.p-accordionpanel,
+.p-accordioncontent,
+.p-accordioncontent-content {
+  max-width: 100%;
+}
+
+/* Logo central del home en desktop/tablet/mobile sin desbordar. */
+.main-body {
+  max-width: min(350px, 80vw) !important;
+  max-height: min(350px, 80vw) !important;
+}
+
+.fm-logo {
+  max-width: min(300px, 70vw) !important;
+  max-height: min(300px, 70vw) !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* ========================================================================
+   MENU PRINCIPAL
+   ======================================================================== */
+
+.menu-container {
+  width: 100%;
+  max-width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 7000;
+}
+
+.menu-container .main-menu,
+.menu-container .p-menubar {
+  width: 100%;
+  min-height: 53px;
+  height: auto !important;
+}
+
+.menu-container .p-menubar-root-list {
+  max-width: 100%;
+}
+
+.menu-container .p-submenu-list {
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.menu-container .user-section {
+  max-width: min(260px, 36vw);
+}
+
+.menu-container .username {
+  max-width: min(180px, 24vw);
+}
+
+.menu-container .dropdown-content {
+  max-width: calc(100vw - 16px);
+}
+
+/* ========================================================================
+   FORMULARIOS / FILTROS / BOTONES
+   ======================================================================== */
+
+.p-inputtext,
+.p-select,
+.p-multiselect,
+.p-datepicker,
+textarea,
+select,
+input {
+  max-width: 100%;
+}
+
+.fm-btn,
+.otf-btn,
+.p-button {
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.grid {
+  max-width: 100%;
+}
+
+/* ========================================================================
+   GRILLAS / TABLAS
+   ------------------------------------------------------------------------
+   Se mantiene scroll horizontal controlado para no romper columnas dinámicas.
+   Las grillas grandes no se aplastan: se scrollean horizontalmente.
+   ======================================================================== */
+
+.fm-pass-grid,
+.fm-pt-datatable,
+.p-datatable,
+.otf-table-wrap {
+  max-width: 100%;
+}
+
+.p-datatable-wrapper {
+  max-width: 100%;
+  overflow: auto !important;
+  overscroll-behavior: contain;
+}
+
+.p-datatable-table,
+.fm-pt-datatable-table {
+  width: max-content;
+  min-width: 100%;
+}
+
+.p-datatable-thead > tr > th,
+.p-datatable-tbody > tr > td {
+  vertical-align: middle;
+}
+
+.p-paginator {
+  max-width: 100%;
+  gap: 4px;
+}
+
+.p-paginator .p-paginator-pages {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Scroll visible y usable en notebook/tablet/celular. */
+.p-datatable-wrapper::-webkit-scrollbar,
+.otf-table-wrap ::-webkit-scrollbar {
+  height: 11px;
+  width: 11px;
+}
+
+.p-datatable-wrapper::-webkit-scrollbar-thumb,
+.otf-table-wrap ::-webkit-scrollbar-thumb {
+  background: #8a8a8a;
+  border-radius: 8px;
+}
+
+.p-datatable-wrapper::-webkit-scrollbar-track,
+.otf-table-wrap ::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+
+/* ========================================================================
+   MODALES / POPUPS / VENTANAS FLOTANTES
+   ======================================================================== */
+
+.p-dialog,
+.fm-pt-dialog,
+.fm-window {
+  max-width: calc(100vw - 24px) !important;
+  max-height: calc(100vh - 24px) !important;
+}
+
+.p-dialog-content,
+.fm-pt-dialog-content,
+.fm-window__body {
+  max-height: calc(100vh - 190px);
+  overflow: auto;
+}
+
+.p-dialog-footer,
+.fm-pt-dialog-footer,
+.fm-window__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* ========================================================================
+   MONITORES GRANDES / TV
+   ======================================================================== */
+
+@media (min-width: 1440px) {
+  :root {
+    --fm-responsive-density: 1;
+  }
+
+  body {
+    font-size: 13px;
+  }
+
+  .p-datatable-wrapper {
+    max-height: calc(100vh - 230px);
+  }
+}
+
+/* ========================================================================
+   NOTEBOOKS Y PANTALLAS MEDIANAS
+   ======================================================================== */
+
+@media (max-width: 1200px) {
+  .menu-container .main-menu,
+  .menu-container .p-menubar {
+    padding-left: .75rem !important;
+    padding-right: .75rem !important;
+  }
+
+  .menu-container .username {
+    max-width: 130px;
+  }
+
+  .p-datatable-thead > tr > th,
+  .p-datatable-tbody > tr > td {
+    font-size: 11px !important;
+  }
+}
+
+/* ========================================================================
+   TABLETS / NOTEBOOKS CHICAS
+   ======================================================================== */
+
+@media (max-width: 900px) {
+  body {
+    overflow-x: auto;
+  }
+
+  .menu-container {
+    position: sticky;
+    top: 0;
+  }
+
+  .menu-container .main-menu,
+  .menu-container .p-menubar {
+    padding: .35rem .5rem !important;
+  }
+
+  .menu-container .p-menubar-root-list {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+  }
+
+  .menu-container .user-section {
+    max-width: 180px;
+  }
+
+  .menu-container .username {
+    max-width: 95px;
+  }
+
+  .grid > .col,
+  .grid > [class*="col-"] {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .otf-actions,
+  .fm-actions,
+  .button-row,
+  .actions-row {
+    flex-wrap: wrap;
+  }
+
+  .p-dialog,
+  .fm-window {
+    width: calc(100vw - 20px) !important;
+  }
+
+  .p-dialog-content,
+  .fm-window__body {
+    max-height: calc(100vh - 170px);
+  }
+
+  .p-paginator {
+    flex-wrap: wrap;
+    min-height: auto !important;
+    padding: 8px 6px !important;
+  }
+
+  .ot-fallidas-ct .p-paginator-left-content,
+  .ot-fallidas-ct .p-paginator-right-content,
+  .fm-pass-grid .p-paginator-left-content,
+  .fm-pass-grid .p-paginator-right-content {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 4px 0;
+  }
+}
+
+/* ========================================================================
+   TABLETS VERTICALES / CELULARES GRANDES
+   ======================================================================== */
+
+@media (max-width: 768px) {
+  body {
+    font-size: 12px;
+  }
+
+  .menu-container .main-menu,
+  .menu-container .p-menubar {
+    min-height: 48px;
+  }
+
+  .menu-container .user-profile {
+    padding: .35rem .55rem;
+  }
+
+  .menu-container .dropdown-content {
+    right: 8px;
+    width: min(280px, calc(100vw - 16px));
+  }
+
+  .grid > .col,
+  .grid > [class*="col-"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .p-inputtext,
+  .p-select,
+  .p-multiselect,
+  .ct-date-button,
+  textarea,
+  select,
+  input {
+    width: 100% !important;
+  }
+
+  .otf-btn,
+  .fm-btn,
+  .p-button {
+    min-width: 130px;
+  }
+
+  .otf-actions {
+    gap: 8px !important;
+  }
+
+  .p-dialog-header {
+    padding: 12px 14px !important;
+  }
+
+  .p-dialog-content {
+    padding: 12px 14px !important;
+  }
+
+  .p-dialog-footer {
+    padding: 12px 14px !important;
+  }
+
+  .p-dialog-footer .p-button,
+  .p-dialog-footer .fm-btn {
+    flex: 1 1 140px;
+  }
+
+  .p-datatable-wrapper {
+    max-height: calc(100vh - 280px);
+  }
+}
+
+/* ========================================================================
+   CELULARES CHICOS
+   ======================================================================== */
+
+@media (max-width: 480px) {
+  body {
+    font-size: 11px;
+  }
+
+  .menu-container .username {
+    display: none;
+  }
+
+  .menu-container .user-section {
+    max-width: 60px;
+  }
+
+  .menu-container .dropdown-content {
+    right: 4px;
+    width: calc(100vw - 8px);
+  }
+
+  .otf-filters,
+  .fm-panel-content,
+  .p-accordioncontent-content {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .otf-actions,
+  .p-dialog-footer,
+  .fm-window__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .otf-btn,
+  .fm-btn,
+  .p-button {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .p-dialog,
+  .fm-window {
+    width: calc(100vw - 8px) !important;
+    max-width: calc(100vw - 8px) !important;
+  }
+
+  .p-dialog-content,
+  .fm-window__body {
+    max-height: calc(100vh - 160px);
+  }
+
+  .p-datatable-wrapper {
+    max-height: calc(100vh - 310px);
+  }
+
+  .p-paginator .p-paginator-page,
+  .p-paginator .p-paginator-first,
+  .p-paginator .p-paginator-prev,
+  .p-paginator .p-paginator-next,
+  .p-paginator .p-paginator-last {
+    min-width: 28px !important;
+    height: 28px !important;
+  }
+}

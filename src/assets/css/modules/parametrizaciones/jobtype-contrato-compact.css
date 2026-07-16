@@ -1,0 +1,116 @@
+.jobtype-popup--alta.p-dialog {
+  width: 880px !important;
+  max-width: calc(100vw - 48px) !important;
+}
+
+.jobtype-popup--edicion.p-dialog {
+  width: 520px !important;
+  max-width: calc(100vw - 48px) !important;
+}
+
+.jobtype-popup .p-dialog-header {
+  min-height: 52px !important;
+  padding: 14px 20px !important;
+}
+
+.jobtype-popup .p-dialog-title {
+  font-size: 18px !important;
+}
+
+.jobtype-popup .p-dialog-content {
+  padding: 24px 22px 12px !important;
+  overflow: hidden !important;
+}
+
+.jobtype-popup .p-dialog-footer {
+  min-height: 76px !important;
+  padding: 18px 22px 26px !important;
+}
+
+.jobtype-popup .jobtype-alta-form {
+  grid-template-columns: 138px 1fr 1fr 130px !important;
+  gap: 18px !important;
+  margin-bottom: 22px !important;
+}
+
+.jobtype-popup .jobtype-field label {
+  font-size: 13px !important;
+}
+
+.jobtype-popup .jobtype-input,
+.jobtype-popup .jobtype-select,
+.jobtype-popup .jobtype-input.p-inputtext,
+.jobtype-popup .jobtype-select.p-select {
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  font-size: 14px !important;
+}
+
+.jobtype-popup .jobtype-popup-button,
+.jobtype-popup .jobtype-popup-button.p-button {
+  min-width: 130px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 22px !important;
+  border-radius: 22px !important;
+  font-size: 16px !important;
+}
+
+.jobtype-empty-grid {
+  border: 1px solid #d7e1e7;
+  background: #ffffff;
+}
+
+.jobtype-empty-grid__header {
+  display: flex;
+  height: 44px;
+  border-bottom: 1px solid #d7e1e7;
+  background: #f8fafb;
+}
+
+.jobtype-empty-grid__header div {
+  flex: 1 1 25%;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-right: 1px solid #d7e1e7;
+  color: #456273;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.jobtype-empty-grid__header div:last-child {
+  border-right: 0;
+}
+
+.jobtype-empty-grid__body {
+  height: 164px;
+  background: #ffffff;
+}
+
+.jobtype-empty-grid__footer {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-top: 1px solid #edf2f5;
+  background: #ffffff;
+}
+
+.jobtype-contrato-page .jobtype-contrato-filters .fm-action-button.p-button-loading .p-button-loading-icon,
+.jobtype-contrato-page .jobtype-contrato-filters .fm-action-button.p-button-loading .p-button-icon {
+  display: none !important;
+}
+
+.jobtype-contrato-page .jobtype-contrato-filters .fm-action-button.p-button-loading .p-button-label {
+  font-size: 0 !important;
+  line-height: 1 !important;
+}
+
+.jobtype-contrato-page .jobtype-contrato-filters .fm-action-button.p-button-loading .p-button-label::after {
+  content: 'BUSCAR';
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}

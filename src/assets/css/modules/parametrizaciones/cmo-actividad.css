@@ -1,0 +1,365 @@
+/* ========================================================================
+   CONFIGURA CMO-ACTIVIDAD
+   ------------------------------------------------------------------------
+   Estilos alineados a Jobtype-Contrato: acordeones, grilla, iconos,
+   paginador, filas seleccionadas y botón buscar.
+   ======================================================================== */
+
+.cmo-actividad-page .cmo-actividad-filters,
+.cmo-actividad-page .p-accordionpanel:first-child .p-accordioncontent-content,
+.cmo-actividad-page .p-accordionpanel:nth-child(2) .p-accordioncontent-content {
+  border-left: 2px solid #00a9bd !important;
+}
+
+.cmo-actividad-page .cmo-actividad-accordion {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.cmo-actividad-page .p-accordionpanel + .p-accordionpanel {
+  margin-top: 4px !important;
+}
+
+.cmo-actividad-filters {
+  min-height: 86px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 14px 16px !important;
+}
+
+.cmo-actividad-page .cmo-actividad-filters .fm-ui-button,
+.cmo-actividad-page .cmo-actividad-filters .fm-action-button,
+.cmo-actividad-page .cmo-actividad-filters .p-button {
+  min-width: 116px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 16px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+}
+
+.cmo-actividad-page .cmo-actividad-filters .p-button-icon,
+.cmo-actividad-page .cmo-actividad-filters .pi {
+  font-size: 13px !important;
+  line-height: 13px !important;
+}
+
+.cmo-actividad-page .cmo-actividad-filters .p-button-label {
+  font-size: 12px !important;
+  line-height: 12px !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad.fm-pass-grid,
+.cmo-actividad-page #tabla-cmo-actividad.p-datatable {
+  width: 100% !important;
+  min-width: 100% !important;
+  border-left: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-table-container,
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-wrapper,
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-table {
+  width: 100% !important;
+  min-width: 100% !important;
+  table-layout: fixed !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-thead > tr > th,
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr > td {
+  overflow: hidden !important;
+  vertical-align: middle !important;
+  border-right: 1px solid #d7e5eb !important;
+  border-bottom: 1px solid #e2edf2 !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-thead > tr > th:first-child,
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr > td:first-child {
+  border-left: 0 !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-thead > tr > th {
+  border-bottom-color: #bfe9ef !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr {
+  cursor: pointer !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr:hover > td {
+  background: #f2fbfc !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr.cmo-row-selected > td,
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr.fm-selected-row > td,
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr.p-highlight > td {
+  background: #d7f3f6 !important;
+  color: #006f7d !important;
+  font-weight: 700 !important;
+}
+
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr.cmo-row-selected .fm-cell-text,
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr.fm-selected-row .fm-cell-text,
+.cmo-actividad-page #tabla-cmo-actividad .p-datatable-tbody > tr.p-highlight .fm-cell-text {
+  color: #006f7d !important;
+  font-weight: 700 !important;
+}
+
+.cmo-filter-cell {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.cmo-filter-cell .fm-column-filter,
+.cmo-filter-cell .p-inputtext {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.cmo-cell-text {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.cmo-grid-actions {
+  min-height: 24px !important;
+  height: 24px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  overflow: visible !important;
+  line-height: 1 !important;
+}
+
+.cmo-grid-actions .p-button.cmo-grid-action,
+.cmo-grid-actions .p-button.cmo-grid-action.p-button-text,
+.cmo-grid-actions .p-button.cmo-grid-action.p-button-rounded {
+  width: 22px !important;
+  min-width: 22px !important;
+  max-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  max-height: 22px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  line-height: 22px !important;
+  color: #001f2f !important;
+  opacity: 1 !important;
+}
+
+.cmo-grid-actions .p-button.cmo-grid-action .p-button-icon,
+.cmo-grid-actions .p-button.cmo-grid-action .pi,
+.cmo-grid-actions .p-button.cmo-grid-action svg,
+.cmo-grid-actions .p-button.cmo-grid-action path {
+  width: 15px !important;
+  min-width: 15px !important;
+  height: 15px !important;
+  min-height: 15px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  font-size: 15px !important;
+  line-height: 15px !important;
+  margin: 0 !important;
+  color: #001f2f !important;
+  fill: #001f2f !important;
+  stroke: #001f2f !important;
+}
+
+.cmo-grid-actions .p-button.cmo-grid-action:disabled,
+.cmo-grid-actions .p-button.cmo-grid-action.p-disabled,
+.cmo-grid-actions .p-button.cmo-grid-action[disabled] {
+  color: #001f2f !important;
+  opacity: .35 !important;
+}
+
+.cmo-grid-actions .p-button.cmo-grid-action:disabled .p-button-icon,
+.cmo-grid-actions .p-button.cmo-grid-action:disabled .pi,
+.cmo-grid-actions .p-button.cmo-grid-action:disabled svg,
+.cmo-grid-actions .p-button.cmo-grid-action:disabled path,
+.cmo-grid-actions .p-button.cmo-grid-action.p-disabled .p-button-icon,
+.cmo-grid-actions .p-button.cmo-grid-action.p-disabled .pi,
+.cmo-grid-actions .p-button.cmo-grid-action.p-disabled svg,
+.cmo-grid-actions .p-button.cmo-grid-action.p-disabled path,
+.cmo-grid-actions .p-button.cmo-grid-action[disabled] .p-button-icon,
+.cmo-grid-actions .p-button.cmo-grid-action[disabled] .pi,
+.cmo-grid-actions .p-button.cmo-grid-action[disabled] svg,
+.cmo-grid-actions .p-button.cmo-grid-action[disabled] path {
+  color: #001f2f !important;
+  fill: #001f2f !important;
+  stroke: #001f2f !important;
+  opacity: 1 !important;
+}
+
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:hover,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:focus,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:active {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #006f7d !important;
+}
+
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:hover .p-button-icon,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:hover .pi,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:hover svg,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:hover path,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:focus .p-button-icon,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:focus .pi,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:focus svg,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:focus path,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:active .p-button-icon,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:active .pi,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:active svg,
+.cmo-grid-actions .p-button.cmo-grid-action:enabled:active path {
+  color: #006f7d !important;
+  fill: #006f7d !important;
+  stroke: #006f7d !important;
+}
+
+.cmo-actividad-grid .p-paginator,
+.cmo-actividad-grid .p-datatable-paginator-bottom {
+  min-height: 34px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  overflow: visible !important;
+  align-items: center !important;
+}
+
+.cmo-actividad-grid .p-paginator-start {
+  min-height: 26px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  overflow: visible !important;
+}
+
+.cmo-grid-empty {
+  min-height: 250px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #6d8392 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+body .cmo-alta-modal .cmo-modal-form {
+  grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr) 180px !important;
+  column-gap: 28px !important;
+}
+
+body .cmo-alta-modal .cmo-modal-button--add {
+  align-self: end !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta.fm-pass-grid,
+body .cmo-alta-modal #tabla-cmo-alta.p-datatable {
+  width: 100% !important;
+  min-width: 100% !important;
+  border-left: 2px solid #00a9bd !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-table-container,
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-wrapper {
+  width: 100% !important;
+  min-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-table {
+  width: 100% !important;
+  min-width: 100% !important;
+  table-layout: fixed !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-thead > tr > th,
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-tbody > tr > td {
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  vertical-align: middle !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta .fm-filter-cell,
+body .cmo-alta-modal #tabla-cmo-alta .cmo-filter-cell--alta,
+body .cmo-alta-modal #tabla-cmo-alta .fm-column-filter,
+body .cmo-alta-modal #tabla-cmo-alta .p-inputtext {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-emptymessage > td,
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-empty-message > td,
+body .cmo-alta-modal #tabla-cmo-alta .cmo-alta-empty {
+  height: 148px !important;
+  min-height: 148px !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta .cmo-alta-empty {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #6d8392 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta .p-paginator,
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-paginator-bottom {
+  min-height: 34px !important;
+  height: 34px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+body .cmo-alta-modal .cmo-alta-trash-left,
+body .cmo-alta-modal .cmo-alta-trash-left:hover,
+body .cmo-alta-modal .cmo-alta-trash-left:focus,
+body .cmo-alta-modal .cmo-alta-trash-left:active,
+body .cmo-alta-modal .cmo-alta-trash-left:disabled {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: #001f2f !important;
+}
+
+body .cmo-alta-modal .cmo-alta-trash-left .pi {
+  color: #001f2f !important;
+  font-size: 16px !important;
+}
+
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-tbody > tr.cmo-row-selected > td,
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-tbody > tr.jobtype-row-selected > td,
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-tbody > tr.fm-selected-row > td,
+body .cmo-alta-modal #tabla-cmo-alta .p-datatable-tbody > tr.p-highlight > td {
+  background: #d7f3f6 !important;
+  color: #006f7d !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 900px) {
+  body .cmo-alta-modal .cmo-modal-form {
+    grid-template-columns: 1fr !important;
+    row-gap: 14px !important;
+  }
+}

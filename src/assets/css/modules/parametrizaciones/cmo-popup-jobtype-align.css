@@ -1,0 +1,123 @@
+/* ========================================================================
+   CONFIGURA CMO-ACTIVIDAD - AJUSTES POPUP ALTA
+   ------------------------------------------------------------------------
+   El popup Alta CMO - Actividad usa la misma base visual que Alta Jobtype -
+   Contrato. Este archivo sólo reserva la columna visual de País, centra los
+   filtros y ajusta el tachito sin deformar botones ni medidas globales.
+   ======================================================================== */
+
+body .p-dialog.jobtype-modal.cmo-alta-compact-modal,
+body .jobtype-modal.cmo-alta-compact-modal {
+  width: 980px !important;
+  max-width: calc(100vw - 48px) !important;
+}
+
+body .p-dialog.jobtype-modal.cmo-alta-compact-modal.jobtype-modal--expanded,
+body .jobtype-modal.cmo-alta-compact-modal.jobtype-modal--expanded {
+  width: min(1180px, calc(100vw - 54px)) !important;
+  max-width: calc(100vw - 54px) !important;
+}
+
+body .jobtype-modal.cmo-alta-compact-modal.jobtype-modal--expanded .p-dialog-content {
+  max-height: calc(100vh - 172px) !important;
+  overflow: hidden !important;
+}
+
+body .jobtype-modal.cmo-alta-compact-modal.jobtype-modal--expanded .cmo-modal-form--jobtype-aligned {
+  grid-template-columns: 145px 1fr 1fr 132px !important;
+}
+
+body .jobtype-modal.cmo-alta-compact-modal.jobtype-modal--expanded #tabla-cmo-alta-jobtype .p-datatable-table-container,
+body .jobtype-modal.cmo-alta-compact-modal.jobtype-modal--expanded #tabla-cmo-alta-jobtype .p-datatable-wrapper {
+  max-height: min(360px, calc(100vh - 360px)) !important;
+}
+
+body .jobtype-modal.cmo-alta-compact-modal .cmo-pais-placeholder {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body .jobtype-modal.cmo-alta-compact-modal .cmo-modal-form--jobtype-aligned {
+  overflow: hidden !important;
+}
+
+body .jobtype-modal .jobtype-alta-grid-shell:has(#tabla-cmo-alta-jobtype) {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype,
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype .p-datatable,
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype .p-datatable-wrapper,
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype .p-datatable-table-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype table,
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype .p-datatable-table,
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype .p-datatable-scrollable-table {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+}
+
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype th,
+body .jobtype-modal.cmo-alta-compact-modal #tabla-cmo-alta-jobtype td {
+  box-sizing: border-box !important;
+}
+
+body .jobtype-modal #tabla-cmo-alta-jobtype + button.jobtype-alta-trash-left,
+body .jobtype-modal #tabla-cmo-alta-jobtype + button.jobtype-alta-trash-left:hover,
+body .jobtype-modal #tabla-cmo-alta-jobtype + button.jobtype-alta-trash-left:focus,
+body .jobtype-modal #tabla-cmo-alta-jobtype + button.jobtype-alta-trash-left:active,
+body .jobtype-modal #tabla-cmo-alta-jobtype + button.jobtype-alta-trash-left:disabled {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #001f2f !important;
+  opacity: .36 !important;
+  cursor: not-allowed !important;
+}
+
+body .jobtype-modal #tabla-cmo-alta-jobtype + button.jobtype-alta-trash-left:not(:disabled) {
+  opacity: .78 !important;
+  cursor: pointer !important;
+}
+
+body .jobtype-modal #tabla-cmo-alta-jobtype + button.jobtype-alta-trash-left .pi,
+body .jobtype-modal #tabla-cmo-alta-jobtype + button.jobtype-alta-trash-left:disabled .pi {
+  color: #001f2f !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body .jobtype-modal #tabla-cmo-alta-jobtype .p-datatable-thead > tr.p-filter-column > th,
+body .jobtype-modal #tabla-cmo-alta-jobtype .p-datatable-thead > tr:nth-child(2) > th {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+body .jobtype-modal #tabla-cmo-alta-jobtype .jobtype-filter-cell--alta,
+body .jobtype-modal #tabla-cmo-alta-jobtype .fm-filter-cell.jobtype-filter-cell--alta {
+  width: 100% !important;
+  min-width: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+body .jobtype-modal #tabla-cmo-alta-jobtype .jobtype-filter-cell--alta .fm-column-filter,
+body .jobtype-modal #tabla-cmo-alta-jobtype .jobtype-filter-cell--alta .p-inputtext {
+  width: calc(100% - 48px) !important;
+  min-width: 0 !important;
+  max-width: calc(100% - 48px) !important;
+}

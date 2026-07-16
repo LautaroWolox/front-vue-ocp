@@ -1,32 +1,41 @@
 <template>
-    <div class="flex flex-column px-2">
-        <label for="pais">País</label>
-        <Select id="pais" v-model="pais" :options="paises" optionLabel="valor" class="w-full md:w-56" />
-    </div>
+  <div class="fm-field fm-field--span-2 otf-filter-element otf-filter-element--pais" :class="{ 'otf-filter-element--disabled': disabled }">
+    <label for="otf-pais">Pais</label>
+    <Select
+      inputId="otf-pais"
+      :modelValue="modelValue"
+      :options="options"
+      :disabled="disabled"
+      optionLabel="name"
+      class="w-full"
+      showClear
+      @update:modelValue="$emit('update:modelValue', $event)"
+    />
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useFallidasCtStore } from '../../store/CtFallidaStore'
+import Select from 'primevue/select'
 
-const store = useFallidasCtStore()
-
-const paises = ref([
-  { valor: '' },
-  { valor: 'ARG' },
-  { valor: 'UY' },
-  { valor: 'PY' },
-])
-
-const pais = computed({
-  get: () =>
-    paises.value.find(p => p.valor === store.filters.pais) ?? paises.value[0],
-
-  set: (value) =>
-    store.setFilter('pais', value?.valor ?? '')
+defineProps({
+  modelValue: { type: [Object, String, null], default: null },
+  options: { type: Array, default: () => [] },
+  disabled: { type: Boolean, default: false }
 })
 
+defineEmits(['update:modelValue'])
 </script>
 
 <style scoped>
+.otf-filter-element label {
+  white-space: nowrap;
+}
+
+.otf-filter-element :deep(.p-select) {
+  width: 100%;
+}
+
+.otf-filter-element--disabled {
+  opacity: .62;
+}
 </style>

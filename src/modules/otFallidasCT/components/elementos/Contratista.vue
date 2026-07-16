@@ -1,62 +1,41 @@
 <template>
-    <div class="flex flex-column px-2">
-        <label for="desc">Contratista</label>       
-        <span v-if="status.contratistas === 'loading'">
-            Cargando...
-        </span>
-        <Select
-            v-else-if="status.contratistas === 'loaded'"
-            v-model="contratista"
-            :options="contratistaOptions"
-            optionLabel="nombre"
-        />
-        <span v-else-if="status.contratistas === 'error'">
-            Error al cargar.
-        </span>
-    </div>
+  <div class="fm-field fm-field--span-4 otf-filter-element otf-filter-element--contratista" :class="{ 'otf-filter-element--disabled': disabled }">
+    <label for="otf-contratista">Contratista</label>
+    <Select
+      inputId="otf-contratista"
+      :modelValue="modelValue"
+      :options="options"
+      :disabled="disabled"
+      optionLabel="name"
+      class="w-full"
+      showClear
+      @update:modelValue="$emit('update:modelValue', $event)"
+    />
+  </div>
 </template>
 
 <script setup>
-import { useFallidasCtStore } from '../../store/CtFallidaStore'
-import { ref, computed, onMounted } from "vue";
-import { storeToRefs } from 'pinia'
-import { useCommonCtStore } from '@/store/commonCt'
+import Select from 'primevue/select'
 
-const store = useFallidasCtStore()
-const commonCT = useCommonCtStore()
-const { contratistas, status } = storeToRefs(commonCT)
-
-const contratista = computed({
-  get: () => {
-    if (!store.filters.contratista) {
-      return contratistaOptions.value[0]
-    }
-    return (
-      contratistaOptions.value.find(
-        item => item.codigo === store.filters.contratista
-      ) 
-    )
-  },
-  set: value => {
-    store.setFilter('contratista', value?.codigo ?? '')
-  },
+defineProps({
+  modelValue: { type: [Object, String, null], default: null },
+  options: { type: Array, default: () => [] },
+  disabled: { type: Boolean, default: false }
 })
 
-const contratistaOptions = computed (() => [
-  {
-    empresaId: 0,
-    codigo: '',
-    nombre: '',
-    tipo: 'Contratista',
-    activo: 'S',
-  },
-  ...(contratistas.value ?? []),
-])
-
-onMounted(() => commonCT.setContratistas())
-
+defineEmits(['update:modelValue'])
 </script>
 
 <style scoped>
-</style>
+.otf-filter-element label {
+  white-space: nowrap;
+}
 
+.otf-filter-element :deep(.p-select) {
+  width: 100%;
+}
+
+.otf-filter-element--disabled {
+  opacity: .62;
+}
+</style>

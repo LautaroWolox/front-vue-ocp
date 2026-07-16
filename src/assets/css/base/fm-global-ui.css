@@ -1,0 +1,620 @@
+/* ========================================================================
+   FIELD MANAGER GLOBAL UI
+   ------------------------------------------------------------------------
+   ACA SE DEFINEN LOS ESTILOS GLOBALES REUTILIZABLES DEL PROYECTO.
+
+   Objetivo:
+   - Que botones, paneles, filtros, grillas, iconos, modales y alertas tengan
+     una sola base visual.
+   - Que cualquier pantalla nueva pueda usar estas clases sin copiar CSS.
+   - Que si una pantalla necesita un ajuste puntual, lo haga con una clase propia
+     de pantalla y NO rompa el resto del sistema.
+
+   Convencion:
+   - Clases globales reutilizables: empiezan con .fm-ui- o .fm-
+   - Clases puntuales de pantalla: deben empezar con el nombre de pantalla,
+     por ejemplo .ot-fallidas-ct
+   ======================================================================== */
+
+:root {
+  --fm-ui-cyan: #00a9bd;
+  --fm-ui-cyan-strong: #008fa1;
+  --fm-ui-cyan-soft: #e0f7fa;
+  --fm-ui-row-selected: #9eeff7;
+  --fm-ui-row-hover: #edfafd;
+  --fm-ui-border: #d8d8d8;
+  --fm-ui-grid-border: #c9d3da;
+  --fm-ui-text: #263238;
+  --fm-ui-muted: #607d8b;
+  --fm-ui-danger: #d73333;
+  --fm-ui-bg: #ffffff;
+  --fm-ui-header-bg: #f7f7f7;
+  --fm-ui-grid-header-bg: #f4f7f9;
+  --fm-ui-shadow-button: 0 4px 11px rgba(0, 0, 0, .13);
+  --fm-ui-shadow-button-hover: 0 8px 18px rgba(0, 143, 161, .30);
+  --fm-ui-shadow-panel: 0 1px 2px rgba(0, 0, 0, .08);
+  --fm-ui-shadow-dialog: 0 16px 45px rgba(0, 0, 0, .25);
+}
+
+/* ========================================================================
+   PANTALLA / CONTENEDORES
+   ======================================================================== */
+
+.fm-ui-screen {
+  width: 100%;
+  max-width: 100%;
+  color: var(--fm-ui-text);
+  font-size: 13px;
+}
+
+.fm-ui-section {
+  width: 100%;
+  max-width: 100%;
+  background: var(--fm-ui-bg);
+  border: 1px solid var(--fm-ui-border);
+  box-shadow: var(--fm-ui-shadow-panel);
+  margin-bottom: 6px;
+}
+
+.fm-ui-section-header {
+  min-height: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  background: var(--fm-ui-header-bg);
+  border-bottom: 1px solid var(--fm-ui-border);
+  color: #111;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+.fm-ui-section-body {
+  background: var(--fm-ui-bg);
+}
+
+.fm-ui-section-body--accent,
+.fm-ui-accent-left {
+  border-left: 4px solid var(--fm-ui-cyan);
+}
+
+/* ========================================================================
+   FILTROS / CAMPOS
+   ======================================================================== */
+
+.fm-ui-filters {
+  padding: 14px 22px 12px;
+  background: var(--fm-ui-bg);
+}
+
+.fm-ui-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px 14px;
+  width: 100%;
+}
+
+.fm-ui-field {
+  min-width: 0;
+}
+
+.fm-ui-field--span-2 { grid-column: span 2; }
+.fm-ui-field--span-3 { grid-column: span 3; }
+.fm-ui-field--span-4 { grid-column: span 4; }
+.fm-ui-field--span-6 { grid-column: span 6; }
+.fm-ui-field--span-12 { grid-column: span 12; }
+
+.fm-ui-label,
+.fm-ui-field label {
+  display: block;
+  margin-bottom: 6px;
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.fm-ui-input,
+.fm-ui-select,
+.fm-ui-field .p-inputtext,
+.fm-ui-field .p-select,
+.fm-ui-field .p-multiselect {
+  width: 100%;
+  max-width: 100%;
+  height: 30px;
+  min-height: 30px;
+  border-color: #c7d1d8 !important;
+  border-radius: 3px !important;
+  background: #fff !important;
+  color: var(--fm-ui-text) !important;
+  font-size: 13px !important;
+}
+
+.fm-ui-field .p-inputtext:focus,
+.fm-ui-field .p-select.p-focus,
+.fm-ui-field .p-multiselect.p-focus,
+.fm-ui-input:focus {
+  border-color: var(--fm-ui-cyan) !important;
+  box-shadow: 0 0 0 2px rgba(0, 188, 212, .14) !important;
+  outline: none !important;
+}
+
+.fm-ui-select-panel .p-select-option,
+.p-select-option,
+.p-multiselect-option {
+  min-height: 32px !important;
+  padding: 7px 12px !important;
+  font-size: 13px !important;
+}
+
+.p-select-option.p-select-option-selected,
+.p-multiselect-option.p-multiselect-option-selected {
+  background: var(--fm-ui-cyan) !important;
+  color: #fff !important;
+}
+
+.p-select-option:hover,
+.p-multiselect-option:hover {
+  background: var(--fm-ui-cyan-soft) !important;
+  color: var(--fm-ui-text) !important;
+}
+
+/* ========================================================================
+   BOTONES GLOBALES
+   ======================================================================== */
+
+.fm-ui-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.fm-ui-button,
+.fm-action-button {
+  height: 38px;
+  min-width: 158px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 6px;
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 38px;
+  letter-spacing: .1px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: var(--fm-ui-shadow-button);
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.fm-ui-button:hover:not(:disabled),
+.fm-action-button:hover:not(:disabled) {
+  box-shadow: var(--fm-ui-shadow-button-hover);
+  transform: translateY(-1px);
+}
+
+.fm-ui-button:disabled,
+.fm-action-button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.fm-ui-button--primary,
+.fm-ui-button-primary {
+  background: var(--fm-ui-cyan);
+  border: 1px solid var(--fm-ui-cyan);
+  color: #fff;
+}
+
+.fm-ui-button--primary:hover:not(:disabled),
+.fm-ui-button-primary:hover:not(:disabled) {
+  background: var(--fm-ui-cyan-strong);
+  border-color: var(--fm-ui-cyan-strong);
+}
+
+.fm-ui-button--outline,
+.fm-ui-button-outline {
+  background: #fff;
+  border: 1px solid var(--fm-ui-cyan);
+  color: var(--fm-ui-cyan);
+}
+
+.fm-ui-button--outline:hover:not(:disabled),
+.fm-ui-button-outline:hover:not(:disabled) {
+  background: var(--fm-ui-cyan-soft);
+  border-color: var(--fm-ui-cyan-strong);
+  color: var(--fm-ui-cyan-strong);
+}
+
+.fm-ui-button__icon {
+  width: 17px;
+  height: 17px;
+  min-width: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Compatibilidad con clases anteriores ya usadas en pantallas existentes. */
+.fm-btn {
+  box-shadow: var(--fm-ui-shadow-button);
+}
+
+.fm-btn:hover:not(:disabled) {
+  box-shadow: var(--fm-ui-shadow-button-hover);
+  transform: translateY(-1px);
+}
+
+/* ========================================================================
+   ICONOS DE ACCION DE GRILLA
+   ======================================================================== */
+
+.fm-ui-grid-actions {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 10px;
+  background: #fff;
+}
+
+.fm-ui-icon-button,
+.fm-icon-btn {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  color: #455a64;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: color .16s ease, background-color .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+
+.fm-ui-icon-button:hover:not(:disabled),
+.fm-icon-btn:hover:not(:disabled) {
+  color: var(--fm-ui-cyan);
+  background: var(--fm-ui-cyan-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 169, 189, .18);
+}
+
+.fm-ui-icon-button svg,
+.fm-ui-grid-icon {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ========================================================================
+   GRILLAS GLOBALES PRIMEVUE / FIELD MANAGER
+   ======================================================================== */
+
+.fm-ui-grid,
+.fm-pass-grid,
+.fm-pt-datatable {
+  width: 100%;
+  max-width: 100%;
+  border-left: 4px solid var(--fm-ui-cyan);
+  background: #fff;
+}
+
+.fm-ui-grid .p-datatable-wrapper,
+.fm-pass-grid .p-datatable-wrapper,
+.fm-pt-datatable .p-datatable-wrapper {
+  border: 1px solid #d1d1d1;
+  background: #fff;
+  max-width: 100%;
+  overflow: auto !important;
+}
+
+.fm-ui-grid .p-datatable-table,
+.fm-pass-grid .p-datatable-table,
+.fm-pt-datatable-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse !important;
+  table-layout: fixed !important;
+  font-size: 12px;
+}
+
+.fm-ui-grid .p-datatable-thead > tr > th,
+.fm-pass-grid .p-datatable-thead > tr > th,
+.fm-ui-grid .p-datatable-tbody > tr > td,
+.fm-pass-grid .p-datatable-tbody > tr > td {
+  border-right: 1px solid var(--fm-ui-grid-border) !important;
+  border-bottom: 1px solid #dce3e8 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.fm-ui-grid .p-datatable-thead > tr > th,
+.fm-pass-grid .p-datatable-thead > tr > th {
+  height: 35px !important;
+  padding: 4px 7px !important;
+  background: var(--fm-ui-grid-header-bg) !important;
+  color: #263f50 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.fm-ui-grid .p-datatable-thead > tr.p-filter-row > th,
+.fm-pass-grid .p-datatable-thead > tr.p-filter-row > th {
+  height: 34px !important;
+  padding: 3px 5px !important;
+  background: #fff !important;
+}
+
+.fm-ui-grid .p-datatable-tbody > tr > td,
+.fm-pass-grid .p-datatable-tbody > tr > td {
+  height: 35px !important;
+  padding: 5px 8px !important;
+  color: var(--fm-ui-text) !important;
+  font-size: 12px !important;
+}
+
+.fm-ui-grid .p-datatable-tbody > tr:hover > td,
+.fm-pass-grid .p-datatable-tbody > tr:hover > td {
+  background: var(--fm-ui-row-hover) !important;
+}
+
+.fm-ui-grid .p-datatable-tbody > tr.p-highlight > td,
+.fm-ui-grid .p-datatable-tbody > tr.p-datatable-row-selected > td,
+.fm-pass-grid .p-datatable-tbody > tr.p-highlight > td,
+.fm-pass-grid .p-datatable-tbody > tr.p-datatable-row-selected > td,
+.fm-row-selected > td {
+  background: var(--fm-ui-row-selected) !important;
+  color: var(--fm-ui-text) !important;
+}
+
+.fm-ui-grid .p-checkbox-box,
+.fm-pass-grid .p-checkbox-box,
+.fm-pt-checkbox-box {
+  width: 14px !important;
+  height: 14px !important;
+  border-color: #9eb4bd !important;
+}
+
+.fm-ui-grid .p-checkbox-checked .p-checkbox-box,
+.fm-pass-grid .p-checkbox-checked .p-checkbox-box,
+.fm-pt-checkbox.p-checkbox-checked .fm-pt-checkbox-box {
+  background: var(--fm-ui-cyan) !important;
+  border-color: var(--fm-ui-cyan) !important;
+}
+
+.fm-ui-grid .p-checkbox-checked .p-checkbox-icon,
+.fm-pass-grid .p-checkbox-checked .p-checkbox-icon {
+  color: #111 !important;
+}
+
+.fm-column-filter,
+.fm-ui-column-filter {
+  width: 100%;
+  min-width: 0;
+  height: 25px;
+  border: 1px solid #c7d1d8;
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.fm-ui-filter-cell {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  min-width: 0;
+}
+
+.fm-ui-filter-prefix,
+.fm-ui-filter-more {
+  font-size: 11px;
+  color: #000;
+  flex: 0 0 auto;
+}
+
+.fm-ui-cell-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fm-ui-grid .p-column-resizer,
+.fm-pass-grid .p-column-resizer {
+  width: 8px !important;
+  right: -4px !important;
+  cursor: col-resize !important;
+  background: transparent !important;
+}
+
+.fm-ui-grid .p-column-resizer:hover,
+.fm-pass-grid .p-column-resizer:hover {
+  background: rgba(0, 169, 189, .35) !important;
+}
+
+.fm-ui-empty,
+.fm-pass-grid .p-datatable-empty-message td {
+  height: 110px !important;
+  background: #eafcff !important;
+  text-align: center !important;
+  color: #407080 !important;
+}
+
+/* ========================================================================
+   MODALES / ALERTAS
+   ======================================================================== */
+
+.fm-ui-dialog .p-dialog-header,
+.fm-pt-dialog-header {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.fm-ui-dialog-body {
+  padding: 8px 0;
+  color: #222;
+  font-size: 16px;
+}
+
+.fm-ui-dialog-body p {
+  margin: 0 0 18px;
+  font-size: 18px;
+}
+
+.fm-ui-alert-body {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  min-height: 112px;
+  padding: 18px 8px;
+  font-size: 17px;
+  color: var(--fm-ui-text);
+}
+
+.fm-ui-alert-triangle {
+  width: 64px;
+  height: 56px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fm-ui-alert-triangle:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 32px solid transparent;
+  border-right: 32px solid transparent;
+  border-bottom: 56px solid var(--fm-ui-danger);
+  filter: drop-shadow(0 4px 8px rgba(215, 51, 51, .28));
+}
+
+.fm-ui-alert-triangle:after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 0;
+  height: 0;
+  border-left: 23px solid transparent;
+  border-right: 23px solid transparent;
+  border-bottom: 40px solid #fff;
+}
+
+.fm-ui-alert-triangle span {
+  position: relative;
+  z-index: 2;
+  margin-top: 15px;
+  color: var(--fm-ui-danger);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.fm-ui-confirm-summary {
+  border: 1px solid #dce8ec;
+  border-radius: 6px;
+  background: #f7fcfd;
+  overflow: hidden;
+}
+
+.fm-ui-confirm-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e4eef2;
+}
+
+.fm-ui-confirm-row:last-child {
+  border-bottom: 0;
+}
+
+.fm-ui-confirm-label {
+  font-size: 14px;
+  color: #6d8798;
+  font-weight: 500;
+}
+
+.fm-ui-confirm-value {
+  font-size: 15px;
+  color: var(--fm-ui-text);
+  font-weight: 700;
+  white-space: pre-wrap;
+}
+
+/* ========================================================================
+   RESPONSIVE DE LA CAPA GLOBAL
+   ======================================================================== */
+
+@media (max-width: 900px) {
+  .fm-ui-filter-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .fm-ui-field--span-2,
+  .fm-ui-field--span-3,
+  .fm-ui-field--span-4 {
+    grid-column: span 3;
+  }
+
+  .fm-ui-field--span-6,
+  .fm-ui-field--span-12 {
+    grid-column: span 6;
+  }
+
+  .fm-ui-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .fm-ui-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fm-ui-field,
+  .fm-ui-field--span-2,
+  .fm-ui-field--span-3,
+  .fm-ui-field--span-4,
+  .fm-ui-field--span-6,
+  .fm-ui-field--span-12 {
+    grid-column: 1;
+  }
+
+  .fm-ui-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fm-ui-button,
+  .fm-action-button {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .fm-ui-alert-body {
+    gap: 16px;
+    font-size: 15px;
+  }
+}

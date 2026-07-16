@@ -1,9 +1,9 @@
 export interface Filters {
     nroOT: string
-    fechaCierreOTDesde: Date | null
-    fechaCierreOTHasta: Date | null
+    fechaDesde: Date | null
+    fechaHasta: Date | null
     contratista: string
-    descripcionError: string
+    descError: string
     excluida: string
     pais: string
 }
@@ -30,11 +30,16 @@ export interface Row {
     incluir: string
 }
 
+export interface Motivo {
+    name: string
+}
+
 export interface StoreState {
   activeTab: string[]  
   filters: Filters
   validFilters: boolean
   rows: Row[]
+  motivos: Motivo[]
   selectedRows: number[]
   loading: boolean
 }
@@ -45,16 +50,10 @@ export interface ActionResponse {
 
 export const emptyFilters = (): Filters => ({
   nroOT: '',
-  fechaCierreOTDesde: null,
-  fechaCierreOTHasta: null,
+  fechaDesde: null,
+  fechaHasta: null,
   contratista: '',
-  descripcionError: '',
+  descError: '',
   excluida: '',
   pais: '',
 })
-
-export interface ExcluirRequest {
-  idOts: string[]
-	nota: string | null
-	motivoNombreCorto: string
-}

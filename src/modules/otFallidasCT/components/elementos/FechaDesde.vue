@@ -1,31 +1,42 @@
 <template>
-    <div class="flex flex-column px-2">
-        <label for="date">Fecha Desde</label>
-        <DatePicker id="date" dateFormat="dd/mm/yy" :manualInput="false" class="w-auto"
-        v-model="fechaDesde" variant="filled"  @clear-click="borrarFecha($event)" showIcon 
-        selectOtherMonths showButtonBar />
-    </div>
+  <div class="fm-field fm-field--span-2 otf-filter-element otf-filter-element--fecha-desde" :class="{ 'otf-filter-element--disabled': disabled }">
+    <label for="otf-fecha-desde">Fecha Cierre OT Desde</label>
+    <CtDatePicker
+      inputId="otf-fecha-desde"
+      :modelValue="modelValue"
+      :disabled="disabled"
+      placeholder="Desde"
+      @update:modelValue="$emit('update:modelValue', $event)"
+    />
+  </div>
 </template>
 
 <script setup>
+import CtDatePicker from '../CtDatePicker.vue'
 
-import DatePicker from 'primevue/datepicker';
-import { computed } from "vue";
-import { useFallidasCtStore } from '../../store/CtFallidaStore'
-
-const store = useFallidasCtStore()
-const fechaDesde = computed({
-  get: () => store.filters.fechaCierreOTDesde,
-  set: (fechaDesde) =>
-    store.setFilter('fechaCierreOTDesde', fechaDesde? fechaDesde : '') 
+defineProps({
+  modelValue: { type: [Date, String, null], default: null },
+  disabled: { type: Boolean, default: false }
 })
-const borrarFecha = (event) => {
-    store.setFilter('fechaCierreOTDesde',null)
-}
 
-
+defineEmits(['update:modelValue'])
 </script>
 
 <style scoped>
-</style>
+.otf-filter-element label {
+  white-space: nowrap;
+}
 
+.otf-filter-element :deep(.p-datepicker),
+.otf-filter-element :deep(.ct-date-picker) {
+  width: 100%;
+}
+
+.otf-filter-element--disabled {
+  opacity: .62;
+}
+
+.otf-filter-element--disabled :deep(.ct-date-picker) {
+  pointer-events: none;
+}
+</style>

@@ -1,25 +1,39 @@
 <template>
-    <div class="flex flex-column px-2">
-        <label for="ot">Nro OT</label>
-        <InputText type="text" id="ot" v-model="nroOt"/>
-    </div>
+  <div class="fm-field fm-field--span-4 otf-filter-element otf-filter-element--nro-ot" :class="{ 'otf-filter-element--disabled': disabled }">
+    <label for="otf-nro-ot">Nro. OT</label>
+    <InputText
+      id="otf-nro-ot"
+      :modelValue="modelValue"
+      :disabled="disabled"
+      class="w-full"
+      type="text"
+      autocomplete="off"
+      @update:modelValue="$emit('update:modelValue', $event)"
+    />
+  </div>
 </template>
 
-
 <script setup>
-import { computed } from 'vue';
-import InputText from 'primevue/inputtext';
-import { useFallidasCtStore } from '../../store/CtFallidaStore';
+import InputText from 'primevue/inputtext'
 
-const store = useFallidasCtStore()
-
-const nroOt = computed({
-  get: () => store.filters.nroOT,
-  set: (nroOt) =>
-    store.setFilter('nroOT', nroOt? nroOt : '') 
+defineProps({
+  modelValue: { type: [String, Number, null], default: '' },
+  disabled: { type: Boolean, default: false }
 })
 
+defineEmits(['update:modelValue'])
 </script>
 
 <style scoped>
+.otf-filter-element label {
+  white-space: nowrap;
+}
+
+.otf-filter-element :deep(.p-inputtext) {
+  width: 100%;
+}
+
+.otf-filter-element--disabled {
+  opacity: .62;
+}
 </style>

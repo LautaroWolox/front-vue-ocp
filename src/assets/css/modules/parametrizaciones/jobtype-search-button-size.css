@@ -1,0 +1,28 @@
+/* Ajuste fino del botón BUSCAR en los filtros de Jobtype-Contrato */
+.jobtype-contrato-page .jobtype-contrato-filters .fm-ui-button,
+.jobtype-contrato-page .jobtype-contrato-filters .fm-action-button,
+.jobtype-contrato-page .jobtype-contrato-filters .p-button {
+  min-width: 116px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 16px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+}
+
+.jobtype-contrato-page .jobtype-contrato-filters .fm-ui-button .p-button-icon,
+.jobtype-contrato-page .jobtype-contrato-filters .fm-action-button .p-button-icon,
+.jobtype-contrato-page .jobtype-contrato-filters .p-button .p-button-icon,
+.jobtype-contrato-page .jobtype-contrato-filters .fm-ui-button .pi,
+.jobtype-contrato-page .jobtype-contrato-filters .fm-action-button .pi,
+.jobtype-contrato-page .jobtype-contrato-filters .p-button .pi {
+  font-size: 13px !important;
+  line-height: 13px !important;
+}
+
+.jobtype-contrato-page .jobtype-contrato-filters .fm-ui-button .p-button-label,
+.jobtype-contrato-page .jobtype-contrato-filters .fm-action-button .p-button-label,
+.jobtype-contrato-page .jobtype-contrato-filters .p-button .p-button-label {
+  font-size: 12px !important;
+  line-height: 12px !important;
+}

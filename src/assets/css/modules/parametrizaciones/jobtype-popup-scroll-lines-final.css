@@ -1,0 +1,108 @@
+/* ========================================================================
+   JOBTYPE POPUP GRID SCROLL + LINES FINAL
+   ------------------------------------------------------------------------
+   La grilla del popup debe verse armada completa en normal y maximizada.
+   El body scrollea, las lineas llegan hasta abajo y las letras quedan
+   un poco mas grandes.
+   ======================================================================== */
+
+.jobtype-modal-grid--main-like {
+  overflow: hidden !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__header-cell {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: #163849 !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__sort {
+  font-size: 12px !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__filter-prefix,
+.jobtype-modal-grid--main-like .jobtype-modal-grid__filter-more {
+  font-size: 11px !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__filter-input {
+  height: 22px !important;
+  min-height: 22px !important;
+  font-size: 11px !important;
+  line-height: 22px !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__cell,
+.jobtype-modal-grid--main-like .jobtype-modal-grid__row {
+  font-size: 12px !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__body {
+  position: relative !important;
+  height: 210px !important;
+  min-height: 210px !important;
+  max-height: 210px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-gutter: stable !important;
+  background-color: #ffffff !important;
+  background-image:
+    linear-gradient(to right, transparent calc(18% - 1px), #b7cbd6 calc(18% - 1px), #b7cbd6 18%, transparent 18%),
+    linear-gradient(to right, transparent calc(61% - 1px), #b7cbd6 calc(61% - 1px), #b7cbd6 61%, transparent 61%),
+    linear-gradient(to right, transparent calc(89% - 1px), #b7cbd6 calc(89% - 1px), #b7cbd6 89%, transparent 89%),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 29px, #c1d2dc 29px, #c1d2dc 30px) !important;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 30px !important;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__row {
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  background: transparent !important;
+  border-bottom-color: #c1d2dc !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__row:hover {
+  background: #eefbfc !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__row--selected,
+.jobtype-modal-grid--main-like .jobtype-modal-grid__row--selected .jobtype-modal-grid__cell {
+  background: #e8f8fb !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__cell {
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  line-height: 30px !important;
+  border-right-color: #b7cbd6 !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__footer {
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  overflow: visible !important;
+  border-top-color: #9fb8c7 !important;
+  background: #ffffff !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-grid--main-like .jobtype-modal-grid__body {
+  height: 270px !important;
+  min-height: 270px !important;
+  max-height: 270px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .p-dialog-content {
+  overflow: hidden !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-grid--main-like .jobtype-modal-grid__footer {
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+}

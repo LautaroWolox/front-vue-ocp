@@ -1,0 +1,376 @@
+/* ========================================================================
+   FIELD MANAGER RESPONSIVE DIALOGS
+   ------------------------------------------------------------------------
+   Capa final para que los popups no queden enormes en monitores, notebooks,
+   tablets o pantallas de baja altura.
+
+   IMPORTANTE:
+   - Los Dialog de PrimeVue pueden venir con width inline desde el componente.
+   - Por eso estas reglas usan width/max-width !important y se importan al final.
+   - No modificar popups pantalla por pantalla para cambiar tamanos.
+   - Usar clases globales:
+       fm-dialog
+       fm-dialog-alert
+       fm-dialog-excluir
+       fm-dialog-incluir
+       fm-dialog-nota
+       fm-reproceso-dialog
+   ======================================================================== */
+
+:root {
+  --fm-dialog-margin-x: 56px;
+  --fm-dialog-generic-width: 600px;
+  --fm-dialog-alert-width: 540px;
+  --fm-dialog-excluir-width: 660px;
+  --fm-dialog-incluir-width: 560px;
+  --fm-dialog-nota-width: 520px;
+  --fm-dialog-reproceso-width: 620px;
+  --fm-dialog-max-content-height: calc(100vh - 190px);
+}
+
+/* ------------------------------------------------------------------------
+   Base: escritorio comun / notebook / monitor FHD
+   ------------------------------------------------------------------------ */
+.p-dialog.fm-dialog,
+.p-dialog.fm-dialog-alert,
+.p-dialog.fm-reproceso-dialog,
+.p-dialog.fm-pt-dialog {
+  width: min(var(--fm-dialog-generic-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+  max-width: calc(100vw - var(--fm-dialog-margin-x)) !important;
+  max-height: calc(100vh - 48px) !important;
+}
+
+.p-dialog.fm-dialog-alert {
+  width: min(var(--fm-dialog-alert-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+}
+
+.p-dialog.fm-dialog-excluir {
+  width: min(var(--fm-dialog-excluir-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+}
+
+.p-dialog.fm-dialog-incluir {
+  width: min(var(--fm-dialog-incluir-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+}
+
+.p-dialog.fm-dialog-nota {
+  width: min(var(--fm-dialog-nota-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+}
+
+.p-dialog.fm-reproceso-dialog {
+  width: min(var(--fm-dialog-reproceso-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-content,
+.p-dialog.fm-dialog-alert .p-dialog-content,
+.p-dialog.fm-reproceso-dialog .p-dialog-content,
+.p-dialog.fm-pt-dialog .p-dialog-content {
+  max-height: var(--fm-dialog-max-content-height) !important;
+  overflow-y: auto !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-header,
+.p-dialog.fm-dialog-alert .p-dialog-header,
+.p-dialog.fm-reproceso-dialog .p-dialog-header,
+.p-dialog.fm-pt-dialog .p-dialog-header {
+  padding: 14px 20px !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-title,
+.p-dialog.fm-dialog-alert .p-dialog-title,
+.p-dialog.fm-reproceso-dialog .p-dialog-title,
+.p-dialog.fm-pt-dialog .p-dialog-title {
+  font-size: clamp(20px, 1.18vw, 24px) !important;
+  line-height: 1.2 !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-footer,
+.p-dialog.fm-dialog-alert .p-dialog-footer,
+.p-dialog.fm-reproceso-dialog .p-dialog-footer,
+.p-dialog.fm-pt-dialog .p-dialog-footer {
+  padding: 12px 20px 16px !important;
+}
+
+/* Compacta el cuerpo de alertas y reprocesos */
+.fm-reproceso-dialog__body,
+.fm-alert-body {
+  min-height: 106px !important;
+  padding: 22px 28px !important;
+  gap: 28px !important;
+}
+
+.fm-reproceso-dialog__message,
+.fm-alert-body span:last-child {
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+}
+
+.fm-reproceso-dialog__success {
+  width: 50px !important;
+  height: 50px !important;
+  border-width: 4px !important;
+}
+
+.fm-reproceso-dialog__success span {
+  width: 20px !important;
+  height: 12px !important;
+  border-left-width: 4px !important;
+  border-bottom-width: 4px !important;
+}
+
+.fm-reproceso-dialog .fm-alert-triangle,
+.fm-alert-body .fm-alert-triangle {
+  transform: scale(.84) !important;
+  transform-origin: center !important;
+}
+
+/* ------------------------------------------------------------------------
+   Super ultrawide / 4K / pantallas muy grandes
+   Mantiene el popup legible pero no gigante.
+   ------------------------------------------------------------------------ */
+@media (min-width: 3000px) {
+  :root {
+    --fm-dialog-margin-x: 120px;
+    --fm-dialog-generic-width: 640px;
+    --fm-dialog-alert-width: 580px;
+    --fm-dialog-excluir-width: 700px;
+    --fm-dialog-incluir-width: 600px;
+    --fm-dialog-nota-width: 560px;
+    --fm-dialog-reproceso-width: 680px;
+    --fm-dialog-max-content-height: calc(100vh - 260px);
+  }
+}
+
+/* ------------------------------------------------------------------------
+   QHD / MacBook retina / tablets grandes en landscape logico
+   ------------------------------------------------------------------------ */
+@media (min-width: 2200px) and (max-width: 2999px) {
+  :root {
+    --fm-dialog-margin-x: 90px;
+    --fm-dialog-generic-width: 620px;
+    --fm-dialog-alert-width: 560px;
+    --fm-dialog-excluir-width: 680px;
+    --fm-dialog-incluir-width: 580px;
+    --fm-dialog-nota-width: 540px;
+    --fm-dialog-reproceso-width: 660px;
+    --fm-dialog-max-content-height: calc(100vh - 230px);
+  }
+}
+
+/* ------------------------------------------------------------------------
+   FHD / WUXGA / notebooks 1920x1080 - 1920x1200
+   ------------------------------------------------------------------------ */
+@media (min-width: 1600px) and (max-width: 2199px) {
+  :root {
+    --fm-dialog-margin-x: 64px;
+    --fm-dialog-generic-width: 580px;
+    --fm-dialog-alert-width: 520px;
+    --fm-dialog-excluir-width: 640px;
+    --fm-dialog-incluir-width: 540px;
+    --fm-dialog-nota-width: 510px;
+    --fm-dialog-reproceso-width: 600px;
+    --fm-dialog-max-content-height: calc(100vh - 180px);
+  }
+}
+
+/* ------------------------------------------------------------------------
+   1366x768 / 1280x720 / notebooks chicas
+   ------------------------------------------------------------------------ */
+@media (min-width: 1100px) and (max-width: 1599px) {
+  :root {
+    --fm-dialog-margin-x: 44px;
+    --fm-dialog-generic-width: 520px;
+    --fm-dialog-alert-width: 480px;
+    --fm-dialog-excluir-width: 590px;
+    --fm-dialog-incluir-width: 500px;
+    --fm-dialog-nota-width: 480px;
+    --fm-dialog-reproceso-width: 560px;
+    --fm-dialog-max-content-height: calc(100vh - 155px);
+  }
+
+  .p-dialog.fm-dialog .p-dialog-header,
+  .p-dialog.fm-dialog-alert .p-dialog-header,
+  .p-dialog.fm-reproceso-dialog .p-dialog-header,
+  .p-dialog.fm-pt-dialog .p-dialog-header {
+    padding: 12px 18px !important;
+  }
+
+  .p-dialog.fm-dialog .p-dialog-footer,
+  .p-dialog.fm-dialog-alert .p-dialog-footer,
+  .p-dialog.fm-reproceso-dialog .p-dialog-footer,
+  .p-dialog.fm-pt-dialog .p-dialog-footer {
+    padding: 10px 18px 14px !important;
+  }
+
+  .fm-reproceso-dialog__body,
+  .fm-alert-body {
+    min-height: 92px !important;
+    padding: 18px 24px !important;
+    gap: 22px !important;
+  }
+
+  .fm-reproceso-dialog__message,
+  .fm-alert-body span:last-child {
+    font-size: 16px !important;
+  }
+}
+
+/* ------------------------------------------------------------------------
+   Tablets / viewports medianos
+   ------------------------------------------------------------------------ */
+@media (min-width: 700px) and (max-width: 1099px) {
+  :root {
+    --fm-dialog-margin-x: 32px;
+    --fm-dialog-generic-width: 540px;
+    --fm-dialog-alert-width: 500px;
+    --fm-dialog-excluir-width: 580px;
+    --fm-dialog-incluir-width: 520px;
+    --fm-dialog-nota-width: 500px;
+    --fm-dialog-reproceso-width: 560px;
+    --fm-dialog-max-content-height: calc(100vh - 135px);
+  }
+
+  .p-dialog.fm-dialog,
+  .p-dialog.fm-dialog-alert,
+  .p-dialog.fm-reproceso-dialog,
+  .p-dialog.fm-pt-dialog {
+    width: min(var(--fm-dialog-generic-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+  }
+
+  .p-dialog.fm-dialog-alert {
+    width: min(var(--fm-dialog-alert-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+  }
+
+  .p-dialog.fm-dialog-excluir {
+    width: min(var(--fm-dialog-excluir-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+  }
+
+  .p-dialog.fm-reproceso-dialog {
+    width: min(var(--fm-dialog-reproceso-width), calc(100vw - var(--fm-dialog-margin-x))) !important;
+  }
+
+  .fm-reproceso-dialog__body,
+  .fm-alert-body {
+    min-height: 92px !important;
+    padding: 18px 22px !important;
+    gap: 20px !important;
+  }
+}
+
+/* ------------------------------------------------------------------------
+   Moviles / ventanas angostas
+   ------------------------------------------------------------------------ */
+@media (max-width: 699px) {
+  :root {
+    --fm-dialog-margin-x: 18px;
+    --fm-dialog-max-content-height: calc(100vh - 110px);
+  }
+
+  .p-dialog.fm-dialog,
+  .p-dialog.fm-dialog-alert,
+  .p-dialog.fm-reproceso-dialog,
+  .p-dialog.fm-pt-dialog {
+    width: calc(100vw - var(--fm-dialog-margin-x)) !important;
+    max-width: calc(100vw - var(--fm-dialog-margin-x)) !important;
+    max-height: calc(100vh - 18px) !important;
+  }
+
+  .p-dialog.fm-dialog .p-dialog-header,
+  .p-dialog.fm-dialog-alert .p-dialog-header,
+  .p-dialog.fm-reproceso-dialog .p-dialog-header,
+  .p-dialog.fm-pt-dialog .p-dialog-header {
+    padding: 10px 14px !important;
+  }
+
+  .p-dialog.fm-dialog .p-dialog-title,
+  .p-dialog.fm-dialog-alert .p-dialog-title,
+  .p-dialog.fm-reproceso-dialog .p-dialog-title,
+  .p-dialog.fm-pt-dialog .p-dialog-title {
+    font-size: 20px !important;
+  }
+
+  .p-dialog.fm-dialog .p-dialog-footer,
+  .p-dialog.fm-dialog-alert .p-dialog-footer,
+  .p-dialog.fm-reproceso-dialog .p-dialog-footer,
+  .p-dialog.fm-pt-dialog .p-dialog-footer {
+    padding: 10px 14px 14px !important;
+  }
+
+  .p-dialog.fm-dialog .p-dialog-footer .p-button,
+  .p-dialog.fm-dialog-alert .p-dialog-footer .p-button,
+  .p-dialog.fm-reproceso-dialog .p-dialog-footer .p-button {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .fm-reproceso-dialog__body,
+  .fm-alert-body {
+    min-height: 92px !important;
+    padding: 18px 16px !important;
+    gap: 14px !important;
+  }
+
+  .fm-reproceso-dialog__message,
+  .fm-alert-body span:last-child {
+    font-size: 16px !important;
+  }
+
+  .fm-reproceso-dialog__success,
+  .fm-reproceso-dialog .fm-alert-triangle,
+  .fm-alert-body .fm-alert-triangle {
+    transform: scale(.74) !important;
+    transform-origin: center !important;
+  }
+}
+
+/* ------------------------------------------------------------------------
+   Alturas bajas: 720/768/800/828
+   Evita que el popup tape toda la pantalla verticalmente.
+   ------------------------------------------------------------------------ */
+@media (max-height: 850px) {
+  :root {
+    --fm-dialog-max-content-height: calc(100vh - 128px);
+  }
+
+  .p-dialog.fm-dialog,
+  .p-dialog.fm-dialog-alert,
+  .p-dialog.fm-reproceso-dialog,
+  .p-dialog.fm-pt-dialog {
+    max-height: calc(100vh - 24px) !important;
+  }
+
+  .p-dialog.fm-dialog .p-dialog-header,
+  .p-dialog.fm-dialog-alert .p-dialog-header,
+  .p-dialog.fm-reproceso-dialog .p-dialog-header,
+  .p-dialog.fm-pt-dialog .p-dialog-header {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .p-dialog.fm-dialog .p-dialog-footer,
+  .p-dialog.fm-dialog-alert .p-dialog-footer,
+  .p-dialog.fm-reproceso-dialog .p-dialog-footer,
+  .p-dialog.fm-pt-dialog .p-dialog-footer {
+    padding-top: 10px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .fm-reproceso-dialog__body,
+  .fm-alert-body {
+    min-height: 86px !important;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-height: 650px) {
+  :root {
+    --fm-dialog-max-content-height: calc(100vh - 100px);
+  }
+
+  .fm-reproceso-dialog__body,
+  .fm-alert-body {
+    min-height: 78px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+}

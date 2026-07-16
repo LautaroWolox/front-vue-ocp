@@ -1,0 +1,224 @@
+/* ========================================================================
+   FIELD MANAGER POPUP OVERRIDES
+   ------------------------------------------------------------------------
+   Capa global de popups Field Manager:
+   - Alertas chicas como referencia.
+   - Popup Excluir/Incluir compacto como referencia.
+   - Select de Motivo mas chico.
+   - Textarea Nota expandible sin romper el popup.
+   ======================================================================== */
+
+.p-dialog.fm-dialog-alert,
+.p-dialog.fm-reproceso-dialog--warning,
+.p-dialog.fm-dialog.fm-reproceso-dialog--warning {
+  width: 430px !important;
+  max-width: calc(100vw - 32px) !important;
+}
+
+.p-dialog.fm-dialog-excluir {
+  width: 480px !important;
+  max-width: calc(100vw - 32px) !important;
+}
+
+.p-dialog.fm-dialog-incluir {
+  width: 460px !important;
+  max-width: calc(100vw - 32px) !important;
+}
+
+.p-dialog.fm-dialog-nota {
+  width: 430px !important;
+  max-width: calc(100vw - 32px) !important;
+}
+
+.p-dialog.fm-reproceso-dialog--success {
+  width: 430px !important;
+  max-width: calc(100vw - 32px) !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-header,
+.p-dialog.fm-dialog-alert .p-dialog-header,
+.p-dialog.fm-reproceso-dialog .p-dialog-header {
+  min-height: 40px !important;
+  padding: 9px 14px !important;
+  border-bottom: 1px solid #dfe6eb !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-title,
+.p-dialog.fm-dialog-alert .p-dialog-title,
+.p-dialog.fm-reproceso-dialog .p-dialog-title {
+  color: #263746 !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-content,
+.p-dialog.fm-dialog-alert .p-dialog-content,
+.p-dialog.fm-reproceso-dialog .p-dialog-content {
+  padding: 0 !important;
+  max-height: calc(100vh - 128px) !important;
+  overflow-y: auto !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-footer,
+.p-dialog.fm-dialog-alert .p-dialog-footer,
+.p-dialog.fm-reproceso-dialog .p-dialog-footer {
+  min-height: 46px !important;
+  padding: 9px 14px !important;
+  border-top: 1px solid #dfe6eb !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-close-button,
+.p-dialog.fm-dialog-alert .p-dialog-close-button,
+.p-dialog.fm-reproceso-dialog .p-dialog-close-button,
+.p-dialog.fm-dialog .p-dialog-header-icon,
+.p-dialog.fm-dialog-alert .p-dialog-header-icon,
+.p-dialog.fm-reproceso-dialog .p-dialog-header-icon {
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 2px !important;
+  color: #9dafb9 !important;
+  box-shadow: none !important;
+}
+
+.fm-dialog-body,
+.fm-popup-body,
+.fm-note-body {
+  padding: 16px 14px 13px !important;
+  color: #222 !important;
+  font-size: 12px !important;
+}
+
+.fm-dialog-body p,
+.fm-popup-body p {
+  margin: 0 0 12px !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+
+.fm-dialog-body label,
+.fm-popup-body label,
+.fm-note-body label {
+  margin: 7px 0 5px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #222 !important;
+}
+
+.fm-dialog-select,
+.fm-dialog-body .fm-dialog-select,
+.fm-dialog-body .p-select.fm-dialog-select {
+  width: 300px !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 28px !important;
+  min-height: 28px !important;
+}
+
+.fm-dialog-select .p-select-label,
+.fm-dialog-body .p-select-label {
+  padding: 5px 8px !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+}
+
+.fm-dialog-select .p-select-dropdown,
+.fm-dialog-body .p-select-dropdown {
+  width: 26px !important;
+  min-width: 26px !important;
+}
+
+.fm-dialog-textarea,
+.fm-dialog-body textarea,
+.fm-popup-body textarea,
+.fm-note-body textarea,
+.p-dialog textarea,
+.p-dialog .p-textarea {
+  width: 100% !important;
+  min-height: 58px !important;
+  max-height: 180px !important;
+  height: 58px !important;
+  padding: 8px !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  resize: vertical !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-footer .p-button,
+.p-dialog.fm-dialog-alert .p-dialog-footer .p-button,
+.p-dialog.fm-reproceso-dialog .p-dialog-footer .p-button,
+.p-dialog.fm-dialog .p-dialog-footer .fm-btn,
+.p-dialog.fm-dialog-alert .p-dialog-footer .fm-btn,
+.p-dialog.fm-reproceso-dialog .p-dialog-footer .fm-btn {
+  min-width: 84px !important;
+  width: auto !important;
+  height: 30px !important;
+  padding: 0 16px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, .10) !important;
+}
+
+.fm-alert-body,
+.fm-reproceso-dialog__body {
+  min-height: 92px !important;
+  padding: 22px 22px !important;
+  gap: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.fm-alert-body span:last-child,
+.fm-reproceso-dialog__message {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 1.35 !important;
+  color: #263746 !important;
+}
+
+.fm-alert-body .fm-alert-triangle,
+.fm-reproceso-dialog .fm-alert-triangle {
+  transform: scale(.64) !important;
+  transform-origin: center !important;
+  margin-left: -8px !important;
+  margin-right: -8px !important;
+}
+
+.fm-reproceso-dialog__success {
+  width: 42px !important;
+  height: 42px !important;
+  border-width: 4px !important;
+}
+
+.fm-reproceso-dialog__success span {
+  width: 18px !important;
+  height: 10px !important;
+  border-left-width: 4px !important;
+  border-bottom-width: 4px !important;
+}
+
+@media (max-width: 620px) {
+  .p-dialog.fm-dialog-alert,
+  .p-dialog.fm-reproceso-dialog--warning,
+  .p-dialog.fm-dialog-excluir,
+  .p-dialog.fm-dialog-incluir,
+  .p-dialog.fm-dialog-nota,
+  .p-dialog.fm-reproceso-dialog--success {
+    width: calc(100vw - 24px) !important;
+  }
+
+  .fm-dialog-select,
+  .fm-dialog-body .fm-dialog-select,
+  .fm-dialog-body .p-select.fm-dialog-select {
+    width: 100% !important;
+  }
+}

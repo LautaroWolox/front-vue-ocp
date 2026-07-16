@@ -1,0 +1,766 @@
+/* ========================================================================
+   FIELD MANAGER REGISTRO UI
+   ------------------------------------------------------------------------
+   Capa visual global basada en la pantalla Registro OTs Fallidas.
+
+   Objetivo:
+   - Mantener el mismo diseno de botones, grillas, checkbox, popups/dialogs
+     y calendario que ya fue aprobado en Registro OTs Fallidas.
+   - Reutilizarlo en otras pantallas con clases fm-* sin copiar estilos scoped.
+   - Se importa despues de fm-foundation.css para ganar prioridad sin tocar
+     la estructura ni la logica de las pantallas.
+   ======================================================================== */
+
+:root {
+  --fm-registro-cyan: #00a9bd;
+  --fm-registro-cyan-strong: #008fa1;
+  --fm-registro-cyan-soft: #e0f7fa;
+  --fm-registro-row-selected: #9eeff7;
+  --fm-registro-row-hover: #edfafd;
+  --fm-registro-border: #c9d3da;
+  --fm-registro-border-soft: #dce3e8;
+  --fm-registro-header-bg: #f4f7f9;
+  --fm-registro-empty-bg: #eafcff;
+  --fm-registro-text: #263238;
+  --fm-registro-danger: #d73333;
+}
+
+/* ========================================================================
+   Botones principales y secundarios
+   ======================================================================== */
+
+.fm-action-button,
+.fm-ui-button,
+.fm-btn,
+.fm-pt-button {
+  height: 38px !important;
+  min-width: 158px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  border-radius: 6px !important;
+  padding: 0 16px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: .1px !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 11px rgba(0, 0, 0, .13) !important;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease !important;
+}
+
+.fm-action-button:hover:not(:disabled),
+.fm-ui-button:hover:not(:disabled),
+.fm-btn:hover:not(:disabled),
+.fm-pt-button:hover:not(:disabled) {
+  box-shadow: 0 8px 18px rgba(0, 143, 161, .30) !important;
+  transform: translateY(-1px) !important;
+}
+
+.fm-action-button--primary,
+.fm-ui-button--primary,
+.fm-btn--primary,
+.fm-pt-button.p-button:not(.p-button-outlined) {
+  background: var(--fm-registro-cyan) !important;
+  border: 1px solid var(--fm-registro-cyan) !important;
+  color: #fff !important;
+}
+
+.fm-action-button--primary:hover:not(:disabled),
+.fm-ui-button--primary:hover:not(:disabled),
+.fm-btn--primary:hover:not(:disabled),
+.fm-pt-button.p-button:not(.p-button-outlined):hover:not(:disabled) {
+  background: var(--fm-registro-cyan-strong) !important;
+  border-color: var(--fm-registro-cyan-strong) !important;
+}
+
+.fm-action-button--outline,
+.fm-ui-button--outline,
+.fm-btn--outline,
+.fm-pt-button.p-button-outlined {
+  background: #fff !important;
+  border: 1px solid var(--fm-registro-cyan) !important;
+  color: var(--fm-registro-cyan) !important;
+}
+
+.fm-action-button--outline:hover:not(:disabled),
+.fm-ui-button--outline:hover:not(:disabled),
+.fm-btn--outline:hover:not(:disabled),
+.fm-pt-button.p-button-outlined:hover:not(:disabled) {
+  background: var(--fm-registro-cyan-soft) !important;
+  border-color: var(--fm-registro-cyan-strong) !important;
+  color: var(--fm-registro-cyan-strong) !important;
+}
+
+.fm-action-button:disabled,
+.fm-ui-button:disabled,
+.fm-btn:disabled,
+.fm-pt-button:disabled {
+  opacity: .55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.fm-action-button svg,
+.fm-ui-button__icon,
+.fm-btn svg,
+.fm-pt-button-icon {
+  width: 17px !important;
+  height: 17px !important;
+  min-width: 17px !important;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ========================================================================
+   Grillas / DataTable
+   ======================================================================== */
+
+.fm-grid-shell,
+.fm-pass-grid,
+.fm-ui-grid,
+.fm-pt-datatable {
+  border-left: 4px solid var(--fm-registro-cyan) !important;
+  background: #fff !important;
+}
+
+.fm-pass-grid .p-datatable-wrapper,
+.fm-ui-grid .p-datatable-wrapper,
+.fm-pt-datatable .p-datatable-wrapper {
+  min-height: 186px !important;
+  max-height: 470px;
+  border: 1px solid #d1d1d1 !important;
+  background: #fff !important;
+  overflow: auto !important;
+}
+
+.fm-pass-grid .p-datatable-table,
+.fm-ui-grid .p-datatable-table,
+.fm-pt-datatable-table {
+  width: max-content !important;
+  min-width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+  font-size: 12px !important;
+}
+
+.fm-pass-grid .p-datatable-thead > tr > th,
+.fm-pass-grid .p-datatable-tbody > tr > td,
+.fm-ui-grid .p-datatable-thead > tr > th,
+.fm-ui-grid .p-datatable-tbody > tr > td,
+.fm-pt-datatable .p-datatable-thead > tr > th,
+.fm-pt-datatable .p-datatable-tbody > tr > td {
+  border-right: 1px solid var(--fm-registro-border) !important;
+  border-bottom: 1px solid var(--fm-registro-border-soft) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+}
+
+.fm-pass-grid .p-datatable-thead > tr > th,
+.fm-ui-grid .p-datatable-thead > tr > th,
+.fm-pt-datatable .p-datatable-thead > tr > th {
+  height: 35px !important;
+  padding: 4px 7px !important;
+  background: var(--fm-registro-header-bg) !important;
+  color: #263f50 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  position: relative !important;
+}
+
+.fm-pass-grid .p-datatable-thead > tr.p-filter-row > th,
+.fm-ui-grid .p-datatable-thead > tr.p-filter-row > th,
+.fm-pt-datatable .p-datatable-thead > tr.p-filter-row > th {
+  height: 34px !important;
+  padding: 3px 5px !important;
+  background: #fff !important;
+}
+
+.fm-pass-grid .p-datatable-tbody > tr > td,
+.fm-ui-grid .p-datatable-tbody > tr > td,
+.fm-pt-datatable .p-datatable-tbody > tr > td {
+  height: 35px !important;
+  padding: 5px 8px !important;
+  color: var(--fm-registro-text) !important;
+  font-size: 12px !important;
+}
+
+.fm-pass-grid .p-datatable-tbody > tr,
+.fm-ui-grid .p-datatable-tbody > tr,
+.fm-pt-datatable .p-datatable-tbody > tr {
+  cursor: pointer;
+}
+
+.fm-pass-grid .p-datatable-tbody > tr:hover > td,
+.fm-ui-grid .p-datatable-tbody > tr:hover > td,
+.fm-pt-datatable .p-datatable-tbody > tr:hover > td,
+.fm-enabled-row:hover > td,
+.fm-disabled-row:hover > td {
+  background: var(--fm-registro-row-hover) !important;
+}
+
+.fm-pass-grid .p-datatable-tbody > tr.p-highlight > td,
+.fm-pass-grid .p-datatable-tbody > tr.p-datatable-row-selected > td,
+.fm-pass-grid .p-datatable-tbody > tr.fm-selected-row > td,
+.fm-ui-grid .p-datatable-tbody > tr.p-highlight > td,
+.fm-ui-grid .p-datatable-tbody > tr.p-datatable-row-selected > td,
+.fm-ui-grid .p-datatable-tbody > tr.fm-selected-row > td,
+.fm-selected-row > td {
+  background: var(--fm-registro-row-selected) !important;
+  color: var(--fm-registro-text) !important;
+}
+
+.fm-disabled-row > td,
+.fm-pass-grid .p-datatable-tbody > tr.fm-disabled-row > td {
+  color: #8b8b8b !important;
+  background: #fff !important;
+}
+
+.fm-selected-row .fm-icon-btn,
+.p-datatable-tbody > tr.p-highlight .fm-icon-btn,
+.p-datatable-tbody > tr.p-datatable-row-selected .fm-icon-btn {
+  color: var(--fm-registro-text) !important;
+}
+
+.fm-pass-grid .p-column-resizer,
+.fm-ui-grid .p-column-resizer,
+.fm-pt-datatable .p-column-resizer {
+  width: 8px !important;
+  right: -4px !important;
+  cursor: col-resize !important;
+  background: transparent !important;
+}
+
+.fm-pass-grid .p-column-resizer:hover,
+.fm-ui-grid .p-column-resizer:hover,
+.fm-pt-datatable .p-column-resizer:hover {
+  background: rgba(0, 169, 189, .35) !important;
+}
+
+.fm-column-filter,
+.fm-ui-column-filter {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 25px !important;
+  border: 1px solid #c7d1d8 !important;
+  border-radius: 3px !important;
+  padding: 3px 6px !important;
+  font-size: 12px !important;
+  box-sizing: border-box !important;
+}
+
+.fm-column-filter:focus,
+.fm-ui-column-filter:focus {
+  outline: none !important;
+  border-color: var(--fm-registro-cyan) !important;
+  box-shadow: 0 0 0 2px rgba(0, 188, 212, .14) !important;
+}
+
+.fm-filter-cell,
+.fm-ui-filter-cell {
+  display: flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.fm-filter-prefix,
+.fm-filter-more,
+.fm-ui-filter-prefix,
+.fm-ui-filter-more {
+  flex: 0 0 auto !important;
+  color: #000 !important;
+  font-size: 11px !important;
+}
+
+.fm-cell-text,
+.fm-ui-cell-text {
+  display: block !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.fm-grid-empty,
+.fm-ui-empty,
+.fm-pass-grid .p-datatable-empty-message td,
+.fm-ui-grid .p-datatable-empty-message td,
+.fm-pt-datatable .p-datatable-empty-message td {
+  height: 110px !important;
+  background: var(--fm-registro-empty-bg) !important;
+  text-align: center !important;
+  color: #407080 !important;
+}
+
+.fm-pass-grid .p-paginator,
+.fm-ui-grid .p-paginator,
+.fm-pt-paginator {
+  min-height: 38px !important;
+  border: 1px solid #d1d1d1 !important;
+  border-top: 0 !important;
+  background: #fff !important;
+  font-size: 12px !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.fm-pass-grid .p-paginator-left-content,
+.fm-ui-grid .p-paginator-left-content {
+  position: absolute;
+  left: 8px;
+}
+
+.fm-pass-grid .p-paginator-right-content,
+.fm-ui-grid .p-paginator-right-content {
+  position: absolute;
+  right: 8px;
+}
+
+/* ========================================================================
+   Checkbox de grilla
+   ======================================================================== */
+
+.fm-pass-grid .p-checkbox-box,
+.fm-ui-grid .p-checkbox-box,
+.fm-pt-checkbox-box,
+.p-checkbox-box {
+  width: 14px !important;
+  height: 14px !important;
+  border-color: #9eb4bd !important;
+}
+
+.fm-pass-grid .p-checkbox-checked .p-checkbox-box,
+.fm-pass-grid .p-checkbox.p-highlight .p-checkbox-box,
+.fm-ui-grid .p-checkbox-checked .p-checkbox-box,
+.fm-ui-grid .p-checkbox.p-highlight .p-checkbox-box,
+.fm-pt-checkbox.p-checkbox-checked .fm-pt-checkbox-box,
+.p-checkbox-checked .p-checkbox-box,
+.p-checkbox.p-highlight .p-checkbox-box {
+  background: var(--fm-registro-cyan) !important;
+  border-color: var(--fm-registro-cyan) !important;
+}
+
+.fm-pass-grid .p-checkbox-checked .p-checkbox-icon,
+.fm-pass-grid .p-checkbox.p-highlight .p-checkbox-icon,
+.fm-ui-grid .p-checkbox-checked .p-checkbox-icon,
+.fm-ui-grid .p-checkbox.p-highlight .p-checkbox-icon,
+.p-checkbox-checked .p-checkbox-icon,
+.p-checkbox.p-highlight .p-checkbox-icon {
+  color: #111 !important;
+}
+
+/* ========================================================================
+   Iconos de acciones de grilla
+   ======================================================================== */
+
+.fm-grid-actions,
+.fm-ui-grid-actions {
+  min-height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding-left: 4px !important;
+  background: #fff !important;
+}
+
+.fm-icon-button,
+.fm-icon-btn,
+.fm-ui-icon-button {
+  width: 28px !important;
+  height: 28px !important;
+  border: 0 !important;
+  background: transparent !important;
+  border-radius: 6px !important;
+  color: #455a64 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  transition: color .16s ease, background-color .16s ease, transform .16s ease, box-shadow .16s ease !important;
+}
+
+.fm-icon-button:hover:not(:disabled),
+.fm-icon-btn:hover:not(:disabled),
+.fm-ui-icon-button:hover:not(:disabled) {
+  color: var(--fm-registro-cyan) !important;
+  background: var(--fm-registro-cyan-soft) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 8px rgba(0, 169, 189, .18) !important;
+}
+
+.fm-icon-button svg,
+.fm-icon-btn svg,
+.fm-ui-icon-button svg,
+.fm-grid-icon,
+.fm-ui-grid-icon {
+  width: 18px !important;
+  height: 18px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2.2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+.fm-icon-btn .pi {
+  font-size: 16px !important;
+}
+
+/* ========================================================================
+   Popups / Dialogs / Alertas
+   ======================================================================== */
+
+.fm-dialog,
+.fm-dialog-alert,
+.fm-pt-dialog {
+  max-width: calc(100vw - 24px) !important;
+}
+
+.fm-dialog .p-dialog-header,
+.fm-dialog-alert .p-dialog-header,
+.fm-pt-dialog-header {
+  font-size: 24px !important;
+  font-weight: 400 !important;
+}
+
+.fm-dialog .p-dialog-footer,
+.fm-dialog-alert .p-dialog-footer,
+.fm-pt-dialog-footer {
+  padding-top: 18px !important;
+}
+
+.fm-dialog-body,
+.fm-popup-body,
+.fm-note-body {
+  padding: 8px 0 !important;
+  color: #222 !important;
+  font-size: 16px !important;
+}
+
+.fm-dialog-body p,
+.fm-popup-body p {
+  margin: 0 0 18px !important;
+  font-size: 18px !important;
+}
+
+.fm-dialog-body label,
+.fm-popup-body label,
+.fm-note-body label {
+  display: block !important;
+  margin: 16px 0 8px !important;
+  font-weight: 500 !important;
+}
+
+.fm-note-body label {
+  margin-top: 0 !important;
+}
+
+.fm-dialog-select {
+  max-width: 420px !important;
+}
+
+.fm-dialog-body textarea,
+.fm-popup-body textarea,
+.fm-note-body textarea {
+  resize: vertical !important;
+  font-size: 15px !important;
+}
+
+.fm-confirm-summary {
+  border: 1px solid #dce8ec !important;
+  border-radius: 6px !important;
+  background: #f7fcfd !important;
+  overflow: hidden !important;
+}
+
+.fm-confirm-row {
+  display: grid !important;
+  grid-template-columns: 190px 1fr !important;
+  gap: 12px !important;
+  padding: 14px 18px !important;
+  border-bottom: 1px solid #e4eef2 !important;
+}
+
+.fm-confirm-row:last-child {
+  border-bottom: 0 !important;
+}
+
+.fm-confirm-label {
+  font-size: 14px !important;
+  color: #6d8798 !important;
+  font-weight: 500 !important;
+}
+
+.fm-confirm-value {
+  font-size: 15px !important;
+  color: var(--fm-registro-text) !important;
+  font-weight: 700 !important;
+  white-space: pre-wrap !important;
+}
+
+.fm-alert-body {
+  display: flex !important;
+  align-items: center !important;
+  gap: 34px !important;
+  min-height: 112px !important;
+  padding: 18px 8px !important;
+  font-size: 17px !important;
+  color: var(--fm-registro-text) !important;
+}
+
+.fm-alert-triangle {
+  width: 64px !important;
+  height: 56px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+}
+
+.fm-alert-triangle::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 32px solid transparent;
+  border-right: 32px solid transparent;
+  border-bottom: 56px solid var(--fm-registro-danger);
+  filter: drop-shadow(0 4px 8px rgba(215, 51, 51, .28));
+}
+
+.fm-alert-triangle::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 0;
+  height: 0;
+  border-left: 23px solid transparent;
+  border-right: 23px solid transparent;
+  border-bottom: 40px solid #fff;
+}
+
+.fm-alert-triangle span {
+  position: relative;
+  z-index: 2;
+  margin-top: 15px;
+  color: var(--fm-registro-danger);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ========================================================================
+   Calendario reutilizable
+   ======================================================================== */
+
+.fm-date-picker,
+.ct-date-picker {
+  position: relative !important;
+  width: 100% !important;
+}
+
+.fm-date-button,
+.ct-date-button {
+  width: 100% !important;
+  height: 30px !important;
+  border: 1px solid #c7d1d8 !important;
+  border-radius: 3px !important;
+  background: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 8px !important;
+  color: #34465b !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  text-align: left !important;
+}
+
+.fm-date-button svg,
+.ct-date-button svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: none !important;
+  stroke: var(--fm-registro-cyan) !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+.fm-date-button:hover,
+.fm-date-button.active,
+.ct-date-button:hover,
+.ct-date-button.active {
+  border-color: var(--fm-registro-cyan) !important;
+  box-shadow: 0 0 0 2px rgba(0, 188, 212, .14) !important;
+}
+
+.fm-calendar,
+.ct-calendar {
+  position: absolute !important;
+  z-index: 9900 !important;
+  top: 35px !important;
+  left: 0 !important;
+  width: 268px !important;
+  background: #fff !important;
+  border: 1px solid var(--fm-registro-cyan) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .2) !important;
+  padding: 10px !important;
+}
+
+.fm-calendar-head,
+.ct-calendar-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 8px !important;
+}
+
+.fm-calendar-nav,
+.ct-nav {
+  width: 26px !important;
+  height: 26px !important;
+  border: 1px solid #d4e3e8 !important;
+  background: #fff !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  color: var(--fm-registro-cyan) !important;
+  font-size: 22px !important;
+  line-height: 20px !important;
+}
+
+.fm-calendar-nav:hover,
+.ct-nav:hover {
+  background: var(--fm-registro-cyan-soft) !important;
+}
+
+.fm-calendar-title,
+.ct-calendar-title {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-width: 168px !important;
+}
+
+.fm-calendar-title strong,
+.ct-calendar-title strong {
+  font-size: 13px !important;
+  color: var(--fm-registro-text) !important;
+}
+
+.fm-calendar-title select,
+.ct-calendar-title select {
+  height: 26px !important;
+  border: 1px solid #c7d1d8 !important;
+  border-radius: 3px !important;
+  background: #fff !important;
+  color: var(--fm-registro-text) !important;
+  font-size: 12px !important;
+  padding: 2px 5px !important;
+}
+
+.fm-weekdays,
+.fm-days,
+.ct-weekdays,
+.ct-days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 4px !important;
+}
+
+.fm-weekdays span,
+.ct-weekdays span {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  color: #607d8b !important;
+  padding: 3px 0 !important;
+}
+
+.fm-days button,
+.ct-days button {
+  height: 28px !important;
+  border: 0 !important;
+  background: #fff !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+  color: var(--fm-registro-text) !important;
+}
+
+.fm-days button:hover,
+.ct-days button:hover {
+  background: var(--fm-registro-cyan-soft) !important;
+}
+
+.fm-days button.outside,
+.ct-days button.outside {
+  color: #b0bec5 !important;
+}
+
+.fm-days button.today,
+.ct-days button.today {
+  box-shadow: inset 0 0 0 1px var(--fm-registro-cyan) !important;
+}
+
+.fm-days button.selected,
+.ct-days button.selected {
+  background: var(--fm-registro-cyan) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+.fm-calendar-actions,
+.ct-calendar-actions {
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-top: 8px !important;
+  border-top: 1px solid #edf2f5 !important;
+  padding-top: 8px !important;
+}
+
+.fm-calendar-actions button,
+.ct-calendar-actions button {
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--fm-registro-cyan) !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+}
+
+.fm-calendar-actions button:hover,
+.ct-calendar-actions button:hover {
+  color: var(--fm-registro-cyan-strong) !important;
+  text-decoration: underline !important;
+}
+
+@media (max-width: 520px) {
+  .fm-calendar,
+  .ct-calendar {
+    width: min(268px, calc(100vw - 32px)) !important;
+  }
+
+  .fm-pass-grid .p-paginator-left-content,
+  .fm-pass-grid .p-paginator-right-content,
+  .fm-ui-grid .p-paginator-left-content,
+  .fm-ui-grid .p-paginator-right-content {
+    position: static !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin: 4px 0 !important;
+  }
+}

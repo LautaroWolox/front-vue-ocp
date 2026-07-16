@@ -1,0 +1,207 @@
+/* ========================================================================
+   FIELD MANAGER TYPING LOADER
+   ------------------------------------------------------------------------
+   Loader global con el tipito tipeando.
+
+   COMO USAR:
+   - Pantalla completa:
+     <FmTypingLoader fullscreen title="Cargando" message="Cargando pantalla" />
+
+   - Grillas:
+     <FmGridShell :loading="loading" loading-message="Cargando grilla">
+       <DataTable :value="rows" />
+     </FmGridShell>
+
+   - Popups/Dialog:
+     <Dialog v-model:visible="visible" modal header="Alerta" class="fm-dialog">
+       <div class="fm-dialog-body">...</div>
+       <FmTypingLoader v-if="loading" overlay variant="dialog" title="Procesando" message="Guardando cambios" />
+     </Dialog>
+
+   No repetir estos estilos en scoped. El componente ya queda global.
+   ======================================================================== */
+
+.fm-typing-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fm-registro-text, #263238);
+  font-family: var(--fm-font-family, "Helvetica Neue", Helvetica, Arial, sans-serif);
+  text-align: center;
+  pointer-events: none;
+}
+
+.fm-typing-loader--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  min-height: 100vh;
+  background: rgba(245, 247, 248, .78);
+  backdrop-filter: blur(1.5px);
+}
+
+.fm-typing-loader--overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  min-height: 100%;
+  background: rgba(255, 255, 255, .76);
+  backdrop-filter: blur(1px);
+}
+
+.fm-typing-loader--inline {
+  width: 100%;
+  min-height: 126px;
+  padding: 18px;
+}
+
+.fm-typing-loader--grid {
+  min-height: 240px;
+  padding: 34px 18px 28px;
+  border-left: 4px solid var(--fm-registro-cyan, #00a9bd);
+  background: rgba(234, 252, 255, .72);
+}
+
+.fm-typing-loader--dialog {
+  border-radius: 0 0 6px 6px;
+}
+
+.fm-typing-loader__box {
+  min-width: 168px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 18px 22px 14px;
+  border: 1px solid rgba(0, 169, 189, .18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+}
+
+.fm-typing-loader--inline .fm-typing-loader__box,
+.fm-typing-loader--grid .fm-typing-loader__box {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .10);
+}
+
+.fm-typing-loader__image {
+  width: 104px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 2px;
+  animation: fmTypingLoaderPulse .78s ease-in-out infinite alternate;
+  transform-origin: center bottom;
+}
+
+.fm-typing-loader__title {
+  display: block;
+  margin-top: 2px;
+  color: var(--fm-registro-cyan-strong, #008fa1);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.fm-typing-loader__message {
+  min-height: 18px;
+  color: var(--fm-registro-text, #263238);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.fm-typing-loader__dots::after {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  text-align: left;
+  animation: fmTypingLoaderDots 1s steps(4, end) infinite;
+}
+
+.fm-typing-loader__box::after {
+  content: "";
+  width: 260px;
+  max-width: calc(100vw - 80px);
+  height: 6px;
+  margin-top: 14px;
+  border-radius: 999px;
+  background:
+    linear-gradient(var(--fm-registro-cyan, #00a9bd), var(--fm-registro-cyan, #00a9bd)) left center / 36% 100% no-repeat,
+    rgba(0, 169, 189, .16);
+  animation: fmTypingLoaderProgress 1.25s ease-in-out infinite;
+}
+
+.fm-grid-shell,
+.fm-ui-grid-shell,
+.fm-dialog .p-dialog-content,
+.fm-dialog-alert .p-dialog-content,
+.fm-pt-dialog-content {
+  position: relative;
+}
+
+.fm-grid-shell--loading,
+.fm-ui-grid-shell--loading {
+  min-height: 260px;
+}
+
+.fm-grid-shell--loading .p-datatable,
+.fm-grid-shell--loading .fm-pass-grid,
+.fm-grid-shell--loading .fm-ui-grid {
+  pointer-events: none;
+}
+
+.fm-grid-shell--loading .p-datatable-wrapper,
+.fm-grid-shell--loading .p-paginator {
+  opacity: .48;
+}
+
+.fm-route-fade-enter-active,
+.fm-route-fade-leave-active {
+  transition: opacity .15s ease;
+}
+
+.fm-route-fade-enter-from,
+.fm-route-fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes fmTypingLoaderPulse {
+  from {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .12));
+  }
+  to {
+    transform: translateY(-3px) scale(1.025);
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, .16));
+  }
+}
+
+@keyframes fmTypingLoaderDots {
+  0% { content: ""; }
+  25% { content: "."; }
+  50% { content: ".."; }
+  75%, 100% { content: "..."; }
+}
+
+@keyframes fmTypingLoaderProgress {
+  0% { background-size: 28% 100%, 100% 100%; }
+  50% { background-size: 68% 100%, 100% 100%; }
+  100% { background-size: 36% 100%, 100% 100%; }
+}
+
+@media (max-width: 520px) {
+  .fm-typing-loader__box {
+    min-width: 144px;
+    padding: 12px 14px 10px;
+  }
+
+  .fm-typing-loader__image {
+    width: 92px;
+  }
+
+  .fm-typing-loader__box::after {
+    width: 210px;
+  }
+}

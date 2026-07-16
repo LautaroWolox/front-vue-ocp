@@ -1,0 +1,96 @@
+/* ========================================================================
+   FIELD MANAGER DIALOG CLOSE FINAL FIX
+   ------------------------------------------------------------------------
+   El cierre X de los Dialog de PrimeVue no debe heredar estilos globales de
+   boton de accion. Queda compacto, transparente y sin contorno turquesa.
+   ======================================================================== */
+
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-close-button,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-close-button,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-close-button,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-header-icon,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-header-icon,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-header-icon,
+.p-dialog.fm-dialog .p-dialog-header button.p-button.p-dialog-close-button,
+.p-dialog.fm-dialog-alert .p-dialog-header button.p-button.p-dialog-close-button,
+.p-dialog.fm-reproceso-dialog .p-dialog-header button.p-button.p-dialog-close-button,
+.p-dialog.fm-dialog .p-dialog-header button.p-button.p-dialog-header-icon,
+.p-dialog.fm-dialog-alert .p-dialog-header button.p-button.p-dialog-header-icon,
+.p-dialog.fm-reproceso-dialog .p-dialog-header button.p-button.p-dialog-header-icon,
+.p-dialog.fm-dialog .p-dialog-header .fm-action-button.p-dialog-close-button,
+.p-dialog.fm-dialog-alert .p-dialog-header .fm-action-button.p-dialog-close-button,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .fm-action-button.p-dialog-close-button,
+.p-dialog.fm-dialog .p-dialog-header .fm-action-button.p-dialog-header-icon,
+.p-dialog.fm-dialog-alert .p-dialog-header .fm-action-button.p-dialog-header-icon,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .fm-action-button.p-dialog-header-icon {
+  width: 22px !important;
+  min-width: 22px !important;
+  max-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  max-height: 22px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 2px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #8fa1ab !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transform: none !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-close-button:hover,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-close-button:hover,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-close-button:hover,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-header-icon:hover,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-header-icon:hover,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-header-icon:hover,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-close-button:focus,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-close-button:focus,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-close-button:focus,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-header-icon:focus,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-header-icon:focus,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-header-icon:focus,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-close-button:focus-visible,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-close-button:focus-visible,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-close-button:focus-visible,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-header-icon:focus-visible,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-header-icon:focus-visible,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-header-icon:focus-visible {
+  width: 22px !important;
+  min-width: 22px !important;
+  max-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  max-height: 22px !important;
+  border: 0 !important;
+  border-radius: 2px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #5d707a !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transform: none !important;
+}
+
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-close-button .p-button-icon,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-close-button .p-button-icon,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-close-button .p-button-icon,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-header-icon .p-button-icon,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-header-icon .p-button-icon,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-header-icon .p-button-icon,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-close-button .pi,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-close-button .pi,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-close-button .pi,
+.p-dialog.fm-dialog .p-dialog-header .p-dialog-header-icon .pi,
+.p-dialog.fm-dialog-alert .p-dialog-header .p-dialog-header-icon .pi,
+.p-dialog.fm-reproceso-dialog .p-dialog-header .p-dialog-header-icon .pi {
+  width: 14px !important;
+  height: 14px !important;
+  margin: 0 !important;
+  color: currentColor !important;
+  font-size: 14px !important;
+  line-height: 14px !important;
+}

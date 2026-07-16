@@ -1,0 +1,176 @@
+.jobtype-modal--alta .jobtype-alta-grid-shell {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta.fm-pass-grid,
+.jobtype-modal--alta #tabla-jobtype-alta.p-datatable {
+  width: 100% !important;
+  min-width: 100% !important;
+  border-left: 2px solid #00a9bd !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-table-container,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-wrapper {
+  width: 100% !important;
+  min-width: 100% !important;
+  overflow-x: hidden !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-table {
+  width: 100% !important;
+  min-width: 100% !important;
+  table-layout: fixed !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-thead > tr > th,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr > td {
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  vertical-align: middle !important;
+  border-right: 1px solid #d7e5eb !important;
+  border-bottom: 1px solid #e2edf2 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-thead > tr > th:first-child,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr > td:first-child {
+  border-left: 0 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-thead > tr > th {
+  border-bottom-color: #bfe9ef !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr:hover > td {
+  background: #f2fbfc !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr.jobtype-row-selected > td,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr.fm-selected-row > td,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr.p-highlight > td {
+  background: #d7f3f6 !important;
+  color: #006f7d !important;
+  font-weight: 700 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr.jobtype-row-selected .fm-cell-text,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr.fm-selected-row .fm-cell-text,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr.p-highlight .fm-cell-text {
+  color: #006f7d !important;
+  font-weight: 700 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-thead > tr > th:last-child,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-tbody > tr > td:last-child {
+  border-right: 0 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .fm-filter-cell,
+.jobtype-modal--alta #tabla-jobtype-alta .jobtype-filter-cell--alta,
+.jobtype-modal--alta #tabla-jobtype-alta .fm-column-filter,
+.jobtype-modal--alta #tabla-jobtype-alta .p-inputtext {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-emptymessage > td,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-empty-message > td,
+.jobtype-modal--alta #tabla-jobtype-alta .jobtype-alta-empty {
+  height: 148px !important;
+  min-height: 148px !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .jobtype-alta-empty {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #6d8392 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.jobtype-modal--alta #tabla-jobtype-alta .p-paginator,
+.jobtype-modal--alta #tabla-jobtype-alta .p-datatable-paginator-bottom {
+  min-height: 34px !important;
+  height: 34px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button.p-button-text,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button.p-button-rounded,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button.p-button-icon-only,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button:enabled,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button:disabled,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button.p-disabled,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button:hover,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button:focus,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button:active,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button:focus-visible {
+  width: 22px !important;
+  min-width: 22px !important;
+  max-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  max-height: 22px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  color: #001f2f !important;
+  opacity: 1 !important;
+}
+
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button:disabled,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button.p-disabled {
+  color: #001f2f !important;
+  opacity: .55 !important;
+}
+
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button::before,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button::after,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button .p-ink,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button .p-ripple,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button .p-button-focus-overlay {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button .p-button-icon,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button .pi,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button svg,
+.jobtype-modal--alta .jobtype-alta-grid-shell > .jobtype-alta-trash-left.p-button path {
+  width: 16px !important;
+  min-width: 16px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 16px !important;
+  line-height: 16px !important;
+  color: #001f2f !important;
+  fill: #001f2f !important;
+  stroke: #001f2f !important;
+  opacity: 1 !important;
+}

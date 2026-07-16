@@ -1,0 +1,195 @@
+/* ========================================================================
+   CONFIGURA CMO-ACTIVIDAD - HARD FIX FINAL
+   ------------------------------------------------------------------------
+   Último override cargado al final para que el popup Alta CMO - Actividad
+   respete el mismo layout visual que Alta Jobtype - Contrato.
+   ======================================================================== */
+
+body .cmo-alta-modal .p-dialog-content {
+  overflow: hidden !important;
+}
+
+body .cmo-alta-modal .cmo-modal-form,
+body .cmo-alta-modal .jobtype-modal-form.cmo-modal-form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) 220px !important;
+  align-items: end !important;
+  justify-content: stretch !important;
+  column-gap: 28px !important;
+  row-gap: 12px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+body .cmo-alta-modal .cmo-modal-form > .jobtype-modal-field {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+body .cmo-alta-modal .cmo-modal-form > .jobtype-modal-field .jobtype-modal-input,
+body .cmo-alta-modal .cmo-modal-form > .jobtype-modal-field .p-inputtext {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native,
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native:hover,
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native:focus,
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native:active,
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native:disabled {
+  all: unset !important;
+  box-sizing: border-box !important;
+  width: 220px !important;
+  min-width: 220px !important;
+  max-width: 220px !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  max-height: 56px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  justify-self: end !important;
+  align-self: end !important;
+  flex: 0 0 220px !important;
+  padding: 0 18px !important;
+  margin: 0 !important;
+  border-radius: 28px !important;
+  border: 1px solid #bccbd3 !important;
+  background: #bccbd3 !important;
+  background-color: #bccbd3 !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 16px !important;
+  line-height: 16px !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native:not(:disabled),
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native:not(:disabled):hover,
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native:not(:disabled):focus,
+html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native:not(:disabled):active {
+  border-color: #00a9bd !important;
+  background: #00a9bd !important;
+  background-color: #00a9bd !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+}
+
+html body .cmo-alta-modal #tabla-cmo-alta .p-paginator,
+html body .cmo-alta-modal #tabla-cmo-alta .p-datatable-paginator-bottom {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-top: 1px solid #d7e1e7 !important;
+  border-radius: 0 !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  overflow: visible !important;
+}
+
+html body .cmo-alta-modal #tabla-cmo-alta .p-paginator-content {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+html body .cmo-alta-modal #tabla-cmo-alta .p-paginator-current {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 10px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  color: #2f4b5f !important;
+  font-size: 13px !important;
+  line-height: 28px !important;
+  font-weight: 400 !important;
+}
+
+html body .cmo-alta-modal #tabla-cmo-alta .p-paginator .p-paginator-first,
+html body .cmo-alta-modal #tabla-cmo-alta .p-paginator .p-paginator-prev,
+html body .cmo-alta-modal #tabla-cmo-alta .p-paginator .p-paginator-next,
+html body .cmo-alta-modal #tabla-cmo-alta .p-paginator .p-paginator-last {
+  width: 28px !important;
+  min-width: 28px !important;
+  max-width: 28px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .cmo-alta-modal .cmo-alta-trash-left {
+  bottom: 13px !important;
+}
+
+@media (max-width: 1260px) {
+  body .cmo-alta-modal .cmo-modal-form,
+  body .cmo-alta-modal .jobtype-modal-form.cmo-modal-form {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) 220px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body .cmo-alta-modal .cmo-modal-form,
+  body .cmo-alta-modal .jobtype-modal-form.cmo-modal-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  html body .cmo-alta-modal .cmo-modal-form > button.cmo-modal-button-add-native {
+    justify-self: end !important;
+  }
+}

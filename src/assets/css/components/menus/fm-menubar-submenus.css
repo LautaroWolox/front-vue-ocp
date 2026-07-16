@@ -1,0 +1,209 @@
+/* ========================================================================
+   FIELD MANAGER MENUBAR SUBMENUS
+   ------------------------------------------------------------------------
+   Capa global para submenus de PrimeVue Menubar.
+   Evita que el estado hover/activo tome turquesa oscuro y mejora la lectura
+   de submenus anidados.
+   ======================================================================== */
+
+.p-menubar.p-component .p-menubar-submenu,
+.p-menubar.p-component .p-submenu-list,
+.p-menubar .p-menubar-submenu,
+.p-menubar .p-submenu-list {
+  min-width: 206px !important;
+  width: max-content !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #ffffff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: 0 10px 18px rgba(20, 38, 52, .14) !important;
+  overflow: visible !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-submenu,
+.p-menubar.p-component .p-submenu-list .p-submenu-list,
+.p-menubar .p-menubar-submenu .p-menubar-submenu,
+.p-menubar .p-submenu-list .p-submenu-list {
+  min-width: 282px !important;
+  width: max-content !important;
+  border-left: 0 !important;
+  border-top: 4px solid #00a9bd !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item,
+.p-menubar.p-component .p-submenu-list .p-menuitem,
+.p-menubar .p-menubar-submenu .p-menubar-item,
+.p-menubar .p-submenu-list .p-menuitem {
+  min-width: 100% !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item-content,
+.p-menubar.p-component .p-submenu-list .p-menuitem-content,
+.p-menubar .p-menubar-submenu .p-menubar-item-content,
+.p-menubar .p-submenu-list .p-menuitem-content {
+  min-height: 38px !important;
+  height: 38px !important;
+  background: #ffffff !important;
+  border-radius: 0 !important;
+  color: #263746 !important;
+  transition: background-color .14s ease, color .14s ease !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item-link,
+.p-menubar.p-component .p-submenu-list .p-menuitem-link,
+.p-menubar .p-menubar-submenu .p-menubar-item-link,
+.p-menubar .p-submenu-list .p-menuitem-link {
+  min-height: 38px !important;
+  height: 38px !important;
+  padding: 0 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  color: #263746 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  white-space: nowrap !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item-label,
+.p-menubar.p-component .p-menubar-submenu .p-menuitem-text,
+.p-menubar.p-component .p-submenu-list .p-menuitem-text,
+.p-menubar.p-component .p-submenu-list .p-menubar-item-label,
+.p-menubar .p-menubar-submenu .p-menubar-item-label,
+.p-menubar .p-menubar-submenu .p-menuitem-text,
+.p-menubar .p-submenu-list .p-menuitem-text,
+.p-menubar .p-submenu-list .p-menubar-item-label {
+  color: inherit !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 1.12 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-submenu-icon,
+.p-menubar.p-component .p-menubar-submenu .p-submenu-icon,
+.p-menubar.p-component .p-submenu-list .p-submenu-icon,
+.p-menubar.p-component .p-submenu-list .p-menubar-submenu-icon,
+.p-menubar.p-component .p-menubar-submenu .p-icon,
+.p-menubar.p-component .p-submenu-list .p-icon,
+.p-menubar .p-menubar-submenu .p-menubar-submenu-icon,
+.p-menubar .p-menubar-submenu .p-submenu-icon,
+.p-menubar .p-submenu-list .p-submenu-icon,
+.p-menubar .p-submenu-list .p-menubar-submenu-icon,
+.p-menubar .p-menubar-submenu .p-icon,
+.p-menubar .p-submenu-list .p-icon {
+  margin-left: auto !important;
+  color: #9fb1bd !important;
+  font-size: 11px !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item-content:hover,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-highlight > .p-menubar-item-content,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-menubar-item-active > .p-menubar-item-content,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-menuitem-active > .p-menubar-item-content,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content,
+.p-menubar.p-component .p-submenu-list .p-menuitem-content:hover,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-focus > .p-menuitem-content,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-highlight > .p-menuitem-content,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-menuitem-active > .p-menuitem-content,
+.p-menubar.p-component .p-submenu-list .p-menuitem-active > .p-menuitem-content,
+.p-menubar.p-component .p-submenu-list .p-menuitem:hover > .p-menuitem-content,
+.p-menubar .p-menubar-submenu .p-menubar-item-content:hover,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-highlight > .p-menubar-item-content,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-menubar-item-active > .p-menubar-item-content,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-menuitem-active > .p-menubar-item-content,
+.p-menubar .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content,
+.p-menubar .p-submenu-list .p-menuitem-content:hover,
+.p-menubar .p-submenu-list .p-menuitem.p-focus > .p-menuitem-content,
+.p-menubar .p-submenu-list .p-menuitem.p-highlight > .p-menuitem-content,
+.p-menubar .p-submenu-list .p-menuitem.p-menuitem-active > .p-menuitem-content,
+.p-menubar .p-submenu-list .p-menuitem-active > .p-menuitem-content,
+.p-menubar .p-submenu-list .p-menuitem:hover > .p-menuitem-content {
+  background: #dff8fb !important;
+  background-color: #dff8fb !important;
+  color: #0096a4 !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item-content:hover .p-menubar-item-link,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-highlight > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-menubar-item-active > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-menuitem-active > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar.p-component .p-submenu-list .p-menuitem-content:hover .p-menuitem-link,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-focus > .p-menuitem-content .p-menuitem-link,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-highlight > .p-menuitem-content .p-menuitem-link,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-menuitem-active > .p-menuitem-content .p-menuitem-link,
+.p-menubar.p-component .p-submenu-list .p-menuitem-active > .p-menuitem-content .p-menuitem-link,
+.p-menubar.p-component .p-submenu-list .p-menuitem:hover > .p-menuitem-content .p-menuitem-link,
+.p-menubar .p-menubar-submenu .p-menubar-item-content:hover .p-menubar-item-link,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-highlight > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-menubar-item-active > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-menuitem-active > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content .p-menubar-item-link,
+.p-menubar .p-submenu-list .p-menuitem-content:hover .p-menuitem-link,
+.p-menubar .p-submenu-list .p-menuitem.p-focus > .p-menuitem-content .p-menuitem-link,
+.p-menubar .p-submenu-list .p-menuitem.p-highlight > .p-menuitem-content .p-menuitem-link,
+.p-menubar .p-submenu-list .p-menuitem.p-menuitem-active > .p-menuitem-content .p-menuitem-link,
+.p-menubar .p-submenu-list .p-menuitem-active > .p-menuitem-content .p-menuitem-link,
+.p-menubar .p-submenu-list .p-menuitem:hover > .p-menuitem-content .p-menuitem-link {
+  background: transparent !important;
+  color: #0096a4 !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item-content:hover .p-menubar-item-label,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content .p-menubar-item-label,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-highlight > .p-menubar-item-content .p-menubar-item-label,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-menubar-item-active > .p-menubar-item-content .p-menubar-item-label,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content .p-menubar-item-label,
+.p-menubar.p-component .p-submenu-list .p-menuitem-content:hover .p-menuitem-text,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-focus > .p-menuitem-content .p-menuitem-text,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-highlight > .p-menuitem-content .p-menuitem-text,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-menuitem-active > .p-menuitem-content .p-menuitem-text,
+.p-menubar.p-component .p-submenu-list .p-menuitem:hover > .p-menuitem-content .p-menuitem-text,
+.p-menubar .p-menubar-submenu .p-menubar-item-content:hover .p-menubar-item-label,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content .p-menubar-item-label,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-highlight > .p-menubar-item-content .p-menubar-item-label,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-menubar-item-active > .p-menubar-item-content .p-menubar-item-label,
+.p-menubar .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content .p-menubar-item-label,
+.p-menubar .p-submenu-list .p-menuitem-content:hover .p-menuitem-text,
+.p-menubar .p-submenu-list .p-menuitem.p-focus > .p-menuitem-content .p-menuitem-text,
+.p-menubar .p-submenu-list .p-menuitem.p-highlight > .p-menuitem-content .p-menuitem-text,
+.p-menubar .p-submenu-list .p-menuitem.p-menuitem-active > .p-menuitem-content .p-menuitem-text,
+.p-menubar .p-submenu-list .p-menuitem:hover > .p-menuitem-content .p-menuitem-text {
+  color: #0096a4 !important;
+}
+
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item-content:hover .p-menubar-submenu-icon,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content .p-menubar-submenu-icon,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-highlight > .p-menubar-item-content .p-menubar-submenu-icon,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item.p-menubar-item-active > .p-menubar-item-content .p-menubar-submenu-icon,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content .p-menubar-submenu-icon,
+.p-menubar.p-component .p-submenu-list .p-menuitem-content:hover .p-submenu-icon,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-focus > .p-menuitem-content .p-submenu-icon,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-highlight > .p-menuitem-content .p-submenu-icon,
+.p-menubar.p-component .p-submenu-list .p-menuitem.p-menuitem-active > .p-menuitem-content .p-submenu-icon,
+.p-menubar.p-component .p-submenu-list .p-menuitem:hover > .p-menuitem-content .p-submenu-icon,
+.p-menubar.p-component .p-menubar-submenu .p-menubar-item-content:hover .p-icon,
+.p-menubar.p-component .p-submenu-list .p-menuitem-content:hover .p-icon,
+.p-menubar .p-menubar-submenu .p-menubar-item-content:hover .p-menubar-submenu-icon,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content .p-menubar-submenu-icon,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-highlight > .p-menubar-item-content .p-menubar-submenu-icon,
+.p-menubar .p-menubar-submenu .p-menubar-item.p-menubar-item-active > .p-menubar-item-content .p-menubar-submenu-icon,
+.p-menubar .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content .p-menubar-submenu-icon,
+.p-menubar .p-submenu-list .p-menuitem-content:hover .p-submenu-icon,
+.p-menubar .p-submenu-list .p-menuitem.p-focus > .p-menuitem-content .p-submenu-icon,
+.p-menubar .p-submenu-list .p-menuitem.p-highlight > .p-menuitem-content .p-submenu-icon,
+.p-menubar .p-submenu-list .p-menuitem.p-menuitem-active > .p-menuitem-content .p-submenu-icon,
+.p-menubar .p-submenu-list .p-menuitem:hover > .p-menuitem-content .p-submenu-icon,
+.p-menubar .p-menubar-submenu .p-menubar-item-content:hover .p-icon,
+.p-menubar .p-submenu-list .p-menuitem-content:hover .p-icon {
+  color: #0096a4 !important;
+}

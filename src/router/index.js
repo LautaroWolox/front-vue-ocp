@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
 
-const rutasLibres = ['login', '401', 'login2FA'];
+const rutasLibres = ['login', '401', 'login2FA','pruebas'];
 
 const allowed = (to, from, next) => {
   const authStore = useAuthStore()
@@ -25,9 +25,14 @@ const allowed = (to, from, next) => {
 
 const routes = [
   {
+    path: '/pruebas.html',
+    name: 'pruebas',
+    component: () => import('../modules/otFallidasCT/OtFallidasCT.vue')
+  },
+  {
     path: '/login2fa.html',
     name: 'login2fa',
-    alias: ['/','/index.html'],
+    alias: '/',
     component: () => import('../views/Login2faView.vue')
   },
   {
@@ -221,21 +226,13 @@ const routes = [
         path: 'jobtypeContrato.html',
         name: 'JOCO',
         beforeEnter: allowed,
-        component: () => import('../views/IframeView.vue'),
-        props: {
-          urlParam: '/jobtypeContrato.html',
-          titleParam: 'configuracion jobtype-contrato'
-        }
+        component: () => import('../modules/parametrizaciones/jobtypeContrato/JobtypeContrato.vue')
       },
       {
         path: 'configuraCmoActividad.html',
         name: 'CMOA',
         beforeEnter: allowed,
-        component: () => import('../views/IframeView.vue'),
-        props: {
-          urlParam: '/configuraCmoActividad.html',
-          titleParam: 'configuracion cmo-actividad'
-        }
+        component: () => import('../modules/parametrizaciones/configuraCmoActividad/ConfiguraCmoActividad.vue')
       },
       {
         path: 'consultarActas.html',
@@ -317,11 +314,7 @@ const routes = [
         path: 'busquedaOtsGcc.html',
         name: 'BUOT',
         beforeEnter: allowed,
-        component: () => import('../views/IframeView.vue'),
-        props: {
-          urlParam: '/busquedaOtsGcc.html',
-          titleParam: 'Búsqueda de Ots'
-        }
+        component: () => import('../modules/busquedaOts/BusquedaOts.vue')
       }
     ]
   }
@@ -333,4 +326,3 @@ const router = createRouter({
 });
 
 export default router;
-

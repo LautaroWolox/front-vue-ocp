@@ -1,0 +1,11 @@
+/* Ajuste final pedido: separar apenas mas los acordeones de Registro OTs Fallidas. */
+
+.ot-fallidas-ct .fm-accordion,
+.ot-fallidas-ct .p-accordion {
+  gap: 14px !important;
+}
+
+.ot-fallidas-ct .fm-accordion .p-accordionpanel + .p-accordionpanel,
+.ot-fallidas-ct .p-accordion .p-accordionpanel + .p-accordionpanel {
+  margin-top: 4px !important;
+}

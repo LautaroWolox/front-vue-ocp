@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.ot-fallidas-ct .otf-actions {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: 18px !important;
+}
+
+.ot-fallidas-ct .otf-btn {
+  height: 40px !important;
+  min-width: 148px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  border-radius: 7px !important;
+  padding: 0 20px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: .1px !important;
+  cursor: pointer !important;
+  box-shadow: 0 5px 12px rgba(0,0,0,.14) !important;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease !important;
+}
+
+.ot-fallidas-ct .otf-btn svg {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+}
+
+.ot-fallidas-ct .otf-btn-primary {
+  background: var(--fm-cyan) !important;
+  border: 1px solid var(--fm-cyan) !important;
+  color: #fff !important;
+}
+
+.ot-fallidas-ct .otf-btn-primary:hover:not(:disabled) {
+  background: var(--fm-cyan-strong) !important;
+  border-color: var(--fm-cyan-strong) !important;
+  box-shadow: 0 6px 14px rgba(0,143,161,.30) !important;
+  transform: translateY(-1px) !important;
+}
+
+.ot-fallidas-ct .otf-btn-outline {
+  background: #fff !important;
+  border: 1px solid var(--fm-cyan) !important;
+  color: var(--fm-cyan) !important;
+  box-shadow: 0 3px 9px rgba(0,169,189,.12) !important;
+}
+
+.ot-fallidas-ct .otf-btn-outline:hover {
+  background: var(--fm-cyan-soft) !important;
+  border-color: var(--fm-cyan-strong) !important;
+  color: var(--fm-cyan-strong) !important;
+  box-shadow: 0 5px 12px rgba(0,143,161,.18) !important;
+  transform: translateY(-1px) !important;
+}
+
+.ot-fallidas-ct .material-icons {
+  font-family: 'Material Icons' !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-wrap: normal !important;
+  direction: ltr !important;
+  -webkit-font-feature-settings: 'liga' !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+.ot-fallidas-ct .otf-footer-icons {
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding-left: 10px !important;
+  position: relative !important;
+  z-index: 2 !important;
+  background: #fff !important;
+}
+
+.ot-fallidas-ct .fm-icon-btn {
+  width: 28px !important;
+  height: 28px !important;
+  color: #455a64 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+.ot-fallidas-ct .fm-icon-btn:hover {
+  color: var(--fm-cyan) !important;
+  background: var(--fm-cyan-soft) !important;
+}
+
+.ot-fallidas-ct .p-datatable-wrapper {
+  min-height: 186px !important;
+  max-height: 470px !important;
+}
+
+.ot-fallidas-ct .p-datatable-empty-message td {
+  height: 110px !important;
+  background: #eafcff !important;
+  text-align: center !important;
+  color: #407080 !important;
+}
+
+.ot-fallidas-ct .p-paginator {
+  min-height: 48px !important;
+  position: relative !important;
+  border-top: 1px solid #d1d1d1 !important;
+  overflow: hidden !important;
+}
+
+.ot-fallidas-ct .p-paginator-left-content {
+  position: absolute !important;
+  left: 8px !important;
+  top: 6px !important;
+  z-index: 3 !important;
+}
+
+.ot-fallidas-ct .p-paginator-right-content {
+  position: absolute !important;
+  right: 8px !important;
+  top: 14px !important;
+}
+
+.ot-fallidas-ct .p-datatable-tbody > tr {
+  cursor: pointer !important;
+}
+
+.ot-fallidas-ct .p-datatable-tbody > tr:hover > td {
+  background: #edfafd !important;
+}
+
+.ot-fallidas-ct .p-datatable-tbody > tr.p-highlight > td,
+.ot-fallidas-ct .p-datatable-tbody > tr.p-datatable-row-selected > td {
+  background: var(--fm-cyan-row) !important;
+  color: #003f47 !important;
+}

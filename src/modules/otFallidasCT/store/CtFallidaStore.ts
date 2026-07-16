@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { useFetch } from '@vueuse/core'
-import type { Filters, Row, StoreState, ActionResponse, ExcluirRequest } from './types'
+import { piniaEncryptedSessionStorage } from '@/utils/encrypt'
+import { Mock } from '@/modules/otFallidasCT/descarte/mock'
+import { Motivos } from '@/modules/otFallidasCT/descarte/motivos'
+import type { Filters, Row, Motivo, StoreState, ActionResponse } from './types'
 import { emptyFilters } from './types'
+
+
 
 export const useFallidasCtStore = defineStore('fallidasCT', {
     state: (): StoreState => ({
@@ -9,6 +14,7 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
         filters: emptyFilters(),
         validFilters: true,
         rows: [],
+        motivos: [],
         selectedRows: [],
         loading: false,
     }),
@@ -32,33 +38,23 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
             // acá hay que agregar la lógica de validación de filtros
             this.validFilters = true
         },
-        async setData() {
-            this.loading = true;
-            const { data, error } = await useFetch('/pc/registroOTFallidasReproceso/searchFallidas.html')
-                .post(this.filters)
-                .json<Row[]>() 
-            this.loading = false;    
-            if (data.value) {
-                this.activeTab = ['1']
-                this.rows = data.value
-            } else {
-                console.log('error: ' + JSON.stringify(error.value))   
-            } 
+        async setData(): Promise<void> {
+            // esto hay que cambiarlo por la búsqueda real
+            await Mock.getData().then((data: Row[]) => { this.rows = data })
+        },
+        async setMotivos(): Promise<void> {
+            // esto hay que cambiarlo por la búsqueda real
+            if (this.motivos.length === 0) {
+                await Motivos.getMotivos().then((data: Motivo[]) => { this.motivos = data })
+            }
         },
         setSelectedRows(rows: number[]): void {
             this.selectedRows = rows;
         },
-        async sendExcluidas(motivo: string, comentario: string): Promise<ActionResponse> {
-            console.log("motivo en store: " + motivo)
-            console.log("comentario en store: " + comentario)
+        async sendExcluidas(rows: Row[], motivo: string, comentario: string): Promise<ActionResponse> {
             try {
                 this.loading = true;
-                const payload: ExcluirRequest = {
-                    idOts: this.selectedNotExcludedRows.map(row => row.id.toString()),
-                    nota: comentario,
-                    motivoNombreCorto: motivo
-                }
-                console.log("payload: " + JSON.stringify(payload))
+                const payload = {rows, motivo, comentario}
                 const { data, error } = await useFetch('/pc/registroOTFallidasReproceso/excluirOTFallida.html')
                     .post(payload)
                     .json<ActionResponse>()
@@ -82,4 +78,13 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
             this.$reset()
         },
     },
+
+    persist: [
+        {
+            key: 'fallidasCT',             
+            storage: piniaEncryptedSessionStorage,
+            debug: import.meta.env.DEV,
+        },
+    ],
 })
+

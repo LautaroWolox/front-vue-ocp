@@ -1,0 +1,122 @@
+/* ========================================================================
+   JOBTYPE MODAL MAXIMIZE
+   ------------------------------------------------------------------------
+   Boton propio de maximizar/minimizar para popups complejos.
+   No usa PrimeVue Button para evitar fondos, ripple o cuadrados.
+   ======================================================================== */
+
+.jobtype-modal-header {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 20px 20px !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.jobtype-modal-maximize,
+.jobtype-modal-close {
+  width: 20px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #30475a !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.jobtype-modal-maximize:hover,
+.jobtype-modal-maximize:focus,
+.jobtype-modal-maximize:active,
+.jobtype-modal-close:hover,
+.jobtype-modal-close:focus,
+.jobtype-modal-close:active {
+  background: transparent !important;
+  color: #008fa1 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.jobtype-modal-maximize .pi,
+.jobtype-modal-close .pi {
+  width: 14px !important;
+  min-width: 14px !important;
+  height: 14px !important;
+  min-height: 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: currentColor !important;
+  font-size: 14px !important;
+  line-height: 14px !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded {
+  width: min(1180px, calc(100vw - 54px)) !important;
+  max-width: calc(100vw - 54px) !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .p-dialog-content {
+  max-height: calc(100vh - 172px) !important;
+  overflow: hidden !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-form {
+  grid-template-columns: 145px 1fr 1fr 132px !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded.jobtype-modal--alta .jobtype-alta-grid__table {
+  width: 100% !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded.jobtype-modal--alta .jobtype-alta-grid__body {
+  height: min(360px, calc(100vh - 360px)) !important;
+  min-height: 220px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded.jobtype-modal--alta .jobtype-alta-grid__empty {
+  height: min(360px, calc(100vh - 360px)) !important;
+  min-height: 220px !important;
+}
+
+.jobtype-modal-grid--main-like .jobtype-modal-grid__body {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-gutter: stable !important;
+  background-image: linear-gradient(to bottom, transparent 29px, #c1d2dc 30px) !important;
+  background-size: 100% 30px !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-grid--main-like .jobtype-modal-grid__body {
+  height: min(300px, calc(100vh - 360px)) !important;
+  min-height: 240px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-grid--main-like .jobtype-modal-grid__header,
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-grid--main-like .jobtype-modal-grid__filters,
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-grid--main-like .jobtype-modal-grid__row {
+  grid-template-columns: 210px minmax(0, 1.45fr) minmax(0, 1fr) minmax(90px, .4fr) !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-grid--main-like .jobtype-modal-grid__footer {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding-left: 14px !important;
+}
+
+.jobtype-modal.jobtype-modal--expanded .jobtype-modal-grid--main-like .jobtype-modal-icon-button.p-button,
+.jobtype-modal-grid--main-like .jobtype-modal-icon-button.p-button {
+  margin-left: 8px !important;
+}

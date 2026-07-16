@@ -1,0 +1,16 @@
+.reporte-sas-page .fm-grid-shell,
+.reporte-sas-page .fm-ui-grid-shell {
+  border-left-width: 2px !important;
+}
+
+.reporte-sas-page #tabla-reporte-sas.fm-pass-grid,
+.reporte-sas-page #tabla-reporte-sas.p-datatable {
+  border-left-width: 2px !important;
+  border-left-style: solid !important;
+  border-left-color: #00a9bd !important;
+}
+
+.reporte-sas-page .fm-grid-actions-final {
+  transform: scale(1.5) !important;
+  transform-origin: left center !important;
+}

@@ -1,0 +1,253 @@
+/* ========================================================================
+   FIELD MANAGER LAST OVERRIDES
+   ------------------------------------------------------------------------
+   Ajustes finales que deben ganar prioridad sobre cualquier capa anterior.
+
+   - INCLUIR: todos los iconos de recuperar/incluir deben verse en turquesa
+     oscuro, igual que NOTA, aunque la fila este marcada como disabled.
+   - Grillas: ocultar el badge numerico de ordenamiento multiple.
+   - Paginador: compactar botones y dropdown para que no se vea gigante.
+   ======================================================================== */
+
+:root {
+  --fm-last-icon-turquoise: #008fa1;
+  --fm-paginator-text: #3e5870;
+  --fm-paginator-muted: #b8c4cc;
+}
+
+/* ========================================================================
+   Iconos INCLUIR
+   ======================================================================== */
+.fm-pass-grid .fm-icon-btn .pi-replay,
+.fm-ui-grid .fm-icon-btn .pi-replay,
+.fm-pt-datatable .fm-icon-btn .pi-replay,
+.fm-pass-grid .fm-disabled-row .fm-icon-btn .pi-replay,
+.fm-ui-grid .fm-disabled-row .fm-icon-btn .pi-replay,
+.fm-pt-datatable .fm-disabled-row .fm-icon-btn .pi-replay,
+.fm-pass-grid .p-datatable-tbody > tr.fm-disabled-row .fm-icon-btn .pi-replay,
+.fm-pass-grid .p-datatable-tbody > tr.fm-selected-row .fm-icon-btn .pi-replay,
+.fm-ui-grid .p-datatable-tbody > tr.fm-selected-row .fm-icon-btn .pi-replay,
+.fm-pt-datatable .p-datatable-tbody > tr.fm-selected-row .fm-icon-btn .pi-replay {
+  color: var(--fm-last-icon-turquoise) !important;
+}
+
+.fm-pass-grid .fm-icon-btn:hover .pi-replay,
+.fm-ui-grid .fm-icon-btn:hover .pi-replay,
+.fm-pt-datatable .fm-icon-btn:hover .pi-replay {
+  color: #006f7d !important;
+}
+
+/* ========================================================================
+   Quitar circulo numerico de ordenamiento multiple
+   ------------------------------------------------------------------------
+   PrimeVue muestra un badge con 1, 2, 3 cuando sortMode="multiple".
+   Para Field Manager no se muestra ese numero en ninguna columna.
+   ======================================================================== */
+.fm-pass-grid .p-sortable-column-badge,
+.fm-ui-grid .p-sortable-column-badge,
+.fm-pt-datatable .p-sortable-column-badge,
+.fm-pass-grid .p-datatable-column-badge,
+.fm-ui-grid .p-datatable-column-badge,
+.fm-pt-datatable .p-datatable-column-badge,
+.fm-pass-grid .p-datatable-column-header-content .p-badge,
+.fm-ui-grid .p-datatable-column-header-content .p-badge,
+.fm-pt-datatable .p-datatable-column-header-content .p-badge,
+.fm-pass-grid .p-column-header-content .p-badge,
+.fm-ui-grid .p-column-header-content .p-badge,
+.fm-pt-datatable .p-column-header-content .p-badge {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* ========================================================================
+   Paginador compacto
+   ======================================================================== */
+.fm-pass-grid .p-paginator,
+.fm-ui-grid .p-paginator,
+.fm-pt-datatable .p-paginator,
+.fm-pt-paginator {
+  min-height: 38px !important;
+  height: auto !important;
+  padding: 4px 8px !important;
+  border: 1px solid #d5dee4 !important;
+  border-top: 0 !important;
+  background: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: nowrap !important;
+  gap: 4px !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+
+.fm-pass-grid .p-paginator .p-paginator-content,
+.fm-ui-grid .p-paginator .p-paginator-content,
+.fm-pt-datatable .p-paginator .p-paginator-content {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: nowrap !important;
+  gap: 4px !important;
+  width: auto !important;
+}
+
+.fm-pass-grid .p-paginator .p-paginator-first,
+.fm-pass-grid .p-paginator .p-paginator-prev,
+.fm-pass-grid .p-paginator .p-paginator-next,
+.fm-pass-grid .p-paginator .p-paginator-last,
+.fm-pass-grid .p-paginator .p-paginator-page,
+.fm-ui-grid .p-paginator .p-paginator-first,
+.fm-ui-grid .p-paginator .p-paginator-prev,
+.fm-ui-grid .p-paginator .p-paginator-next,
+.fm-ui-grid .p-paginator .p-paginator-last,
+.fm-ui-grid .p-paginator .p-paginator-page,
+.fm-pt-datatable .p-paginator .p-paginator-first,
+.fm-pt-datatable .p-paginator .p-paginator-prev,
+.fm-pt-datatable .p-paginator .p-paginator-next,
+.fm-pt-datatable .p-paginator .p-paginator-last,
+.fm-pt-datatable .p-paginator .p-paginator-page {
+  width: 28px !important;
+  min-width: 28px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 0 !important;
+  margin: 0 1px !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: var(--fm-paginator-text) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.fm-pass-grid .p-paginator .p-paginator-first:hover:not(.p-disabled),
+.fm-pass-grid .p-paginator .p-paginator-prev:hover:not(.p-disabled),
+.fm-pass-grid .p-paginator .p-paginator-next:hover:not(.p-disabled),
+.fm-pass-grid .p-paginator .p-paginator-last:hover:not(.p-disabled),
+.fm-pass-grid .p-paginator .p-paginator-page:hover:not(.p-highlight),
+.fm-ui-grid .p-paginator .p-paginator-first:hover:not(.p-disabled),
+.fm-ui-grid .p-paginator .p-paginator-prev:hover:not(.p-disabled),
+.fm-ui-grid .p-paginator .p-paginator-next:hover:not(.p-disabled),
+.fm-ui-grid .p-paginator .p-paginator-last:hover:not(.p-disabled),
+.fm-ui-grid .p-paginator .p-paginator-page:hover:not(.p-highlight),
+.fm-pt-datatable .p-paginator .p-paginator-first:hover:not(.p-disabled),
+.fm-pt-datatable .p-paginator .p-paginator-prev:hover:not(.p-disabled),
+.fm-pt-datatable .p-paginator .p-paginator-next:hover:not(.p-disabled),
+.fm-pt-datatable .p-paginator .p-paginator-last:hover:not(.p-disabled),
+.fm-pt-datatable .p-paginator .p-paginator-page:hover:not(.p-highlight) {
+  background: #e0f7fa !important;
+  color: #008fa1 !important;
+}
+
+.fm-pass-grid .p-paginator .p-disabled,
+.fm-ui-grid .p-paginator .p-disabled,
+.fm-pt-datatable .p-paginator .p-disabled {
+  opacity: .42 !important;
+  color: var(--fm-paginator-muted) !important;
+  background: #f5f7f8 !important;
+  cursor: default !important;
+}
+
+.fm-pass-grid .p-paginator .p-paginator-current,
+.fm-ui-grid .p-paginator .p-paginator-current,
+.fm-pt-datatable .p-paginator .p-paginator-current {
+  height: 28px !important;
+  min-height: 28px !important;
+  margin: 0 8px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  color: var(--fm-paginator-text) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+}
+
+.fm-pass-grid .p-paginator .p-select,
+.fm-pass-grid .p-paginator .p-dropdown,
+.fm-ui-grid .p-paginator .p-select,
+.fm-ui-grid .p-paginator .p-dropdown,
+.fm-pt-datatable .p-paginator .p-select,
+.fm-pt-datatable .p-paginator .p-dropdown {
+  width: 72px !important;
+  min-width: 72px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  margin-left: 8px !important;
+  border: 1px solid #c7d1d8 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.fm-pass-grid .p-paginator .p-select-label,
+.fm-pass-grid .p-paginator .p-dropdown-label,
+.fm-ui-grid .p-paginator .p-select-label,
+.fm-ui-grid .p-paginator .p-dropdown-label,
+.fm-pt-datatable .p-paginator .p-select-label,
+.fm-pt-datatable .p-paginator .p-dropdown-label {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+  color: #263746 !important;
+}
+
+.fm-pass-grid .p-paginator .p-select-dropdown,
+.fm-pass-grid .p-paginator .p-dropdown-trigger,
+.fm-ui-grid .p-paginator .p-select-dropdown,
+.fm-ui-grid .p-paginator .p-dropdown-trigger,
+.fm-pt-datatable .p-paginator .p-select-dropdown,
+.fm-pt-datatable .p-paginator .p-dropdown-trigger {
+  width: 24px !important;
+  min-width: 24px !important;
+  color: #42586b !important;
+}
+
+.fm-pass-grid .p-paginator-left-content,
+.fm-ui-grid .p-paginator-left-content,
+.fm-pt-datatable .p-paginator-left-content {
+  position: absolute !important;
+  left: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.fm-pass-grid .p-paginator-right-content,
+.fm-ui-grid .p-paginator-right-content,
+.fm-pt-datatable .p-paginator-right-content {
+  position: absolute !important;
+  right: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+@media (max-width: 900px) {
+  .fm-pass-grid .p-paginator,
+  .fm-ui-grid .p-paginator,
+  .fm-pt-datatable .p-paginator,
+  .fm-pt-paginator {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  .fm-pass-grid .p-paginator-left-content,
+  .fm-pass-grid .p-paginator-right-content,
+  .fm-ui-grid .p-paginator-left-content,
+  .fm-ui-grid .p-paginator-right-content,
+  .fm-pt-datatable .p-paginator-left-content,
+  .fm-pt-datatable .p-paginator-right-content {
+    position: static !important;
+    width: auto !important;
+  }
+}
