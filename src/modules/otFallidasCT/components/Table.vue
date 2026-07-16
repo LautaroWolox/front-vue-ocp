@@ -182,11 +182,8 @@ const excluir = () => {
 
 const reprocesar = async () => {
   showReprocesoDialog.value = false
-  showReprocesoLoader.value = true
-  await wait()
 
   if (store.selectedRows.length === 0) {
-    showReprocesoLoader.value = false
     abrirReprocesoDialog({
       type: 'warning',
       title: 'Alerta',
@@ -195,6 +192,8 @@ const reprocesar = async () => {
     return
   }
 
+  showReprocesoLoader.value = true
+  await wait()
   await store.reprocesar()
   showReprocesoLoader.value = false
   abrirReprocesoDialog({
