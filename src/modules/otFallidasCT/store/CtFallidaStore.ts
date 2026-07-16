@@ -1,11 +1,7 @@
 import { defineStore } from 'pinia'
-import { EncryptStorage } from 'encrypt-storage'
 import { useFetch } from '@vueuse/core'
 import type { Filters, Row, StoreState, ActionResponse, ExcluirRequest } from './types'
 import { emptyFilters } from './types'
-
-const clave = import.meta.env.VITE_PARAMETER1 as string;
-export const fallidasCtStore = new EncryptStorage(clave, { storageType: 'sessionStorage' });
 
 export const useFallidasCtStore = defineStore('fallidasCT', {
     state: (): StoreState => ({
@@ -86,15 +82,4 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
             this.$reset()
         },
     },
-
-/*     persist: [
-        {
-            key: 'fallidasCT',             
-            storage: {
-                getItem: (key: string): string | null => fallidasCtStore.getItem(key) ?? null,
-                setItem: (key: string, value: string): void => fallidasCtStore.setItem(key, value),
-            },
-        },
-    ], */
 })
-
