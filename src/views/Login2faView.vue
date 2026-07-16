@@ -43,58 +43,27 @@
 </template>
 
 <script setup>
-import Button from 'primevue/button';
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import Button from 'primevue/button'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/store/auth';
+import { useAuthStore } from '@/store/auth'
 
 const router = useRouter()
-const authStore = useAuthStore();
-const popupWindow = ref(null)
-const screenWidth = window.screen.width;
-const screenHeight = window.screen.height;
-const width = screenWidth / 1.5;
-const height = screenHeight / 1.5;
-const left = screenWidth / 6;
-const top = screenHeight / 6;
-
-const handleMessage = (event) => {
-  const origins = new Set([import.meta.env.VITE_ORIGIN]);
-  let autenticado = false;
-  let usrObj = {};
-  if (!origins.has(event.origin)) return
-  let jsonStr = event.data.usr
-  if(jsonStr !== undefined) {
-    console.log("recibido: " + jsonStr)
-    usrObj = JSON.parse(jsonStr)
-    autenticado = usrObj.autenticado
-  }
-  if (usrObj && autenticado) {
-    authStore.setPerfil({
-        autenticado,
-        rutas: usrObj.rutas,
-        nombre: usrObj.nombre,
-        email: usrObj.email,
-        legajo: usrObj.legajo
-      })
-    router.push({ name: 'main'})
-    window.removeEventListener('message', handleMessage)
-    if (popupWindow.value) {
-      popupWindow.value.close()
-      popupWindow.value = null
-    }
-  }
-}
+const authStore = useAuthStore()
 
 const ingresar = () => {
-  popupWindow.value = window.open(window.location.origin + '/pc/llamado.html','LoginPopup',`width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`)
+  window.location.href = `${window.location.origin}/pc/llamado.html`
 }
 
-onMounted(() => {
-  window.removeEventListener('message', handleMessage)
-  window.addEventListener('message', handleMessage)
+onMounted(async () => {
+  const loginCallback = new URLSearchParams(window.location.search).get('loginCallback')
+  if (loginCallback !== 'true') return
+
+  const user = await authStore.fetchUserData()
+  if (user?.autenticado) {
+    await router.replace({ name: 'main' })
+  }
 })
-onBeforeUnmount(() => window.removeEventListener('message', handleMessage))
 </script>
 
 <style scoped>
