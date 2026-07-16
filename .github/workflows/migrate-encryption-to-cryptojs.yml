@@ -1,0 +1,45 @@
+name: Migrate encryption to CryptoJS and validate UI
+
+on:
+  pull_request:
+    branches:
+      - agent/import-vuetipito-ui
+
+permissions:
+  contents: write
+
+jobs:
+  migrate-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout imported branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/import-vuetipito-ui
+          fetch-depth: 0
+
+      - name: Replace broken dependency
+        run: |
+          npm uninstall encrypt-storage
+          npm install crypto-js@4.2.0 --save-exact
+
+      - name: Capture production build
+        id: build
+        shell: bash
+        run: |
+          set +e
+          npm run build > migration-build-output.txt 2>&1
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Commit dependency migration and diagnostics
+        shell: bash
+        run: |
+          printf '%s\n' "${{ steps.build.outputs.exit_code }}" > migration-build-exit-code.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json src/utils/encrypt.js
+          git add -f migration-build-output.txt migration-build-exit-code.txt
+          git commit -m "fix: replace encrypt-storage with CryptoJS AES"
+          git push origin HEAD:agent/import-vuetipito-ui
