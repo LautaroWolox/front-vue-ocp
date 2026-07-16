@@ -22,7 +22,7 @@
     </div>
 
     <div class="fm-actions fm-filter-actions emulacion-actions">
-      <FmButton label="BUSCAR" icon="pi-search" :loading="storeEmulacion.searching" @click="onSearch" />
+      <FmButton label="BUSCAR" loadingLabel="BUSCAR" icon="pi-search" :loading="storeEmulacion.searching" @click="onSearch" />
       <FmButton label="LIMPIAR" icon="pi-align-left" variant="outline" @click="onClear" />
     </div>
   </div>
