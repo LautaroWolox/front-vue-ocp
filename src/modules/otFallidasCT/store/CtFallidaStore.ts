@@ -82,14 +82,4 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
             this.$reset()
         },
     },
-
-/*     persist: [
-        {
-            key: 'fallidasCT',             
-            storage: {
-                getItem: (key: string): string | null => fallidasCtStore.getItem(key) ?? null,
-                setItem: (key: string, value: string): void => fallidasCtStore.setItem(key, value),
-            },
-        },
-    ], */
 })
