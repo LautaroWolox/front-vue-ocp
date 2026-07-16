@@ -1,0 +1,145 @@
+name: Import vuetipito UI
+
+on:
+  push:
+    branches:
+      - agent/import-vuetipito-ui
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-vuetipito-ui
+  cancel-in-progress: false
+
+jobs:
+  import-ui:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout destination branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/import-vuetipito-ui
+          fetch-depth: 0
+
+      - name: Preserve encrypt-storage correction
+        shell: bash
+        run: |
+          mkdir -p /tmp/front-vue-ocp-backup/src/utils
+          mkdir -p /tmp/front-vue-ocp-backup/src/store
+          cp src/utils/encrypt.js /tmp/front-vue-ocp-backup/src/utils/encrypt.js
+          cp env.d.ts /tmp/front-vue-ocp-backup/env.d.ts
+          if [ -f src/store/commonCt.ts ]; then
+            cp src/store/commonCt.ts /tmp/front-vue-ocp-backup/src/store/commonCt.ts
+          fi
+
+      - name: Checkout vuetipito
+        uses: actions/checkout@v4
+        with:
+          repository: LautaroWolox/vuetipito
+          ref: main
+          path: .vuetipito-source
+
+      - name: Copy complete UI and screens
+        shell: bash
+        run: |
+          rsync -a .vuetipito-source/src/ src/
+
+          if [ -d .vuetipito-source/public ]; then
+            mkdir -p public
+            rsync -a .vuetipito-source/public/ public/
+          fi
+
+          for file in package.json package-lock.json index.html vite.config.js vite.config.ts eslint.config.js tsconfig.json tsconfig.app.json tsconfig.node.json tsconfig.vitest.json vitest.config.js vitest.config.ts cypress.config.js; do
+            if [ -f ".vuetipito-source/$file" ]; then
+              cp ".vuetipito-source/$file" "$file"
+            fi
+          done
+
+          cp /tmp/front-vue-ocp-backup/src/utils/encrypt.js src/utils/encrypt.js
+          cp /tmp/front-vue-ocp-backup/env.d.ts env.d.ts
+          if [ -f /tmp/front-vue-ocp-backup/src/store/commonCt.ts ]; then
+            cp /tmp/front-vue-ocp-backup/src/store/commonCt.ts src/store/commonCt.ts
+          fi
+
+      - name: Keep Pinia persistence encrypted
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+
+          auth_path = Path('src/store/auth.ts')
+          auth = auth_path.read_text(encoding='utf-8')
+          if "piniaEncryptedSessionStorage" not in auth:
+              auth = auth.replace(
+                  "import { defineStore } from 'pinia'\n",
+                  "import { defineStore } from 'pinia'\nimport { piniaEncryptedSessionStorage } from '@/utils/encrypt'\n",
+                  1,
+              )
+          auth = re.sub(
+              r"\nconst storageKeyPrefix = 'fm_auth_'\n\nexport const authStore = \{.*?\n\}\n",
+              "\n",
+              auth,
+              flags=re.S,
+          )
+          auth = auth.replace(
+              "storage: authStore,",
+              "storage: piniaEncryptedSessionStorage,\n            debug: import.meta.env.DEV,",
+          )
+          auth_path.write_text(auth, encoding='utf-8')
+
+          fallidas_path = Path('src/modules/otFallidasCT/store/CtFallidaStore.ts')
+          fallidas = fallidas_path.read_text(encoding='utf-8')
+          fallidas = fallidas.replace("import { EncryptStorage } from 'encrypt-storage'\n", "")
+          if "piniaEncryptedSessionStorage" not in fallidas:
+              fallidas = fallidas.replace(
+                  "import { useFetch } from '@vueuse/core'\n",
+                  "import { useFetch } from '@vueuse/core'\nimport { piniaEncryptedSessionStorage } from '@/utils/encrypt'\n",
+                  1,
+              )
+          fallidas = re.sub(
+              r"\nconst clave = import\.meta\.env\.VITE_PARAMETER1 as string;\nexport const fallidasCtStore = new EncryptStorage\(clave, \{ storageType: 'sessionStorage' \}\);\n",
+              "\n",
+              fallidas,
+          )
+          fallidas = re.sub(
+              r"storage:\s*\{\s*getItem:.*?setItem:.*?\n\s*\},",
+              "storage: piniaEncryptedSessionStorage,\n            debug: import.meta.env.DEV,",
+              fallidas,
+              count=1,
+              flags=re.S,
+          )
+          fallidas_path.write_text(fallidas, encoding='utf-8')
+          PY
+
+          if grep -R "new EncryptStorage" src --exclude=encrypt.js; then
+            echo "There are redundant EncryptStorage instances outside src/utils/encrypt.js"
+            exit 1
+          fi
+
+      - name: Install dependencies and build
+        shell: bash
+        run: |
+          npm ci
+          npm run build
+
+      - name: Commit imported UI
+        shell: bash
+        run: |
+          rm -rf .vuetipito-source
+          rm -f .github/workflows/import-vuetipito-ui.yml
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No UI changes to commit"
+            exit 0
+          fi
+
+          git commit -m "feat: import complete vuetipito UI"
+          git push origin HEAD:agent/import-vuetipito-ui
