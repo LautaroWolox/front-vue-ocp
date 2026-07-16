@@ -1,0 +1,104 @@
+name: Import vuetipito UI with diagnostics
+
+on:
+  pull_request:
+    branches:
+      - agent/import-vuetipito-ui
+
+permissions:
+  contents: write
+
+jobs:
+  import-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout destination
+        uses: actions/checkout@v4
+        with:
+          ref: agent/import-vuetipito-ui
+          fetch-depth: 0
+
+      - name: Preserve encryption integration
+        shell: bash
+        run: |
+          mkdir -p /tmp/fm/src/utils /tmp/fm/src/store
+          cp src/utils/encrypt.js /tmp/fm/src/utils/encrypt.js
+          cp env.d.ts /tmp/fm/env.d.ts
+          cp src/store/commonCt.ts /tmp/fm/src/store/commonCt.ts
+
+      - name: Checkout vuetipito
+        uses: actions/checkout@v4
+        with:
+          repository: LautaroWolox/vuetipito
+          ref: main
+          path: .source
+
+      - name: Import complete source tree
+        shell: bash
+        run: |
+          rsync -a --delete .source/src/ src/
+          if [ -d .source/public ]; then
+            mkdir -p public
+            rsync -a .source/public/ public/
+          fi
+          for file in package.json package-lock.json index.html vite.config.js vite.config.ts eslint.config.js tsconfig.json tsconfig.app.json tsconfig.node.json tsconfig.vitest.json vitest.config.js vitest.config.ts cypress.config.js; do
+            if [ -f ".source/$file" ]; then cp ".source/$file" "$file"; fi
+          done
+          mkdir -p src/utils src/store
+          cp /tmp/fm/src/utils/encrypt.js src/utils/encrypt.js
+          cp /tmp/fm/env.d.ts env.d.ts
+          cp /tmp/fm/src/store/commonCt.ts src/store/commonCt.ts
+
+      - name: Restore encrypted Pinia adapters
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+
+          auth_path = Path('src/store/auth.ts')
+          auth = auth_path.read_text(encoding='utf-8')
+          if "piniaEncryptedSessionStorage" not in auth:
+              auth = auth.replace("import { defineStore } from 'pinia'\n", "import { defineStore } from 'pinia'\nimport { piniaEncryptedSessionStorage } from '@/utils/encrypt'\n", 1)
+          auth = re.sub(r"\nconst storageKeyPrefix = 'fm_auth_'\n\nexport const authStore = \{.*?\n\}\n", "\n", auth, flags=re.S)
+          auth = auth.replace('storage: authStore,', 'storage: piniaEncryptedSessionStorage,\n            debug: import.meta.env.DEV,')
+          auth_path.write_text(auth, encoding='utf-8')
+
+          store_path = Path('src/modules/otFallidasCT/store/CtFallidaStore.ts')
+          store = store_path.read_text(encoding='utf-8')
+          store = store.replace("import { EncryptStorage } from 'encrypt-storage'\n", '')
+          if "piniaEncryptedSessionStorage" not in store:
+              store = store.replace("import { useFetch } from '@vueuse/core'\n", "import { useFetch } from '@vueuse/core'\nimport { piniaEncryptedSessionStorage } from '@/utils/encrypt'\n", 1)
+          store = re.sub(r"\nconst clave = import\.meta\.env\.VITE_PARAMETER1 as string;\nexport const fallidasCtStore = new EncryptStorage\(clave, \{ storageType: 'sessionStorage' \}\);\n", "\n", store)
+          store = re.sub(r"storage:\s*\{\s*getItem:.*?setItem:.*?\n\s*\},", "storage: piniaEncryptedSessionStorage,\n            debug: import.meta.env.DEV,", store, count=1, flags=re.S)
+          store_path.write_text(store, encoding='utf-8')
+          PY
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Capture build result
+        id: build
+        shell: bash
+        run: |
+          set +e
+          npm run build > migration-build.log 2>&1
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          tail -n 120 migration-build.log
+          exit 0
+
+      - name: Commit imported tree and diagnostics
+        shell: bash
+        run: |
+          rm -rf .source
+          rm -f .github/import-vuetipito-ui.trigger
+          rm -f .github/import-vuetipito-ui-trigger-2
+          rm -f .github/import-vuetipito-ui-trigger-3
+          rm -f .github/import-vuetipito-ui-trigger-4
+          printf '%s\n' "${{ steps.build.outputs.exit_code }}" > migration-build-exit-code.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: import complete vuetipito UI with build diagnostics"
+          git push origin HEAD:agent/import-vuetipito-ui
