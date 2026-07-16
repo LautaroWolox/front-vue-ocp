@@ -31,7 +31,7 @@
 
       <Column field="legajo" sortable :showFilterMenu="false" :style="columnStyle('155px')" :headerStyle="columnStyle('155px')" :bodyStyle="columnStyle('155px')">
         <template #header>
-          <span class="emulacion-header-icon"><i class="pi pi-id-card"></i> LEGAJO</span>
+          <span>LEGAJO</span>
         </template>
         <template #filter="{ filterModel, filterCallback }">
           <div class="fm-filter-cell">
@@ -47,7 +47,7 @@
 
       <Column field="nombre" sortable :showFilterMenu="false" :style="columnStyle('190px')" :headerStyle="columnStyle('190px')" :bodyStyle="columnStyle('190px')">
         <template #header>
-          <span class="emulacion-header-icon"><i class="pi pi-user"></i> NOMBRE</span>
+          <span>NOMBRE</span>
         </template>
         <template #filter="{ filterModel, filterCallback }">
           <div class="fm-filter-cell">
@@ -63,7 +63,7 @@
 
       <Column field="apellido" sortable :showFilterMenu="false" :style="columnStyle('210px')" :headerStyle="columnStyle('210px')" :bodyStyle="columnStyle('210px')">
         <template #header>
-          <span class="emulacion-header-icon"><i class="pi pi-users"></i> APELLIDO</span>
+          <span>APELLIDO</span>
         </template>
         <template #filter="{ filterModel, filterCallback }">
           <div class="fm-filter-cell">
@@ -79,7 +79,7 @@
 
       <Column field="perfil" sortable :showFilterMenu="false" :style="columnStyle('230px')" :headerStyle="columnStyle('230px')" :bodyStyle="columnStyle('230px')">
         <template #header>
-          <span class="emulacion-header-icon"><i class="pi pi-shield"></i> PERFIL</span>
+          <span>PERFIL</span>
         </template>
         <template #filter="{ filterModel, filterCallback }">
           <div class="fm-filter-cell">
@@ -184,18 +184,6 @@ const emular = async () => {
 <style scoped>
 .emulacion-grid :deep(.p-datatable-tbody > tr) {
   cursor: pointer;
-}
-
-.emulacion-header-icon {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  min-width: 0;
-}
-
-.emulacion-header-icon .pi {
-  color: #008fa1;
-  font-size: 13px;
 }
 
 .emulacion-legajo-cell {
