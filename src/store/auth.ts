@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { EncryptStorage } from 'encrypt-storage'
 import { useFetch } from '@vueuse/core'
+import { piniaEncryptedSessionStorage } from '@/utils/encrypt'
 
 interface Usuario {
     nombre: string
@@ -24,9 +24,6 @@ interface SetPerfilParams {
     email: string
     legajo: string
 }
-
-const clave = import.meta.env.VITE_PARAMETER1;
-export const authStore = new EncryptStorage(clave, { storageType: 'sessionStorage' });
 
 export const useAuthStore = defineStore('auth', {
     state: (): PerfilState => ({
@@ -73,11 +70,9 @@ export const useAuthStore = defineStore('auth', {
     },
     persist: [
         {
-            key: 'auth',             
-            storage: {
-                getItem: (key) => authStore.getItem(key) ?? null,
-                setItem: (key, value) => authStore.setItem(key, value),
-            },
+            key: 'auth',
+            storage: piniaEncryptedSessionStorage,
+            debug: import.meta.env.DEV,
         },
     ],
 }, )
