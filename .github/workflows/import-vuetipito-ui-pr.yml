@@ -1,0 +1,86 @@
+name: Import vuetipito UI from PR
+
+on:
+  pull_request:
+    branches:
+      - agent/import-vuetipito-ui
+
+permissions:
+  contents: write
+
+jobs:
+  import-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout destination
+        uses: actions/checkout@v4
+        with:
+          ref: agent/import-vuetipito-ui
+          fetch-depth: 0
+
+      - name: Preserve encryption integration
+        run: |
+          mkdir -p /tmp/fm/src/utils /tmp/fm/src/store
+          cp src/utils/encrypt.js /tmp/fm/src/utils/encrypt.js
+          cp env.d.ts /tmp/fm/env.d.ts
+          cp src/store/commonCt.ts /tmp/fm/src/store/commonCt.ts
+
+      - name: Checkout vuetipito
+        uses: actions/checkout@v4
+        with:
+          repository: LautaroWolox/vuetipito
+          ref: main
+          path: .source
+
+      - name: Import complete source tree
+        run: |
+          rsync -a --delete .source/src/ src/
+          if [ -d .source/public ]; then rsync -a .source/public/ public/; fi
+          cp .source/package.json package.json
+          cp .source/package-lock.json package-lock.json
+          cp .source/index.html index.html
+          cp .source/vite.config.js vite.config.js
+          cp /tmp/fm/src/utils/encrypt.js src/utils/encrypt.js
+          cp /tmp/fm/env.d.ts env.d.ts
+          cp /tmp/fm/src/store/commonCt.ts src/store/commonCt.ts
+
+      - name: Restore encrypted Pinia adapters
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+
+          auth_path = Path('src/store/auth.ts')
+          auth = auth_path.read_text()
+          auth = auth.replace("import { defineStore } from 'pinia'\n", "import { defineStore } from 'pinia'\nimport { piniaEncryptedSessionStorage } from '@/utils/encrypt'\n", 1)
+          auth = re.sub(r"\nconst storageKeyPrefix = 'fm_auth_'\n\nexport const authStore = \{.*?\n\}\n", "\n", auth, flags=re.S)
+          auth = auth.replace('storage: authStore,', 'storage: piniaEncryptedSessionStorage,\n            debug: import.meta.env.DEV,')
+          auth_path.write_text(auth)
+
+          store_path = Path('src/modules/otFallidasCT/store/CtFallidaStore.ts')
+          store = store_path.read_text()
+          store = store.replace("import { EncryptStorage } from 'encrypt-storage'\n", '')
+          store = store.replace("import { useFetch } from '@vueuse/core'\n", "import { useFetch } from '@vueuse/core'\nimport { piniaEncryptedSessionStorage } from '@/utils/encrypt'\n", 1)
+          store = re.sub(r"\nconst clave = import\.meta\.env\.VITE_PARAMETER1 as string;\nexport const fallidasCtStore = new EncryptStorage\(clave, \{ storageType: 'sessionStorage' \}\);\n", "\n", store)
+          store = re.sub(r"storage:\s*\{\s*getItem:.*?setItem:.*?\n\s*\},", "storage: piniaEncryptedSessionStorage,\n            debug: import.meta.env.DEV,", store, count=1, flags=re.S)
+          store_path.write_text(store)
+          PY
+          ! grep -R "new EncryptStorage" src --exclude=encrypt.js
+
+      - name: Validate build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Commit migration
+        run: |
+          rm -rf .source
+          rm -f .github/workflows/import-vuetipito-ui.yml
+          rm -f .github/workflows/import-vuetipito-ui-pr.yml
+          rm -f .github/import-vuetipito-ui.trigger
+          rm -f .github/import-vuetipito-ui-trigger-2
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: import complete vuetipito UI"
+          git push origin HEAD:agent/import-vuetipito-ui
