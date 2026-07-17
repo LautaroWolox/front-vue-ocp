@@ -1,5 +1,6 @@
 <template>
   <Dialog
+    :key="maximized ? 'external-ots-maximized' : 'external-ots-normal'"
     :visible="visible"
     :modal="false"
     :draggable="!maximized"
@@ -81,10 +82,7 @@
         </template>
 
         <template #empty>
-          <div class="fm-grid-empty external-ots-empty">
-            <i class="pi pi-inbox" aria-hidden="true"></i>
-            <span>No hay resultados</span>
-          </div>
+          <span class="external-ots-empty-placeholder">No hay resultados</span>
         </template>
 
         <Column
@@ -105,6 +103,14 @@
           </template>
         </Column>
       </DataTable>
+
+      <div v-if="!rows.length" class="external-ots-empty-overlay" aria-live="polite">
+        <div class="external-ots-empty-card">
+          <i class="pi pi-inbox" aria-hidden="true"></i>
+          <strong>No hay resultados</strong>
+          <span>No se encontraron órdenes de trabajo externas.</span>
+        </div>
+      </div>
     </FmGridShell>
 
     <template #footer>
@@ -144,27 +150,26 @@ const dialogStyle = computed(() => {
   if (maximized.value) {
     return {
       position: 'fixed',
-      top: '52px',
-      left: '12px',
-      right: 'auto',
-      bottom: 'auto',
-      width: 'calc(100vw - 24px)',
-      height: 'calc(100vh - 64px)',
+      top: '58px',
+      left: '50%',
+      width: 'calc(100vw - 48px)',
+      height: 'calc(100vh - 82px)',
       maxWidth: 'none',
       maxHeight: 'none',
       margin: '0',
-      transform: 'none'
+      transform: 'translateX(-50%)',
+      zIndex: 1200
     }
   }
 
   return {
-    width: 'min(1120px, 96vw)',
-    maxWidth: '96vw'
+    width: 'min(1120px, 94vw)',
+    maxWidth: '94vw'
   }
 })
 
 const dialogContentStyle = computed(() => ({
-  height: maximized.value ? 'calc(100vh - 188px)' : '430px',
+  height: maximized.value ? 'calc(100vh - 206px)' : '430px',
   padding: '14px 14px 8px',
   overflow: 'hidden'
 }))
@@ -226,11 +231,15 @@ const onVisibleChange = (value) => {
 }
 
 .external-ots-dialog .p-dialog-header {
-  flex: 0 0 auto;
-  padding: 10px 12px !important;
+  flex: 0 0 auto !important;
+  min-height: 58px !important;
+  padding: 10px 14px !important;
   cursor: move;
   user-select: none;
-  border-bottom: 1px solid #e1e8ec;
+  background: #ffffff !important;
+  border-bottom: 1px solid #dce6eb !important;
+  position: relative;
+  z-index: 3;
 }
 
 .external-ots-dialog--maximized .p-dialog-header {
@@ -264,10 +273,10 @@ const onVisibleChange = (value) => {
 }
 
 .external-ots-window-actions .p-button.external-ots-window-action {
-  width: 30px !important;
-  min-width: 30px !important;
-  height: 30px !important;
-  min-height: 30px !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
   padding: 0 !important;
   border: 0 !important;
   background: transparent !important;
@@ -289,19 +298,25 @@ const onVisibleChange = (value) => {
 }
 
 .external-ots-dialog .p-dialog-content {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #ffffff !important;
 }
 
 .external-ots-dialog .p-dialog-footer {
-  flex: 0 0 auto;
+  flex: 0 0 auto !important;
+  min-height: 68px !important;
   padding: 12px 16px 14px !important;
-  border-top: 1px solid #e1e8ec;
+  background: #ffffff !important;
+  border-top: 1px solid #dce6eb !important;
+  position: relative;
+  z-index: 3;
 }
 
 .external-ots-grid-shell {
+  position: relative;
   flex: 1 1 auto;
   height: 100% !important;
   min-height: 0 !important;
@@ -330,6 +345,8 @@ const onVisibleChange = (value) => {
 
 .external-ots-grid .p-paginator {
   flex: 0 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .external-ots-grid .p-datatable-table {
@@ -342,28 +359,51 @@ const onVisibleChange = (value) => {
   vertical-align: middle !important;
 }
 
-.external-ots-grid .p-datatable-emptymessage > td {
-  text-align: center !important;
-  vertical-align: middle !important;
+.external-ots-empty-placeholder {
+  visibility: hidden;
 }
 
-.external-ots-empty {
-  min-height: 180px;
-  display: flex !important;
+.external-ots-empty-overlay {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  bottom: 54px;
+  left: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+  background: rgba(231, 249, 252, 0.88);
+}
+
+.external-ots-empty-card {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  color: #6a7f8b;
+  gap: 7px;
+  padding: 22px 30px;
+  border-radius: 14px;
+  color: #57717e;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(0, 169, 189, 0.14);
+  box-shadow: 0 12px 28px rgba(20, 59, 75, 0.08);
 }
 
-.external-ots-dialog--maximized .external-ots-empty {
-  min-height: calc(100vh - 340px);
-}
-
-.external-ots-empty .pi {
+.external-ots-empty-card .pi {
   color: #00a9bd;
-  font-size: 26px;
+  font-size: 28px;
+}
+
+.external-ots-empty-card strong {
+  color: #304b59;
+  font-size: 15px;
+}
+
+.external-ots-empty-card span {
+  color: #708690;
+  font-size: 12px;
 }
 
 .external-ots-cell {
@@ -381,10 +421,13 @@ const onVisibleChange = (value) => {
   }
 
   .external-ots-dialog--maximized {
-    top: 46px !important;
-    left: 6px !important;
+    top: 48px !important;
     width: calc(100vw - 12px) !important;
-    height: calc(100vh - 52px) !important;
+    height: calc(100vh - 60px) !important;
+  }
+
+  .external-ots-window-title {
+    font-size: 17px;
   }
 }
 </style>
