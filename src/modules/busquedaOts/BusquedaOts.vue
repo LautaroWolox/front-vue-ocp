@@ -80,8 +80,8 @@
                     text
                     rounded
                     class="busqueda-ots-grid-tool busqueda-ots-grid-tool--fallidas"
-                    title="Filtrar fallidas"
-                    aria-label="Filtrar fallidas"
+                    title="Filtrar"
+                    aria-label="Filtrar"
                     @click="toggleColumnFilters"
                   >
                     <template #icon>
