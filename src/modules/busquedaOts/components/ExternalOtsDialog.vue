@@ -144,10 +144,10 @@ const externalColumns = [
 const windowStyle = computed(() => {
   if (maximized.value) {
     return {
-      top: '68px',
-      left: '24px',
-      width: 'calc(100vw - 48px)',
-      height: 'calc(100vh - 92px)',
+      top: '82px',
+      left: '40px',
+      width: 'calc(100vw - 80px)',
+      height: 'calc(100vh - 122px)',
       transform: 'none'
     }
   }
@@ -425,7 +425,7 @@ onBeforeUnmount(stopDrag)
 }
 
 .external-ots-window--maximized .external-ots-empty {
-  min-height: calc(100vh - 360px);
+  min-height: calc(100vh - 390px);
 }
 
 .external-ots-cell {
@@ -439,10 +439,10 @@ onBeforeUnmount(stopDrag)
 
 @media (max-width: 760px) {
   .external-ots-window {
-    top: 54px !important;
-    left: 8px !important;
-    width: calc(100vw - 16px) !important;
-    height: calc(100vh - 70px) !important;
+    top: 58px !important;
+    left: 10px !important;
+    width: calc(100vw - 20px) !important;
+    height: calc(100vh - 74px) !important;
     min-width: 0;
     transform: none !important;
   }
