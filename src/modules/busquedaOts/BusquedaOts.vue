@@ -77,14 +77,30 @@
                   />
 
                   <Button
-                    icon="pi pi-filter-fill"
                     text
                     rounded
-                    class="busqueda-ots-grid-tool"
-                    :title="showColumnFilters ? 'Ocultar filtros' : 'Mostrar filtros'"
-                    :aria-label="showColumnFilters ? 'Ocultar filtros' : 'Mostrar filtros'"
+                    class="busqueda-ots-grid-tool busqueda-ots-grid-tool--fallidas"
+                    title="Filtrar fallidas"
+                    aria-label="Filtrar fallidas"
                     @click="toggleColumnFilters"
-                  />
+                  >
+                    <template #icon>
+                      <svg
+                        class="busqueda-ots-filter-fallidas-icon"
+                        viewBox="0 0 64 68"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <rect x="8" y="6" width="48" height="13" rx="1.5" />
+                        <path d="M13 19L29 40V57L35 51" />
+                        <path d="M51 19L35 40V49" />
+                        <path d="M41 50L53 62" />
+                        <path d="M53 50L41 62" />
+                      </svg>
+                    </template>
+                  </Button>
+
                   <Button
                     icon="pi pi-times"
                     text
@@ -355,6 +371,24 @@ const exportarExcel = () => {
   font-size: 18px !important;
   line-height: 18px !important;
   margin: 0 !important;
+}
+
+.busqueda-ots-grid-actions :deep(.busqueda-ots-filter-fallidas-icon) {
+  width: 20px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  display: block !important;
+  overflow: visible !important;
+}
+
+.busqueda-ots-grid-actions :deep(.busqueda-ots-filter-fallidas-icon rect),
+.busqueda-ots-grid-actions :deep(.busqueda-ots-filter-fallidas-icon path) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .busqueda-ots-grid--filters-hidden :deep(.p-datatable-filter-row) {
