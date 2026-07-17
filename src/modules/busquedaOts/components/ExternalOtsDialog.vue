@@ -1,62 +1,20 @@
 <template>
   <Dialog
     :visible="visible"
+    header="Órdenes de Trabajo Externas"
+    maximizable
     :modal="false"
-    :draggable="!maximized"
-    :closable="false"
+    :draggable="true"
+    :closable="true"
     :blockScroll="false"
     appendTo="body"
-    :style="dialogStyle"
-    :class="[
-      'fm-dialog',
-      'external-ots-dialog',
-      {
-        'external-ots-dialog--minimized': minimized,
-        'external-ots-dialog--maximized': maximized
-      }
-    ]"
+    :style="{ width: 'min(1120px, 96vw)' }"
+    :breakpoints="{ '1199px': '94vw', '760px': '98vw' }"
+    :contentStyle="{ height: '430px' }"
+    class="fm-dialog external-ots-dialog"
     @update:visible="onVisibleChange"
   >
-    <template #header>
-      <div class="external-ots-window-header">
-        <div class="external-ots-window-title">
-          <span>Órdenes de Trabajo Externas</span>
-          <small v-if="minimized">Ventana minimizada</small>
-        </div>
-
-        <div class="external-ots-window-actions" @mousedown.stop>
-          <Button
-            icon="pi pi-minus"
-            text
-            rounded
-            class="external-ots-window-action"
-            :title="minimized ? 'Restaurar' : 'Minimizar'"
-            :aria-label="minimized ? 'Restaurar' : 'Minimizar'"
-            @click.stop="toggleMinimized"
-          />
-          <Button
-            :icon="maximized ? 'pi pi-clone' : 'pi pi-window-maximize'"
-            text
-            rounded
-            class="external-ots-window-action"
-            :title="maximized ? 'Restaurar tamaño' : 'Maximizar'"
-            :aria-label="maximized ? 'Restaurar tamaño' : 'Maximizar'"
-            @click.stop="toggleMaximized"
-          />
-          <Button
-            icon="pi pi-times"
-            text
-            rounded
-            class="external-ots-window-action external-ots-window-action--close"
-            title="Cerrar"
-            aria-label="Cerrar"
-            @click.stop="cerrar"
-          />
-        </div>
-      </div>
-    </template>
-
-    <FmGridShell v-show="!minimized" class="external-ots-grid-shell">
+    <FmGridShell class="external-ots-grid-shell">
       <DataTable
         id="tabla-ots-externas"
         ref="dt"
@@ -65,7 +23,7 @@
         dataKey="id"
         tableStyle="table-layout: fixed; width: max-content; min-width: 100%"
         scrollable
-        :scrollHeight="gridScrollHeight"
+        scrollHeight="flex"
         removableSort
         sortMode="multiple"
         paginator
@@ -119,19 +77,13 @@
     </FmGridShell>
 
     <template #footer>
-      <Button
-        v-if="!minimized"
-        label="CERRAR"
-        outlined
-        class="fm-btn fm-btn--outline"
-        @click="cerrar"
-      />
+      <Button label="CERRAR" outlined class="fm-btn fm-btn--outline" @click="cerrar" />
     </template>
   </Dialog>
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useExcelExport } from '@/composables/useExportExcel'
 
 const props = defineProps({
@@ -143,8 +95,6 @@ const emit = defineEmits(['update:visible'])
 const dt = ref()
 const first = ref(0)
 const pageSize = ref(10)
-const minimized = ref(false)
-const maximized = ref(false)
 const { exportToExcel, parseDataFromTable } = useExcelExport()
 
 const externalColumns = [
@@ -158,23 +108,6 @@ const externalColumns = [
   { field: 'ubicacionOt', header: 'Ubicación de la OT', width: '180px', minWidth: '150px' }
 ]
 
-const dialogStyle = computed(() => {
-  if (minimized.value) {
-    return {
-      width: '390px',
-      maxWidth: 'calc(100vw - 24px)'
-    }
-  }
-
-  return {
-    width: 'min(1120px, 96vw)'
-  }
-})
-
-const gridScrollHeight = computed(() => (
-  maximized.value ? 'calc(100vh - 220px)' : '430px'
-))
-
 const displayStart = computed(() => props.rows.length ? first.value + 1 : 0)
 const displayEnd = computed(() => Math.min(first.value + pageSize.value, props.rows.length))
 
@@ -185,30 +118,12 @@ const columnStyle = (col) => ({
 })
 
 watch(() => props.visible, (visible) => {
-  if (visible) {
-    first.value = 0
-    minimized.value = false
-    maximized.value = false
-  }
+  if (visible) first.value = 0
 })
 
 const onPage = (event) => {
   first.value = event.first
   pageSize.value = event.rows
-}
-
-const toggleMinimized = async () => {
-  if (maximized.value) {
-    maximized.value = false
-    await nextTick()
-  }
-
-  minimized.value = !minimized.value
-}
-
-const toggleMaximized = () => {
-  if (minimized.value) minimized.value = false
-  maximized.value = !maximized.value
 }
 
 const exportarExcel = () => {
@@ -226,8 +141,6 @@ const exportarExcel = () => {
 }
 
 const cerrar = () => {
-  minimized.value = false
-  maximized.value = false
   emit('update:visible', false)
 }
 
@@ -243,46 +156,18 @@ const onVisibleChange = (value) => {
   user-select: none;
 }
 
-.external-ots-window-header {
-  width: 100%;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+.external-ots-dialog :deep(.p-dialog-title) {
+  color: #263746 !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
 }
 
-.external-ots-window-title {
-  min-width: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  color: #263746;
+.external-ots-dialog :deep(.p-dialog-header-actions) {
+  gap: 4px !important;
 }
 
-.external-ots-window-title > span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.external-ots-window-title > small {
-  flex: 0 0 auto;
-  color: #70838f;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.external-ots-window-actions {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.external-ots-window-actions :deep(.p-button.external-ots-window-action) {
+.external-ots-dialog :deep(.p-dialog-maximize-button),
+.external-ots-dialog :deep(.p-dialog-close-button) {
   width: 30px !important;
   min-width: 30px !important;
   height: 30px !important;
@@ -294,16 +179,18 @@ const onVisibleChange = (value) => {
   box-shadow: none !important;
 }
 
-.external-ots-window-actions :deep(.p-button.external-ots-window-action:hover),
-.external-ots-window-actions :deep(.p-button.external-ots-window-action:focus-visible) {
+.external-ots-dialog :deep(.p-dialog-maximize-button:hover),
+.external-ots-dialog :deep(.p-dialog-maximize-button:focus-visible) {
   background: #e9f7f8 !important;
   color: #008fa1 !important;
   box-shadow: none !important;
 }
 
-.external-ots-window-actions :deep(.p-button.external-ots-window-action--close:hover) {
+.external-ots-dialog :deep(.p-dialog-close-button:hover),
+.external-ots-dialog :deep(.p-dialog-close-button:focus-visible) {
   background: #fff0f0 !important;
   color: #d83b3b !important;
+  box-shadow: none !important;
 }
 
 .external-ots-dialog :deep(.p-dialog-content) {
@@ -315,41 +202,9 @@ const onVisibleChange = (value) => {
   padding: 12px 16px 14px !important;
 }
 
-.external-ots-dialog--minimized :deep(.p-dialog-header) {
-  border-bottom: 0 !important;
-}
-
-.external-ots-dialog--minimized :deep(.p-dialog-content),
-.external-ots-dialog--minimized :deep(.p-dialog-footer) {
-  display: none !important;
-}
-
-.external-ots-dialog--maximized {
-  position: fixed !important;
-  inset: 8px !important;
-  width: calc(100vw - 16px) !important;
-  height: calc(100vh - 16px) !important;
-  max-width: none !important;
-  max-height: none !important;
-  margin: 0 !important;
-  transform: none !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.external-ots-dialog--maximized :deep(.p-dialog-content) {
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.external-ots-dialog--maximized :deep(.external-ots-grid-shell) {
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-}
-
 .external-ots-grid-shell {
+  height: 100% !important;
+  min-height: 0 !important;
   border-left-width: 2px !important;
   border-left-style: solid !important;
   border-left-color: #00a9bd !important;
@@ -357,6 +212,8 @@ const onVisibleChange = (value) => {
 
 :deep(#tabla-ots-externas.fm-pass-grid),
 :deep(#tabla-ots-externas.p-datatable) {
+  height: 100% !important;
+  min-height: 0 !important;
   border-left-width: 2px !important;
   border-left-style: solid !important;
   border-left-color: #00a9bd !important;
@@ -379,19 +236,5 @@ const onVisibleChange = (value) => {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
-}
-
-@media (max-width: 760px) {
-  .external-ots-dialog:not(.external-ots-dialog--minimized):not(.external-ots-dialog--maximized) {
-    width: 98vw !important;
-  }
-
-  .external-ots-window-title > span {
-    font-size: 16px;
-  }
-
-  .external-ots-window-title > small {
-    display: none;
-  }
 }
 </style>
