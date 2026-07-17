@@ -102,23 +102,35 @@
                   </Button>
 
                   <Button
-                    icon="pi pi-times"
+                    icon="pi pi-trash"
                     text
                     rounded
                     class="busqueda-ots-grid-tool"
-                    title="Limpiar filtros"
-                    aria-label="Limpiar filtros"
+                    title="Filtrar fallidas"
+                    aria-label="Filtrar fallidas"
                     @click="clearGridFilters"
                   />
                   <Button
-                    icon="pi pi-search"
                     text
                     rounded
-                    class="busqueda-ots-grid-tool"
-                    title="Aplicar filtros"
-                    aria-label="Aplicar filtros"
+                    class="busqueda-ots-grid-tool busqueda-ots-grid-tool--external-search"
+                    title="Buscador OTs externas"
+                    aria-label="Buscador OTs externas"
                     @click="applyGridFilters"
-                  />
+                  >
+                    <template #icon>
+                      <svg
+                        class="busqueda-ots-external-search-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <circle cx="10" cy="10" r="6.5" />
+                        <path d="M15 15L21 21" />
+                      </svg>
+                    </template>
+                  </Button>
                 </div>
               </template>
 
@@ -348,6 +360,7 @@ const exportarExcel = () => {
   color: #001f2f !important;
   box-shadow: none !important;
   outline: none !important;
+  overflow: visible !important;
 }
 
 .busqueda-ots-grid-actions :deep(.p-button.busqueda-ots-grid-tool:hover),
@@ -371,6 +384,7 @@ const exportarExcel = () => {
   font-size: 18px !important;
   line-height: 18px !important;
   margin: 0 !important;
+  overflow: visible !important;
 }
 
 .busqueda-ots-grid-actions :deep(.busqueda-ots-filter-fallidas-icon) {
@@ -387,6 +401,24 @@ const exportarExcel = () => {
   fill: none;
   stroke: currentColor;
   stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.busqueda-ots-grid-actions :deep(.busqueda-ots-external-search-icon) {
+  width: 20px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  display: block !important;
+  overflow: visible !important;
+}
+
+.busqueda-ots-grid-actions :deep(.busqueda-ots-external-search-icon circle),
+.busqueda-ots-grid-actions :deep(.busqueda-ots-external-search-icon path) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
