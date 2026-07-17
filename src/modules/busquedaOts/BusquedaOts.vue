@@ -39,6 +39,7 @@
         <AccordionHeader>DATOS DE LAS ORDENES DE TRABAJO</AccordionHeader>
         <AccordionContent>
           <FmGridShell
+            class="busqueda-ots-grid-shell"
             :loading="gridLoading"
             :loading-title="gridLoadingTitle"
             :loading-message="gridLoadingMessage"
@@ -47,6 +48,7 @@
               id="tabla-busqueda-ots"
               ref="dt"
               class="fm-pass-grid busqueda-ots-grid"
+              :class="{ 'busqueda-ots-grid--filters-hidden': !showColumnFilters }"
               :value="store.rows"
               dataKey="id"
               tableStyle="table-layout: fixed; width: max-content; min-width: 100%"
@@ -66,11 +68,42 @@
               showGridlines
             >
               <template #paginatorstart>
-                <FmGridActions
-                  :show-delete="false"
-                  :show-refresh="false"
-                  @export="exportarExcel"
-                />
+                <div class="busqueda-ots-grid-actions">
+                  <FmGridActions
+                    size="large"
+                    :show-delete="false"
+                    :show-refresh="false"
+                    @export="exportarExcel"
+                  />
+
+                  <Button
+                    icon="pi pi-filter-fill"
+                    text
+                    rounded
+                    class="busqueda-ots-grid-tool"
+                    :title="showColumnFilters ? 'Ocultar filtros' : 'Mostrar filtros'"
+                    :aria-label="showColumnFilters ? 'Ocultar filtros' : 'Mostrar filtros'"
+                    @click="toggleColumnFilters"
+                  />
+                  <Button
+                    icon="pi pi-times"
+                    text
+                    rounded
+                    class="busqueda-ots-grid-tool"
+                    title="Limpiar filtros"
+                    aria-label="Limpiar filtros"
+                    @click="clearGridFilters"
+                  />
+                  <Button
+                    icon="pi pi-search"
+                    text
+                    rounded
+                    class="busqueda-ots-grid-tool"
+                    title="Aplicar filtros"
+                    aria-label="Aplicar filtros"
+                    @click="applyGridFilters"
+                  />
+                </div>
               </template>
 
               <template #paginatorend>
@@ -132,10 +165,17 @@ const dt = ref()
 const activePanels = ref(['0', '1'])
 const columns = ref(busquedaOtsColumns)
 const initialLoading = ref(true)
+const showColumnFilters = ref(true)
 const { exportToExcel, parseDataFromTable } = useExcelExport()
 
 const visibleColumns = computed(() => columns.value.filter((col) => !col.hidden))
-const filters = ref(Object.fromEntries(visibleColumns.value.map((col) => [col.field, { value: null, matchMode: FilterMatchMode.CONTAINS }])))
+const createGridFilters = () => Object.fromEntries(
+  visibleColumns.value.map((col) => [
+    col.field,
+    { value: null, matchMode: FilterMatchMode.CONTAINS }
+  ])
+)
+const filters = ref(createGridFilters())
 const gridLoading = computed(() => initialLoading.value || store.loading)
 const gridLoadingTitle = computed(() => store.loading ? 'Buscando OTs' : 'Cargando búsqueda de OTs')
 const gridLoadingMessage = computed(() => store.loading ? 'Consultando datos de las órdenes de trabajo' : 'Preparando la grilla')
@@ -158,6 +198,23 @@ const buscar = async () => {
 
 const limpiar = () => {
   store.clear()
+}
+
+const toggleColumnFilters = () => {
+  showColumnFilters.value = !showColumnFilters.value
+}
+
+const clearGridFilters = () => {
+  filters.value = createGridFilters()
+}
+
+const applyGridFilters = () => {
+  filters.value = Object.fromEntries(
+    Object.entries(filters.value).map(([field, filter]) => [
+      field,
+      { ...filter }
+    ])
+  )
 }
 
 const exportarExcel = () => {
@@ -231,6 +288,77 @@ const exportarExcel = () => {
 
 .busqueda-ots-actions :deep(.p-button.busqueda-ots-action-button--limpiar) {
   min-width: 116px !important;
+}
+
+.busqueda-ots-grid-shell {
+  border-left-width: 2px !important;
+  border-left-style: solid !important;
+  border-left-color: #00a9bd !important;
+}
+
+:deep(#tabla-busqueda-ots.fm-pass-grid),
+:deep(#tabla-busqueda-ots.p-datatable) {
+  border-left-width: 2px !important;
+  border-left-style: solid !important;
+  border-left-color: #00a9bd !important;
+}
+
+.busqueda-ots-grid-actions {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  overflow: visible !important;
+  line-height: 1 !important;
+}
+
+.busqueda-ots-grid-actions :deep(.fm-grid-actions-final) {
+  gap: 0 !important;
+}
+
+.busqueda-ots-grid-actions :deep(.p-button.busqueda-ots-grid-tool) {
+  width: 24px !important;
+  min-width: 24px !important;
+  max-width: 24px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  max-height: 24px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #001f2f !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.busqueda-ots-grid-actions :deep(.p-button.busqueda-ots-grid-tool:hover),
+.busqueda-ots-grid-actions :deep(.p-button.busqueda-ots-grid-tool:focus),
+.busqueda-ots-grid-actions :deep(.p-button.busqueda-ots-grid-tool:focus-visible) {
+  border: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #006f7d !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.busqueda-ots-grid-actions :deep(.p-button.busqueda-ots-grid-tool .p-button-icon),
+.busqueda-ots-grid-actions :deep(.p-button.busqueda-ots-grid-tool .pi),
+.busqueda-ots-grid-actions :deep(.p-button.busqueda-ots-grid-tool .pi::before) {
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  font-size: 18px !important;
+  line-height: 18px !important;
+  margin: 0 !important;
+}
+
+.busqueda-ots-grid--filters-hidden :deep(.p-datatable-filter-row) {
+  display: none !important;
 }
 
 .busqueda-ots-grid :deep(.p-datatable-table) {
