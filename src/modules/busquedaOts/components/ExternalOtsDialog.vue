@@ -21,13 +21,15 @@
         removableSort
         sortMode="multiple"
         paginator
-        :rows="10"
+        :first="first"
+        :rows="pageSize"
         :rowsPerPageOptions="[10, 20, 50, 100, 500]"
         paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
         currentPageReportTemplate="Página {currentPage} de {totalPages}"
         :resizableColumns="true"
         columnResizeMode="expand"
         showGridlines
+        @page="onPage"
       >
         <template #paginatorstart>
           <FmGridActions
@@ -40,7 +42,7 @@
 
         <template #paginatorend>
           <span class="fm-grid-counter">
-            Mostrando {{ rows.length ? 1 : 0 }} - {{ Math.min(10, rows.length) }} de {{ rows.length }}
+            Mostrando {{ displayStart }} - {{ displayEnd }} de {{ rows.length }}
           </span>
         </template>
 
@@ -75,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useExcelExport } from '@/composables/useExportExcel'
 
 const props = defineProps({
@@ -85,6 +87,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:visible'])
 const dt = ref()
+const first = ref(0)
+const pageSize = ref(10)
 const { exportToExcel, parseDataFromTable } = useExcelExport()
 
 const externalColumns = [
@@ -98,11 +102,23 @@ const externalColumns = [
   { field: 'ubicacionOt', header: 'Ubicación de la OT', width: '180px', minWidth: '150px' }
 ]
 
+const displayStart = computed(() => props.rows.length ? first.value + 1 : 0)
+const displayEnd = computed(() => Math.min(first.value + pageSize.value, props.rows.length))
+
 const columnStyle = (col) => ({
   width: col.width,
   minWidth: col.minWidth,
   maxWidth: 'none'
 })
+
+watch(() => props.visible, (visible) => {
+  if (visible) first.value = 0
+})
+
+const onPage = (event) => {
+  first.value = event.first
+  pageSize.value = event.rows
+}
 
 const exportarExcel = () => {
   const parsed = parseDataFromTable(dt)
