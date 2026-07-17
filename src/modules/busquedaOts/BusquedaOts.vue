@@ -116,7 +116,7 @@
                     class="busqueda-ots-grid-tool busqueda-ots-grid-tool--external-search"
                     title="Buscador OTs externas"
                     aria-label="Buscador OTs externas"
-                    @click="applyGridFilters"
+                    @click="openExternalOtsDialog"
                   >
                     <template #icon>
                       <svg
@@ -176,6 +176,11 @@
         </AccordionContent>
       </AccordionPanel>
     </Accordion>
+
+    <ExternalOtsDialog
+      v-model:visible="showExternalDialog"
+      :rows="store.rows"
+    />
   </div>
 </template>
 
@@ -187,6 +192,7 @@ import { FilterMatchMode } from '@primevue/core/api'
 import { useExcelExport } from '@/composables/useExportExcel'
 import { useBusquedaOtsStore } from './store/busquedaOtsStore'
 import { busquedaOtsColumns } from './columns/busquedaOtsColumns'
+import ExternalOtsDialog from './components/ExternalOtsDialog.vue'
 
 const store = useBusquedaOtsStore()
 const dt = ref()
@@ -194,6 +200,7 @@ const activePanels = ref(['0', '1'])
 const columns = ref(busquedaOtsColumns)
 const initialLoading = ref(true)
 const showColumnFilters = ref(true)
+const showExternalDialog = ref(false)
 const { exportToExcel, parseDataFromTable } = useExcelExport()
 
 const visibleColumns = computed(() => columns.value.filter((col) => !col.hidden))
@@ -236,13 +243,8 @@ const clearGridFilters = () => {
   filters.value = createGridFilters()
 }
 
-const applyGridFilters = () => {
-  filters.value = Object.fromEntries(
-    Object.entries(filters.value).map(([field, filter]) => [
-      field,
-      { ...filter }
-    ])
-  )
+const openExternalOtsDialog = () => {
+  showExternalDialog.value = true
 }
 
 const exportarExcel = () => {
