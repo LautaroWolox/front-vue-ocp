@@ -18,24 +18,24 @@
         <h2 id="external-ots-window-title">Órdenes de Trabajo Externas</h2>
 
         <div class="external-ots-window__actions" @pointerdown.stop>
-          <Button
-            :icon="maximized ? 'pi pi-clone' : 'pi pi-window-maximize'"
-            text
-            rounded
+          <button
+            type="button"
             class="external-ots-window__action"
             :title="maximized ? 'Restaurar tamaño' : 'Maximizar'"
             :aria-label="maximized ? 'Restaurar tamaño' : 'Maximizar'"
-            @click="toggleMaximized"
-          />
-          <Button
-            icon="pi pi-times"
-            text
-            rounded
+            @click.stop="toggleMaximized"
+          >
+            <i :class="maximized ? 'pi pi-clone' : 'pi pi-window-maximize'" aria-hidden="true"></i>
+          </button>
+          <button
+            type="button"
             class="external-ots-window__action external-ots-window__action--close"
             title="Cerrar"
             aria-label="Cerrar"
-            @click="cerrar"
-          />
+            @click.stop="cerrar"
+          >
+            <i class="pi pi-times" aria-hidden="true"></i>
+          </button>
         </div>
       </header>
 
@@ -144,10 +144,10 @@ const externalColumns = [
 const windowStyle = computed(() => {
   if (maximized.value) {
     return {
-      top: '54px',
-      left: '12px',
-      width: 'calc(100vw - 24px)',
-      height: 'calc(100vh - 66px)',
+      top: '68px',
+      left: '24px',
+      width: 'calc(100vw - 48px)',
+      height: 'calc(100vh - 92px)',
       transform: 'none'
     }
   }
@@ -156,17 +156,17 @@ const windowStyle = computed(() => {
     return {
       top: `${windowY.value}px`,
       left: `${windowX.value}px`,
-      width: 'min(1120px, 94vw)',
-      height: 'min(620px, calc(100vh - 110px))',
+      width: 'min(1040px, 90vw)',
+      height: 'min(570px, calc(100vh - 140px))',
       transform: 'none'
     }
   }
 
   return {
-    top: '82px',
+    top: '92px',
     left: '50%',
-    width: 'min(1120px, 94vw)',
-    height: 'min(620px, calc(100vh - 110px))',
+    width: 'min(1040px, 90vw)',
+    height: 'min(570px, calc(100vh - 140px))',
     transform: 'translateX(-50%)'
   }
 })
@@ -265,7 +265,7 @@ onBeforeUnmount(stopDrag)
   display: flex;
   flex-direction: column;
   min-width: 560px;
-  min-height: 420px;
+  min-height: 400px;
   overflow: hidden;
   color: #263746;
   background: #ffffff;
@@ -280,13 +280,13 @@ onBeforeUnmount(stopDrag)
 }
 
 .external-ots-window__header {
-  flex: 0 0 58px;
-  min-height: 58px;
+  flex: 0 0 52px;
+  min-height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 0 14px 0 18px;
+  gap: 14px;
+  padding: 0 12px 0 16px;
   background: #ffffff;
   border-bottom: 1px solid #dce6eb;
   user-select: none;
@@ -301,7 +301,7 @@ onBeforeUnmount(stopDrag)
   margin: 0;
   overflow: hidden;
   color: #263746;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -311,32 +311,46 @@ onBeforeUnmount(stopDrag)
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
-.external-ots-window__actions .p-button.external-ots-window__action {
-  width: 32px !important;
-  min-width: 32px !important;
-  height: 32px !important;
-  min-height: 32px !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: #526773 !important;
-  box-shadow: none !important;
+.external-ots-window__action {
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 6px;
+  color: #526773;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
 }
 
-.external-ots-window__actions .p-button.external-ots-window__action:hover,
-.external-ots-window__actions .p-button.external-ots-window__action:focus-visible {
-  background: #e9f7f8 !important;
-  color: #008fa1 !important;
-  box-shadow: none !important;
+.external-ots-window__action .pi {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  line-height: 16px;
 }
 
-.external-ots-window__actions .p-button.external-ots-window__action--close:hover,
-.external-ots-window__actions .p-button.external-ots-window__action--close:focus-visible {
-  background: #fff0f0 !important;
-  color: #d83b3b !important;
+.external-ots-window__action:hover,
+.external-ots-window__action:focus-visible {
+  color: #008fa1;
+  background: #e9f7f8;
+}
+
+.external-ots-window__action--close:hover,
+.external-ots-window__action--close:focus-visible {
+  color: #d83b3b;
+  background: #fff0f0;
 }
 
 .external-ots-window__content {
@@ -344,18 +358,18 @@ onBeforeUnmount(stopDrag)
   min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: 12px 12px 8px;
+  padding: 10px 10px 6px;
   overflow: hidden;
   background: #ffffff;
 }
 
 .external-ots-window__footer {
-  flex: 0 0 66px;
-  min-height: 66px;
+  flex: 0 0 58px;
+  min-height: 58px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 10px 16px 12px;
+  padding: 8px 14px 10px;
   background: #ffffff;
   border-top: 1px solid #dce6eb;
 }
@@ -402,16 +416,16 @@ onBeforeUnmount(stopDrag)
 }
 
 .external-ots-empty {
-  min-height: 220px;
+  min-height: 180px;
   display: flex !important;
   align-items: center;
   justify-content: center;
   color: #6a7f8b;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .external-ots-window--maximized .external-ots-empty {
-  min-height: calc(100vh - 340px);
+  min-height: calc(100vh - 360px);
 }
 
 .external-ots-cell {
@@ -425,16 +439,16 @@ onBeforeUnmount(stopDrag)
 
 @media (max-width: 760px) {
   .external-ots-window {
-    top: 48px !important;
-    left: 6px !important;
-    width: calc(100vw - 12px) !important;
-    height: calc(100vh - 54px) !important;
+    top: 54px !important;
+    left: 8px !important;
+    width: calc(100vw - 16px) !important;
+    height: calc(100vh - 70px) !important;
     min-width: 0;
     transform: none !important;
   }
 
   .external-ots-window__header h2 {
-    font-size: 17px;
+    font-size: 16px;
   }
 }
 </style>
