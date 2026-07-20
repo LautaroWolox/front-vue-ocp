@@ -1,24 +1,34 @@
 <template>
-    <div class="flex flex-column px-2">
-        <label for="desc">Descripción Error</label>
-        <InputText type="text" id="error" v-model="desc" />
-    </div>
+  <div
+    class="fm-field fm-field--span-3 otf-filter-element otf-filter-element--descripcion-error"
+    :class="{ 'otf-filter-element--disabled': disabled }"
+  >
+    <label for="otf-descripcion-error">Descripción error</label>
+    <InputText
+      id="otf-descripcion-error"
+      v-model="descripcionError"
+      :disabled="disabled"
+      class="w-full"
+      type="text"
+      autocomplete="off"
+    />
+  </div>
 </template>
 
-
 <script setup>
-import { computed } from 'vue';
-import InputText from 'primevue/inputtext';
+import { computed } from 'vue'
+import InputText from 'primevue/inputtext'
 import { useFallidasCtStore } from '../../store/CtFallidaStore'
+import './filter-element.css'
 
-const store = useFallidasCtStore()
-const desc = computed({
-  get: () => store.filters.descripcionError,
-  set: (desc) =>
-    store.setFilter('descripcionError', desc? desc : '') 
+defineProps({
+  disabled: { type: Boolean, default: false }
 })
 
-</script>
+const store = useFallidasCtStore()
 
-<style scoped>
-</style>
+const descripcionError = computed({
+  get: () => store.filters.descripcionError,
+  set: (value) => store.setFilter('descripcionError', value ?? '')
+})
+</script>
