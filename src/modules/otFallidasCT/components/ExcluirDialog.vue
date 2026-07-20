@@ -1,135 +1,94 @@
 <template>
-  <Dialog
-    :visible="visible"
-    modal
-    header="Alerta"
-    :style="{ width: '520px' }"
-    class="fm-dialog fm-dialog-excluir"
-    @update:visible="onVisibleChange"
-  >
-    <div v-if="step === 'form'" class="fm-dialog-body">
-      <p>¿Confirma que desea excluir la OT seleccionada?</p>
-
-      <label>Motivo</label>
-      <Select v-model="motivoSelected" :options="motivos" optionLabel="name" class="fm-dialog-select" />
-
-      <label>Nota</label>
-      <Textarea v-model="nota" rows="4" class="w-full fm-dialog-textarea" placeholder="Opcional" />
-    </div>
-
-    <div v-else class="fm-dialog-body">
-      <p>¿Está seguro que desea excluir?</p>
-
-      <div class="fm-confirm-summary">
-        <div class="fm-confirm-row">
-          <div class="fm-confirm-label">MOTIVO</div>
-          <div class="fm-confirm-value">{{ motivoSelected?.name }}</div>
+    <Dialog
+        :visible="visibleExc"
+        modal
+        header="ALERTA"
+        :style="{ width: '50rem' }"
+        @update:visible="$emit('update:visible', $event)"
+        >
+        <div class="card flex-col justify-center">
+            <div>
+                <label for="desc">Motivo</label>       
+                <span v-if="status.motivos === 'loading'">
+                    Cargando...
+                </span>
+                <Select
+                    v-else-if="status.motivos === 'loaded'"
+                    v-model="motivoSelected"
+                    :options="motivoOptions"
+                    optionLabel="nombre"
+                    id="nombreCorto"
+                />
+                <span v-else-if="status.motivos === 'error'">
+                    Error al cargar.
+                </span>
+            </div>
+            <div>
+                Comentario
+                <br/>
+                <InputText id="comentario" type="text" v-model="comentario" />
+            </div>
         </div>
-        <div class="fm-confirm-row">
-          <div class="fm-confirm-label">NOTA</div>
-          <div class="fm-confirm-value">{{ nota || 'Sin nota cargada' }}</div>
-        </div>
-      </div>
-    </div>
-
-    <FmTypingLoader v-if="saving" overlay variant="dialog" title="Procesando" message="Excluyendo OT" />
-
-    <template #footer>
-      <Button label="CANCELAR" outlined class="fm-btn fm-btn--outline" :disabled="saving" @click="cerrar" />
-      <Button :label="step === 'confirm' ? 'EXCLUIR' : 'ACEPTAR'" class="fm-btn fm-btn--primary" :disabled="saving" @click="aceptar" />
-    </template>
-  </Dialog>
-
-  <Dialog v-model:visible="showValidationAlert" modal header="Alerta" :style="{ width: '430px' }" class="fm-dialog-alert">
-    <div class="fm-alert-body">
-      <div class="fm-alert-triangle"><span>!</span></div>
-      <span>{{ validationMessage }}</span>
-    </div>
-    <template #footer>
-      <Button label="CERRAR" outlined class="fm-btn fm-btn--outline" @click="showValidationAlert = false" />
-    </template>
-  </Dialog>
+        <template #footer>
+            <Button label="Cancelar" outlined @click="cerrar" />
+            <Button label="Aceptar" @click="confirmar" />
+        </template>
+    </Dialog>
+    <ConfirmDialog/>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import Textarea from 'primevue/textarea'
-import { useFallidasCtStore } from '../store/CtFallidaStore'
+    import { ref, computed, onMounted } from 'vue';
+    import { useFallidasCtStore } from '../store/CtFallidaStore';
+    import { useCommonCtStore } from '@/store/commonCt';
+    import { storeToRefs } from 'pinia'
+    import InputText from 'primevue/inputtext';
+    import ConfirmDialog from 'primevue/confirmdialog';
+    import { useConfirm } from "primevue/useconfirm";
 
-const props = defineProps({
-  visible: Boolean,
-  selectedRows: {
-    type: Array,
-    default: () => []
-  }
-})
+    const props = defineProps({
+        visibleExc: Boolean,
+        selectedRows: {
+            type: Array,
+            default: () => []
+        }
+    })
 
-const emit = defineEmits(['update:visible'])
-const store = useFallidasCtStore()
-const motivos = store.motivos
-const motivoSelected = ref(null)
-const nota = ref('')
-const step = ref('form')
-const showValidationAlert = ref(false)
-const validationMessage = ref('')
-const saving = ref(false)
+    const confirm = useConfirm();
+    const emit = defineEmits(['update:visibleExc'])
+    const store = useFallidasCtStore()  
+    const commonCT = useCommonCtStore()
+    const { motivos, status } = storeToRefs(commonCT)
+    const motivoSelected = ref('')
+    const comentario = ref('')
 
-watch(() => props.visible, (value) => {
-  if (value) reset()
-})
+    const motivoOptions = computed (() => [
+        {
+            id: 0,
+            nombre: '',
+            nombreCorto: '',
+            activo: '',
+        },
+        ...(motivos.value ?? []),
+    ])
 
-const reset = () => {
-  motivoSelected.value = null
-  nota.value = ''
-  step.value = 'form'
-  showValidationAlert.value = false
-  validationMessage.value = ''
-  saving.value = false
-}
+    const confirmar = async() => {
+        emit('update:visibleExc', false)
+        let resp = await store.sendExcluidas(motivoSelected.value.nombreCorto,comentario.value)
+        console.log('resp: ' + JSON.stringify(resp))
+        motivoSelected.value = ''
+        comentario.value = ''
+        await store.setData()
+        store.selectedRows = []
+    }
 
-const cerrar = () => {
-  if (saving.value) return
-  reset()
-  emit('update:visible', false)
-}
+    const cerrar = () => {
+        emit('update:visibleExc', false)
+        motivoSelected.value = ''
+        comentario.value = ''
+    }
 
-const closeAfterSave = () => {
-  saving.value = false
-  reset()
-  emit('update:visible', false)
-}
+    onMounted(() => commonCT.setMotivosExcInc())
 
-const onVisibleChange = (value) => {
-  if (!value) cerrar()
-}
-
-const showAlert = (message) => {
-  validationMessage.value = message
-  showValidationAlert.value = true
-}
-
-const aceptar = async () => {
-  if (!props.selectedRows.length) {
-    showAlert('Debe seleccionar al menos una OT para excluir.')
-    return
-  }
-
-  if (!motivoSelected.value) {
-    showAlert('Debe seleccionar un motivo.')
-    return
-  }
-
-  if (step.value === 'form') {
-    step.value = 'confirm'
-    return
-  }
-
-  saving.value = true
-  try {
-    await store.sendExcluidas(store.getNotExcluded, motivoSelected.value, nota.value)
-    closeAfterSave()
-  } finally {
-    saving.value = false
-  }
-}
 </script>
+

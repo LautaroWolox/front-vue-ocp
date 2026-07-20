@@ -1,28 +1,26 @@
 import { defineStore } from 'pinia'
+import { EncryptStorage } from 'encrypt-storage'
 import { useFetch } from '@vueuse/core'
-import { piniaEncryptedSessionStorage } from '@/utils/encrypt'
-import { Mock } from '@/modules/otFallidasCT/descarte/mock'
-import { Motivos } from '@/modules/otFallidasCT/descarte/motivos'
-import type { Filters, Row, Motivo, StoreState, ActionResponse } from './types'
+import type { Filters, Row, StoreState, ActionResponse, ExcluirRequest } from './types'
 import { emptyFilters } from './types'
 
-
+const clave = import.meta.env.VITE_PARAMETER1 as string;
+export const fallidasCtStore = new EncryptStorage(clave, { storageType: 'sessionStorage' });
 
 export const useFallidasCtStore = defineStore('fallidasCT', {
     state: (): StoreState => ({
         activeTab: ['0'],
         filters: emptyFilters(),
-        validFilters: true,
         rows: [],
-        motivos: [],
         selectedRows: [],
+        rowId: null,
         loading: false,
     }),
 
     getters: {
         getRow: (state: StoreState) => (index: number): Row | undefined =>
             state.rows[index],
-
+        
         selectedNotExcludedRows: (state: StoreState): Row[] =>
             state.selectedRows
                 .map(id => state.rows.find(row => row.id === id))   // busca en todos los datos las filas con los ids seleccionados
@@ -34,42 +32,53 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
         setFilter<K extends keyof Filters>(key: K, value: Filters[K]): void {
             this.filters[key] = value
         },        
-        validateFilters() {
-            // acá hay que agregar la lógica de validación de filtros
-            this.validFilters = true
-        },
-        async setData(): Promise<void> {
-            // esto hay que cambiarlo por la búsqueda real
-            await Mock.getData().then((data: Row[]) => { this.rows = data })
-        },
-        async setMotivos(): Promise<void> {
-            // esto hay que cambiarlo por la búsqueda real
-            if (this.motivos.length === 0) {
-                await Motivos.getMotivos().then((data: Motivo[]) => { this.motivos = data })
-            }
+        async setData() {
+            this.loading = true;
+            const { data, error } = await useFetch('/pc/registroOTFallidasReproceso/searchFallidas.html')
+                .post(this.filters)
+                .json<Row[]>() 
+            this.loading = false;    
+            if (data.value) {
+                this.activeTab = ['1']
+                this.rows = data.value
+            } else {
+                console.log('error: ' + JSON.stringify(error.value))   
+            } 
         },
         setSelectedRows(rows: number[]): void {
             this.selectedRows = rows;
         },
-        async sendExcluidas(rows: Row[], motivo: string, comentario: string): Promise<ActionResponse> {
+        async sendReproceso() {
+            await useFetch('/pc/registroOTFallidasReproceso/reprocesar.html')
+                .post(this.selectedRows)
+        },
+        async sendExcluidas(motivo: string, comentario: string): Promise<ActionResponse> {
+            this.loading = true;
             try {
-                this.loading = true;
-                const payload = {rows, motivo, comentario}
+                const payload: ExcluirRequest = {
+                    idOts: this.selectedNotExcludedRows.map(row => row.id.toString()),
+                    nota: comentario,
+                    motivoNombreCorto: motivo
+                }
                 const { data, error } = await useFetch('/pc/registroOTFallidasReproceso/excluirOTFallida.html')
                     .post(payload)
-                    .json<ActionResponse>()
-                console.log('data: ' + JSON.stringify(data.value))    
-                console.log('error; ' + JSON.stringify(error.value))    
+                    .json<ActionResponse>() 
                 if (error.value) {
                     return {status: false, respuesta: String(error.value)}
                 }
                 if (!data.value) {
                     return { status: false, respuesta: 'Respuesta vacía del servidor' }
-                }
+                } 
                 return data.value
             } finally {
                 this.loading = false
             }
+        },
+        async sendIncluir(id:number ,motivo: string, comentario: string) { //: Promise<ActionResponse> {
+            console.log("store: ", this.rowId)
+            console.log("incluir id: ",id)
+            console.log("incluir motivo: ",motivo)
+            console.log("incluir comentario: ",comentario)
         },
         clearFilters() {
             this.filters = emptyFilters()
@@ -78,13 +87,5 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
             this.$reset()
         },
     },
-
-    persist: [
-        {
-            key: 'fallidasCT',             
-            storage: piniaEncryptedSessionStorage,
-            debug: import.meta.env.DEV,
-        },
-    ],
 })
 

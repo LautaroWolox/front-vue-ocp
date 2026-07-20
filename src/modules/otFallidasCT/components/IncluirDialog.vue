@@ -1,80 +1,88 @@
 <template>
-  <Dialog :visible="visible" modal header="Alerta" :style="{ width: '500px' }" class="fm-dialog fm-dialog-incluir" @update:visible="onVisibleChange">
-    <div class="fm-dialog-body">
-      <p>¿Confirma que desea recuperar la OT seleccionada?</p>
-      <label>Motivo</label>
-      <Select v-model="motivo" :options="store.motivos" optionLabel="name" class="fm-dialog-select" />
-      <label>Nota</label>
-      <Textarea v-model="nota" rows="4" class="w-full fm-dialog-textarea" placeholder="Opcional" />
-    </div>
-
-    <FmTypingLoader v-if="saving" overlay variant="dialog" title="Procesando" message="Recuperando OT" />
-
-    <template #footer>
-      <Button label="CANCELAR" outlined class="fm-btn fm-btn--outline" :disabled="saving" @click="cerrar" />
-      <Button label="ACEPTAR" class="fm-btn fm-btn--primary" :disabled="saving" @click="confirmar" />
-    </template>
-  </Dialog>
-
-  <Dialog v-model:visible="showAlert" modal header="Alerta" :style="{ width: '430px' }" class="fm-dialog-alert">
-    <div class="fm-alert-body">
-      <div class="fm-alert-triangle"><span>!</span></div>
-      <span>Debe seleccionar un motivo.</span>
-    </div>
-    <template #footer>
-      <Button label="CERRAR" outlined class="fm-btn fm-btn--outline" @click="showAlert = false" />
-    </template>
-  </Dialog>
+    <Dialog
+        :visible="visibleInc"
+        modal
+        header="ALERTA"
+        :style="{ width: '50rem' }"
+        @update:visibleInc="$emit('update:visibleInc', $event)"
+        >
+        <div class="card flex-col justify-center">
+            <div>
+                <label for="desc">Motivo</label>       
+                <span v-if="status.motivos === 'loading'">
+                    Cargando...
+                </span>
+                <Select
+                    v-else-if="status.motivos === 'loaded'"
+                    v-model="motivoSelected"
+                    :options="motivoOptions"
+                    optionLabel="nombre"
+                    id="nombreCorto"
+                />
+                <span v-else-if="status.motivos === 'error'">
+                    Error al cargar.
+                </span>
+            </div>
+            <div>
+                Comentario
+                <br/>
+                <InputText id="comentario" type="text" v-model="comentario" />
+            </div>
+        </div>
+        <template #footer>
+            <Button label="Cancelar" outlined @click="cerrar" />
+            <Button label="Aceptar" @click="confirmar" />
+        </template>
+    </Dialog>
+    <ConfirmDialog/>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import Textarea from 'primevue/textarea'
-import { useFallidasCtStore } from '../store/CtFallidaStore'
+    import { ref, computed, onMounted } from 'vue';
+    import { useFallidasCtStore } from '../store/CtFallidaStore';
+    import { useCommonCtStore } from '@/store/commonCt';
+    import { storeToRefs } from 'pinia'
+    import InputText from 'primevue/inputtext';
+    import ConfirmDialog from 'primevue/confirmdialog';
+    import { useConfirm } from "primevue/useconfirm";
 
-const props = defineProps({ visible: Boolean, row: { type: Object, default: null } })
-const emit = defineEmits(['update:visible'])
-const store = useFallidasCtStore()
-const motivo = ref(null)
-const nota = ref('')
-const showAlert = ref(false)
-const saving = ref(false)
+    const props = defineProps({
+        visibleInc: Boolean
+    })
 
-watch(() => props.visible, (value) => {
-  if (value) {
-    motivo.value = null
-    nota.value = props.row?.nota || ''
-    showAlert.value = false
-    saving.value = false
-  }
-})
+    const confirm = useConfirm();
+    const emit = defineEmits(['update:visibleInc'])
+    const store = useFallidasCtStore()  
+    const commonCT = useCommonCtStore()
+    const { motivos, status } = storeToRefs(commonCT)
+    const motivoSelected = ref('')
+    const comentario = ref('')
 
-const cerrar = () => {
-  if (saving.value) return
-  emit('update:visible', false)
-}
+    const motivoOptions = computed (() => [
+        {
+            id: 0,
+            nombre: '',
+            nombreCorto: '',
+            activo: '',
+        },
+        ...(motivos.value ?? []),
+    ])
+    
+    const confirmar = async() => {
+        emit('update:visibleInc', false)
+        let resp = await store.sendIncluir(store.rowId,motivoSelected.value.nombreCorto,comentario.value)
+        console.log('resp: ' + JSON.stringify(resp))
+        motivoSelected.value = ''
+        comentario.value = ''
+        await store.setData()
+    }
 
-const closeAfterSave = () => {
-  saving.value = false
-  emit('update:visible', false)
-}
+    const cerrar = () => {
+        emit('update:visibleInc', false)
+        motivoSelected.value = ''
+        comentario.value = ''
+    }
 
-const onVisibleChange = (value) => {
-  if (!value) cerrar()
-}
+    onMounted(() => commonCT.setMotivosExcInc())
 
-const confirmar = async () => {
-  if (!motivo.value) {
-    showAlert.value = true
-    return
-  }
-
-  saving.value = true
-  try {
-    await store.incluir(props.row, motivo.value, nota.value)
-    closeAfterSave()
-  } finally {
-    saving.value = false
-  }
-}
 </script>

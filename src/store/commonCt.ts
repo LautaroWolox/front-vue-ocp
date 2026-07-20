@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia'
+import { EncryptStorage } from 'encrypt-storage'
 import { useFetch } from '@vueuse/core'
-import { piniaEncryptedSessionStorage } from '@/utils/encrypt'
 import type { StoreState, LoadStatus, Contratista, ActividadMotivo } from './interfaces/ctTypes.ts'
+
+const clave = import.meta.env.VITE_PARAMETER1 as string;
+export const commonCtStore = new EncryptStorage(clave, { storageType: 'sessionStorage' });
 
 export const useCommonCtStore = defineStore('commonCT', {
     state: (): StoreState => ({
@@ -58,9 +61,11 @@ export const useCommonCtStore = defineStore('commonCT', {
 
     persist: [
         {
-            key: 'commonCT',
-            storage: piniaEncryptedSessionStorage,
-            debug: import.meta.env.DEV,
+            key: 'commonCT',             
+            storage: {
+                getItem: (key: string): string | null => commonCtStore.getItem(key) ?? null,
+                setItem: (key: string, value: string): void => commonCtStore.setItem(key, value),
+            },
         },
     ]
 })

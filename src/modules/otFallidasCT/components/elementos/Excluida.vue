@@ -1,41 +1,31 @@
 <template>
-  <div class="fm-field fm-field--span-2 otf-filter-element otf-filter-element--excluida" :class="{ 'otf-filter-element--disabled': disabled }">
-    <label for="otf-excluida">Excluida</label>
-    <Select
-      inputId="otf-excluida"
-      :modelValue="modelValue"
-      :options="options"
-      :disabled="disabled"
-      optionLabel="name"
-      class="w-full"
-      showClear
-      @update:modelValue="$emit('update:modelValue', $event)"
-    />
-  </div>
+    <div class="flex flex-column px-2">
+        <label for="excl">Excluida</label>
+        <Select id="excl" v-model="exc" :options="excluida" optionLabel="valor"class="w-full md:w-56" />
+    </div>
 </template>
 
 <script setup>
-import Select from 'primevue/select'
+import { ref, computed } from "vue";
+import { useFallidasCtStore } from '../../store/CtFallidaStore'
 
-defineProps({
-  modelValue: { type: [Object, String, null], default: null },
-  options: { type: Array, default: () => [] },
-  disabled: { type: Boolean, default: false }
+const store = useFallidasCtStore()
+
+const excluida = ref ([
+    {'id': '', 'valor': ''},
+    {'id': 'S', 'valor': 'SI'},
+    {'id': 'N', 'valor': 'NO'},
+])
+
+const exc = computed({
+  get: () =>
+    excluida.value.find(p => p.valor === store.filters.excluida) ?? exc.value[0],
+
+  set: (value) =>
+    store.setFilter('excluida', value?.id ?? '')
 })
 
-defineEmits(['update:modelValue'])
 </script>
 
 <style scoped>
-.otf-filter-element label {
-  white-space: nowrap;
-}
-
-.otf-filter-element :deep(.p-select) {
-  width: 100%;
-}
-
-.otf-filter-element--disabled {
-  opacity: .62;
-}
 </style>

@@ -1,4 +1,5 @@
 export const strings = {
+    ripple: true,
     locale: {
         "startsWith": "Comience con",
         "contains": "Contenga",
