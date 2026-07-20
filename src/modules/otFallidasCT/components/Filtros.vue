@@ -1,13 +1,13 @@
 <template>
   <div class="fm-panel-content fm-panel-content--accent fm-filters otf-filters">
     <div class="fm-filter-grid otf-filter-grid">
-      <NroOT :disabled="disableNroOt" />
-      <FechaDesde :disabled="disableAdvancedFilters" />
-      <FechaHasta :disabled="disableAdvancedFilters" />
-      <Contratista :disabled="disableAdvancedFilters" />
-      <DescError :disabled="disableAdvancedFilters" />
-      <Excluida :disabled="disableAdvancedFilters" />
-      <Pais :disabled="disableAdvancedFilters" />
+      <NroOT />
+      <FechaDesde />
+      <FechaHasta />
+      <Contratista />
+      <DescError />
+      <Excluida />
+      <Pais />
     </div>
 
     <div class="fm-actions fm-filter-actions otf-filter-actions">
@@ -16,7 +16,7 @@
         label="BUSCAR"
         icon="pi-search"
         :disabled="store.loading"
-        @click="buscar"
+        @click="store.setData"
       />
       <FmButton
         class="fm-filter-action-button"
@@ -24,14 +24,13 @@
         icon="pi-filter-slash"
         variant="outline"
         :disabled="store.loading"
-        @click="limpiar"
+        @click="store.clearFilters"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { useFallidasCtStore } from '../store/CtFallidaStore'
 import NroOT from './elementos/NroOT.vue'
 import FechaDesde from './elementos/FechaDesde.vue'
@@ -42,35 +41,6 @@ import Excluida from './elementos/Excluida.vue'
 import Pais from './elementos/Pais.vue'
 
 const store = useFallidasCtStore()
-
-const hasValue = (value) => {
-  if (value === null || value === undefined) return false
-  if (value instanceof Date) return true
-  return String(value).trim().length > 0
-}
-
-const hasNroOt = computed(() => hasValue(store.filters.nroOT))
-const hasAdvancedFilters = computed(() => [
-  store.filters.fechaCierreOTDesde,
-  store.filters.fechaCierreOTHasta,
-  store.filters.contratista,
-  store.filters.descripcionError,
-  store.filters.excluida,
-  store.filters.pais
-].some(hasValue))
-
-const disableAdvancedFilters = computed(() => hasNroOt.value)
-const disableNroOt = computed(() => !hasNroOt.value && hasAdvancedFilters.value)
-
-const buscar = async () => {
-  if (store.loading) return
-  await store.setData()
-}
-
-const limpiar = () => {
-  if (store.loading) return
-  store.clearFilters()
-}
 </script>
 
 <style scoped>
