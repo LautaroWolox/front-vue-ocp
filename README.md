@@ -1,93 +1,612 @@
-# fm-front-vue
+# Field Manager — recursos globales reutilizables
 
+Esta guía enumera los componentes, clases e integraciones visuales que deben reutilizarse al crear o modificar una pantalla de Field Manager.
 
+Reglas generales:
 
-## Getting started
+- usar componentes globales `Fm*`;
+- usar PrimeVue con la configuración ya registrada en `src/main.js`;
+- usar clases CSS `fm-*`;
+- no copiar CSS común entre pantallas;
+- reservar `<style scoped>` para ajustes exclusivos del módulo.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+---
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Pantalla y responsive
 
-## Add your files
+Toda pantalla debe comenzar con:
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
+```vue
+<div class="fm-screen fm-screen--pad">
+  <!-- contenido -->
+</div>
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/telecom-argentina/cio/oss/workforce/field-manager/backend/oss-fieldmanager/fm-front-vue.git
-git branch -M master
-git push -uf origin master
+
+Clases disponibles:
+
+```text
+fm-screen
+fm-screen--pad
+fm-module-page
+fm-responsive-page
 ```
 
-## Integrate with your tools
+Los CSS responsive se cargan globalmente desde:
 
-* [Set up project integrations](https://gitlab.com/telecom-argentina/cio/oss/workforce/field-manager/backend/oss-fieldmanager/fm-front-vue/-/settings/integrations)
+```text
+src/assets/css/responsive/responsive.css
+src/assets/css/responsive/responsive-resolutions.css
+```
 
-## Collaborate with your team
+No deben importarse nuevamente desde cada pantalla.
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+---
 
-## Test and Deploy
+## Panel: FmPanel
 
-Use the built-in continuous integration in GitLab.
+```vue
+<FmPanel title="DATOS DE LA ORDEN" accent>
+  <!-- contenido -->
+</FmPanel>
+```
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+Con acciones:
 
-***
+```vue
+<FmPanel title="RESULTADOS">
+  <template #headerActions>
+    <Button icon="pi pi-plus" text aria-label="Agregar" />
+  </template>
 
-# Editing this README
+  <!-- contenido -->
+</FmPanel>
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Clases equivalentes:
 
-## Suggestions for a good README
+```text
+fm-panel
+fm-panel-header
+fm-panel-content
+fm-panel-content--accent
+fm-card
+fm-card__header
+fm-card__body
+fm-accent-left
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+## Acordeones
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```vue
+<Accordion multiple class="fm-accordion">
+  <AccordionPanel value="0">
+    <AccordionHeader>FILTROS</AccordionHeader>
+    <AccordionContent>
+      <!-- contenido -->
+    </AccordionContent>
+  </AccordionPanel>
+</Accordion>
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Los componentes `Accordion`, `AccordionPanel`, `AccordionHeader` y `AccordionContent` están registrados globalmente.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+---
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## Filtros y formularios
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+La distribución estándar usa una grilla de 12 columnas:
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+```vue
+<div class="fm-panel-content fm-panel-content--accent fm-filters">
+  <div class="fm-filter-grid">
+    <div class="fm-field fm-field--span-4">
+      <label>Nro. OT</label>
+      <InputText v-model="filters.nroOt" />
+    </div>
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+    <div class="fm-field fm-field--span-4">
+      <label>Estado</label>
+      <Select v-model="filters.estado" :options="estados" />
+    </div>
+  </div>
+</div>
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Clases disponibles:
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+```text
+fm-filters
+fm-filter-grid
+fm-field
+fm-field--span-2
+fm-field--span-3
+fm-field--span-4
+fm-field--span-6
+fm-field--span-8
+fm-field--span-12
+fm-input
+fm-select
+```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+`InputText`, `Textarea` y `DatePicker` se importan localmente cuando se utilizan.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+---
 
-## License
-For open source projects, say how it is licensed.
+## Botón principal: FmButton
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Primario:
+
+```vue
+<FmButton label="BUSCAR" icon="pi-search" @click="buscar" />
+```
+
+Secundario:
+
+```vue
+<FmButton
+  label="LIMPIAR"
+  icon="pi-filter-slash"
+  variant="outline"
+  @click="limpiar"
+/>
+```
+
+Con loader:
+
+```vue
+<FmButton
+  label="GUARDAR"
+  icon="pi-save"
+  :loading="guardando"
+  @click="guardar"
+/>
+```
+
+Para bloquear sin cambiar el texto ni mostrar spinner:
+
+```vue
+<FmButton label="BUSCAR" icon="pi-search" :disabled="loading" />
+```
+
+Props principales:
+
+```text
+label
+icon
+variant: primary | outline
+disabled
+loading
+loadingLabel
+```
+
+---
+
+## Botón con SVG propio: FmActionButton
+
+```vue
+<FmActionButton label="GUARDAR" icon="save" @click="guardar" />
+```
+
+Íconos disponibles:
+
+```text
+search
+clean
+add
+save
+cancel
+```
+
+---
+
+## Clases globales para Button de PrimeVue
+
+```vue
+<div class="fm-actions">
+  <Button label="ACEPTAR" class="fm-btn fm-btn--primary" />
+  <Button label="CANCELAR" outlined class="fm-btn fm-btn--outline" />
+</div>
+```
+
+Clases disponibles:
+
+```text
+fm-actions
+fm-btn
+fm-btn--primary
+fm-btn--outline
+fm-icon-button
+fm-icon-btn
+```
+
+---
+
+## Contenedor de grilla: FmGridShell
+
+Toda grilla debe estar dentro de `FmGridShell`:
+
+```vue
+<FmGridShell
+  :loading="loading"
+  loading-title="Buscando"
+  loading-message="Cargando resultados"
+>
+  <DataTable :value="rows" dataKey="id">
+    <Column field="nroOt" header="Nro. OT" />
+  </DataTable>
+</FmGridShell>
+```
+
+Props:
+
+```text
+title
+loading
+loadingTitle
+loadingMessage
+```
+
+---
+
+## DataTable estándar
+
+```vue
+<DataTable
+  ref="dt"
+  class="fm-pass-grid"
+  :value="rows"
+  dataKey="id"
+  paginator
+  :rows="10"
+  :rowsPerPageOptions="[10, 50, 100, 500]"
+  filterDisplay="row"
+  scrollable
+  scrollHeight="430px"
+  resizableColumns
+  columnResizeMode="expand"
+  showGridlines
+>
+  <template #empty>
+    <div class="fm-grid-empty">No hay resultados</div>
+  </template>
+
+  <Column field="nroOt" header="Nro. OT" sortable />
+</DataTable>
+```
+
+Filtro de columna:
+
+```vue
+<template #filter="{ filterModel, filterCallback }">
+  <div class="fm-filter-cell">
+    <span class="fm-filter-prefix">~</span>
+    <InputText
+      v-model="filterModel.value"
+      class="fm-column-filter"
+      @input="filterCallback()"
+    />
+    <span class="fm-filter-more">...</span>
+  </div>
+</template>
+```
+
+Texto con recorte y tooltip nativo:
+
+```vue
+<span class="fm-cell-text" :title="String(data.nombre ?? '')">
+  {{ data.nombre }}
+</span>
+```
+
+Clases disponibles:
+
+```text
+fm-grid-shell
+fm-grid-title
+fm-grid-actions
+fm-pass-grid
+fm-filter-cell
+fm-filter-prefix
+fm-filter-more
+fm-column-filter
+fm-cell-text
+fm-grid-empty
+fm-selected-row
+fm-enabled-row
+fm-disabled-row
+fm-link-cell
+```
+
+---
+
+## Acciones de grilla: FmGridActions
+
+Excel, eliminar y reprocesar:
+
+```vue
+<template #paginatorstart>
+  <FmGridActions
+    size="large"
+    @export="exportarExcel"
+    @delete="eliminar"
+    @refresh="reprocesar"
+  />
+</template>
+```
+
+Sólo Excel:
+
+```vue
+<FmGridActions
+  :show-delete="false"
+  :show-refresh="false"
+  @export="exportarExcel"
+/>
+```
+
+Props:
+
+```text
+showExport
+showDelete
+showRefresh
+size: compact | large
+```
+
+---
+
+## Exportación a Excel
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { useExcelExport } from '@/composables/useExportExcel'
+
+const dt = ref()
+const { parseDataFromTable, exportToExcel } = useExcelExport()
+
+const exportarExcel = () => {
+  const { rows, fields } = parseDataFromTable(dt)
+
+  exportToExcel({
+    rows,
+    fields,
+    columns,
+    filename: 'Ordenes.xlsx',
+    columnTypes: {},
+    groupField: null
+  })
+}
+</script>
+```
+
+---
+
+## Alerta global: FmAlertDialog
+
+```vue
+<FmAlertDialog
+  v-model:visible="showAlert"
+  title="Alerta"
+  message="No hay datos para la consulta efectuada"
+/>
+```
+
+Props principales:
+
+```text
+title
+message
+closeLabel
+width
+type
+```
+
+---
+
+## Popup estándar
+
+```vue
+<Dialog
+  v-model:visible="showDialog"
+  modal
+  header="Confirmación"
+  class="fm-dialog"
+  :style="{ width: '520px' }"
+>
+  <div class="fm-dialog-body">
+    <!-- contenido -->
+  </div>
+
+  <template #footer>
+    <Button label="CANCELAR" outlined class="fm-btn fm-btn--outline" />
+    <Button label="ACEPTAR" class="fm-btn fm-btn--primary" />
+  </template>
+</Dialog>
+```
+
+Clases disponibles:
+
+```text
+fm-dialog
+fm-dialog-body
+fm-popup-body
+fm-alert-body
+fm-alert-triangle
+fm-note-body
+```
+
+---
+
+## Popup flotante
+
+La ventana flotante de Órdenes de Trabajo Externas está implementada en:
+
+```text
+src/modules/busquedaOts/components/ExternalOtsDialog.vue
+```
+
+Incluye:
+
+- encabezado arrastrable;
+- maximizar/restaurar;
+- cerrar;
+- grilla responsive;
+- paginado;
+- Excel.
+
+Actualmente es específica de Búsqueda de OTs. Para reutilizarla en más módulos debe extraerse previamente como `FmFloatingWindow`.
+
+---
+
+## Loader global: FmTypingLoader
+
+Pantalla completa:
+
+```vue
+<FmTypingLoader
+  fullscreen
+  title="Cargando"
+  message="Cargando pantalla"
+/>
+```
+
+Sobre un popup:
+
+```vue
+<FmTypingLoader
+  v-if="loading"
+  overlay
+  variant="dialog"
+  title="Procesando"
+  message="Guardando cambios"
+/>
+```
+
+Sobre una grilla se recomienda usar directamente las props `loading` de `FmGridShell`.
+
+---
+
+## Íconos y tooltips
+
+PrimeIcons:
+
+```vue
+<i class="pi pi-search"></i>
+<i class="pi pi-trash"></i>
+<i class="pi pi-download"></i>
+```
+
+Tooltip global:
+
+```vue
+<Button
+  icon="pi pi-search"
+  text
+  v-tooltip.top="'Buscar'"
+  aria-label="Buscar"
+/>
+```
+
+`primeicons.css` y la directiva `v-tooltip` ya se registran desde `src/main.js`.
+
+---
+
+## Componentes registrados globalmente
+
+No requieren import local:
+
+```text
+FmButton
+FmPanel
+FmGridShell
+FmAlertDialog
+FmActionButton
+FmGridActions
+FmTypingLoader
+
+Accordion
+AccordionPanel
+AccordionHeader
+AccordionContent
+DataTable
+Column
+Button
+CheckBox
+Select
+MultiSelect
+ProgressSpinner
+Dialog
+```
+
+---
+
+## CSS globales
+
+Se cargan una sola vez desde `src/main.js`:
+
+```text
+src/assets/css/legacy/fm-legacy-bridge.css
+src/assets/css/base/fm-design-system.css
+src/assets/css/base/fm-global-ui.css
+src/assets/css/base/fm-foundation.css
+src/assets/css/base/fm-registro-ui.css
+src/assets/css/responsive/responsive.css
+src/assets/css/responsive/responsive-resolutions.css
+src/assets/css/components/loaders/fm-loader.css
+src/assets/css/components/dialogs/*.css
+src/assets/css/components/grids/fm-grid-actions.css
+src/assets/css/components/menus/fm-menubar-submenus.css
+```
+
+No volver a importar `nuestros.css` ni `theme.css`: pertenecen a la capa legacy y pisan el diseño actual.
+
+---
+
+## Plantilla mínima de una pantalla nueva
+
+```vue
+<template>
+  <div class="fm-screen fm-screen--pad">
+    <Accordion multiple class="fm-accordion">
+      <AccordionPanel value="0">
+        <AccordionHeader>FILTROS</AccordionHeader>
+        <AccordionContent>
+          <div class="fm-panel-content fm-panel-content--accent fm-filters">
+            <div class="fm-filter-grid">
+              <div class="fm-field fm-field--span-4">
+                <label>Nro. OT</label>
+                <InputText v-model="filters.nroOt" />
+              </div>
+            </div>
+
+            <div class="fm-actions">
+              <FmButton label="BUSCAR" icon="pi-search" @click="buscar" />
+              <FmButton label="LIMPIAR" icon="pi-filter-slash" variant="outline" @click="limpiar" />
+            </div>
+          </div>
+        </AccordionContent>
+      </AccordionPanel>
+
+      <AccordionPanel value="1">
+        <AccordionHeader>RESULTADOS</AccordionHeader>
+        <AccordionContent>
+          <FmGridShell :loading="loading">
+            <DataTable class="fm-pass-grid" :value="rows" paginator :rows="10">
+              <template #empty>
+                <div class="fm-grid-empty">No hay resultados</div>
+              </template>
+
+              <Column field="nroOt" header="Nro. OT" sortable />
+            </DataTable>
+          </FmGridShell>
+        </AccordionContent>
+      </AccordionPanel>
+    </Accordion>
+  </div>
+</template>
+```
+
+No sobrescribir globalmente `.p-button`, `.p-datatable`, `.p-dialog` o `.p-menubar` desde una pantalla. Si un estilo es exclusivo del módulo, usar una clase con prefijo propio dentro de `<style scoped>`.
