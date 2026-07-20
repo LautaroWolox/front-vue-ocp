@@ -8,12 +8,22 @@
 
       <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
         <label for="otf-fecha-desde">Fecha desde</label>
-        <DatePicker id="otf-fecha-desde" v-model="store.filters.fechaCierreOTDesde" :disabled="disableAdvancedFilters" dateFormat="dd/mm/yy" :manualInput="false" showIcon showButtonBar class="w-full" />
+        <CtDatePicker
+          v-model="store.filters.fechaCierreOTDesde"
+          inputId="otf-fecha-desde"
+          placeholder="Desde"
+          :disabled="disableAdvancedFilters"
+        />
       </div>
 
       <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
         <label for="otf-fecha-hasta">Fecha hasta</label>
-        <DatePicker id="otf-fecha-hasta" v-model="store.filters.fechaCierreOTHasta" :disabled="disableAdvancedFilters" dateFormat="dd/mm/yy" :manualInput="false" showIcon showButtonBar class="w-full" />
+        <CtDatePicker
+          v-model="store.filters.fechaCierreOTHasta"
+          inputId="otf-fecha-hasta"
+          placeholder="Hasta"
+          :disabled="disableAdvancedFilters"
+        />
       </div>
 
       <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
@@ -56,7 +66,7 @@
 import { computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import InputText from 'primevue/inputtext'
-import DatePicker from 'primevue/datepicker'
+import CtDatePicker from './CtDatePicker.vue'
 import { useFallidasCtStore } from '../store/CtFallidaStore'
 import { useCommonCtStore } from '@/store/commonCt'
 
@@ -128,6 +138,10 @@ onMounted(() => commonCT.setContratistas())
   align-items: end;
 }
 
+.otf-filter-grid :deep(.ct-date-picker) {
+  width: 100% !important;
+}
+
 .otf-filter-actions {
   margin-top: 14px !important;
 }
@@ -147,11 +161,15 @@ onMounted(() => commonCT.setContratistas())
 
 .otf-filter-element--disabled :deep(.p-inputtext),
 .otf-filter-element--disabled :deep(.p-select),
-.otf-filter-element--disabled :deep(.p-datepicker-input) {
+.otf-filter-element--disabled :deep(.ct-date-button) {
   background: #d5dde3 !important;
   border-color: #9eacb7 !important;
   color: #53636f !important;
   cursor: not-allowed !important;
+}
+
+.otf-filter-element--disabled :deep(.ct-date-button svg) {
+  stroke: #53636f !important;
 }
 
 @media (max-width: 900px) {
