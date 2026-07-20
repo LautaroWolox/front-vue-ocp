@@ -1,88 +1,118 @@
 <template>
-    <Dialog
-        :visible="visibleInc"
-        modal
-        header="ALERTA"
-        :style="{ width: '50rem' }"
-        @update:visibleInc="$emit('update:visibleInc', $event)"
-        >
-        <div class="card flex-col justify-center">
-            <div>
-                <label for="desc">Motivo</label>       
-                <span v-if="status.motivos === 'loading'">
-                    Cargando...
-                </span>
-                <Select
-                    v-else-if="status.motivos === 'loaded'"
-                    v-model="motivoSelected"
-                    :options="motivoOptions"
-                    optionLabel="nombre"
-                    id="nombreCorto"
-                />
-                <span v-else-if="status.motivos === 'error'">
-                    Error al cargar.
-                </span>
-            </div>
-            <div>
-                Comentario
-                <br/>
-                <InputText id="comentario" type="text" v-model="comentario" />
-            </div>
-        </div>
-        <template #footer>
-            <Button label="Cancelar" outlined @click="cerrar" />
-            <Button label="Aceptar" @click="confirmar" />
-        </template>
-    </Dialog>
-    <ConfirmDialog/>
+  <Dialog
+    :visible="visible"
+    modal
+    header="Alerta"
+    :style="{ width: '500px' }"
+    class="fm-dialog fm-dialog-incluir"
+    @update:visible="onVisibleChange"
+  >
+    <div class="fm-dialog-body">
+      <p>¿Confirma que desea recuperar la OT seleccionada?</p>
+
+      <label for="otf-incluir-motivo">Motivo</label>
+      <Select
+        id="otf-incluir-motivo"
+        v-model="motivoSelected"
+        :options="motivoOptions"
+        optionLabel="nombre"
+        :loading="status.motivos === 'loading'"
+        :disabled="status.motivos === 'loading'"
+        class="fm-dialog-select"
+      />
+
+      <label for="otf-incluir-nota">Nota</label>
+      <Textarea id="otf-incluir-nota" v-model="nota" rows="4" class="w-full fm-dialog-textarea" placeholder="Opcional" />
+    </div>
+
+    <FmTypingLoader v-if="saving" overlay variant="dialog" title="Procesando" message="Recuperando OT" />
+
+    <template #footer>
+      <Button label="CANCELAR" outlined class="fm-btn fm-btn--outline" :disabled="saving" @click="cerrar" />
+      <Button label="ACEPTAR" class="fm-btn fm-btn--primary" :disabled="saving" @click="confirmar" />
+    </template>
+  </Dialog>
+
+  <FmAlertDialog v-model:visible="showAlert" title="Alerta" :message="alertMessage" />
 </template>
 
 <script setup>
-    import { ref, computed, onMounted } from 'vue';
-    import { useFallidasCtStore } from '../store/CtFallidaStore';
-    import { useCommonCtStore } from '@/store/commonCt';
-    import { storeToRefs } from 'pinia'
-    import InputText from 'primevue/inputtext';
-    import ConfirmDialog from 'primevue/confirmdialog';
-    import { useConfirm } from "primevue/useconfirm";
+import { computed, onMounted, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import Textarea from 'primevue/textarea'
+import { useFallidasCtStore } from '../store/CtFallidaStore'
+import { useCommonCtStore } from '@/store/commonCt'
 
-    const props = defineProps({
-        visibleInc: Boolean
-    })
+const props = defineProps({
+  visible: Boolean,
+  row: { type: Object, default: null }
+})
 
-    const confirm = useConfirm();
-    const emit = defineEmits(['update:visibleInc'])
-    const store = useFallidasCtStore()  
-    const commonCT = useCommonCtStore()
-    const { motivos, status } = storeToRefs(commonCT)
-    const motivoSelected = ref('')
-    const comentario = ref('')
+const emit = defineEmits(['update:visible'])
+const store = useFallidasCtStore()
+const commonCT = useCommonCtStore()
+const { motivos, status } = storeToRefs(commonCT)
+const motivoSelected = ref(null)
+const nota = ref('')
+const showAlert = ref(false)
+const alertMessage = ref('')
+const saving = ref(false)
 
-    const motivoOptions = computed (() => [
-        {
-            id: 0,
-            nombre: '',
-            nombreCorto: '',
-            activo: '',
-        },
-        ...(motivos.value ?? []),
-    ])
-    
-    const confirmar = async() => {
-        emit('update:visibleInc', false)
-        let resp = await store.sendIncluir(store.rowId,motivoSelected.value.nombreCorto,comentario.value)
-        console.log('resp: ' + JSON.stringify(resp))
-        motivoSelected.value = ''
-        comentario.value = ''
-        await store.setData()
+const motivoOptions = computed(() => motivos.value ?? [])
+
+watch(() => props.visible, (value) => {
+  if (!value) return
+
+  motivoSelected.value = null
+  nota.value = props.row?.nota || ''
+  showAlert.value = false
+  alertMessage.value = ''
+  saving.value = false
+})
+
+const cerrar = () => {
+  if (saving.value) return
+  emit('update:visible', false)
+}
+
+const onVisibleChange = (value) => {
+  if (!value) cerrar()
+}
+
+const confirmar = async () => {
+  if (!motivoSelected.value?.nombreCorto) {
+    alertMessage.value = 'Debe seleccionar un motivo.'
+    showAlert.value = true
+    return
+  }
+
+  if (!props.row?.id) {
+    alertMessage.value = 'No se pudo identificar la OT seleccionada.'
+    showAlert.value = true
+    return
+  }
+
+  saving.value = true
+
+  try {
+    const result = await store.sendIncluir(
+      props.row.id,
+      motivoSelected.value.nombreCorto,
+      nota.value
+    )
+
+    if (result?.status === false) {
+      alertMessage.value = result.respuesta || 'No se pudo recuperar la OT.'
+      showAlert.value = true
+      return
     }
 
-    const cerrar = () => {
-        emit('update:visibleInc', false)
-        motivoSelected.value = ''
-        comentario.value = ''
-    }
+    await store.setData()
+    cerrar()
+  } finally {
+    saving.value = false
+  }
+}
 
-    onMounted(() => commonCT.setMotivosExcInc())
-
+onMounted(() => commonCT.setMotivosExcInc())
 </script>
