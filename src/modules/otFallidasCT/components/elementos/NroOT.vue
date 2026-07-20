@@ -21,7 +21,7 @@ import InputText from 'primevue/inputtext'
 import { useFallidasCtStore } from '../../store/CtFallidaStore'
 import './filter-element.css'
 
-const props = defineProps({
+defineProps({
   disabled: { type: Boolean, default: false }
 })
 
