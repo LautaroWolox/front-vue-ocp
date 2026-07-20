@@ -1,234 +1,268 @@
 <template>
-  <div class="card">
-    <DataTable id="tabla" 
-          :value=store.rows
-          dataKey="id" 
-          ref="dt"
-          tableStyle="table-layout: fixed; width: 100%"
-          scrollable
-          scrollHeight="400px"
-          :rowClass="rowClass"
-          :resizableColumns="true" 
-          columnResizeMode="expand"
-          removableSort
-          sortMode="multiple"
-          filterDisplay="row" 
-          v-model:filters="filters" 
-          v-model:selection="selectedRows" 
-          selectionMode="multiple"
-          paginator :rows="10" 
-          :rowsPerPageOptions="[100, 250, 500]" 
-          paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}" 
-          showGridlines>
+  <FmGridShell
+    class="otf-grid-shell"
+    :loading="store.loading"
+    loading-title="Procesando OTs"
+    loading-message="Consultando datos y preparando la grilla"
+  >
+    <DataTable
+      id="tabla"
+      ref="dt"
+      class="fm-pass-grid"
+      :value="store.rows"
+      dataKey="id"
+      tableStyle="table-layout: fixed; width: max-content; min-width: 100%"
+      scrollable
+      scrollHeight="430px"
+      :rowClass="rowClass"
+      :resizableColumns="true"
+      columnResizeMode="expand"
+      removableSort
+      sortMode="multiple"
+      filterDisplay="row"
+      v-model:filters="filters"
+      v-model:selection="selectedRows"
+      selectionMode="multiple"
+      :isDataSelectable="isRowSelectable"
+      :selectAll="allSelectableSelected"
+      paginator
+      :rows="10"
+      :rowsPerPageOptions="[10, 50, 100, 500]"
+      paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
+      currentPageReportTemplate="Página {currentPage} de {totalPages}"
+      showGridlines
+      @row-click="onRowClick"
+      @select-all-change="onSelectAllChange"
+    >
       <template #paginatorstart>
-          <Button id="btnExportar" type="button" icon="pi pi-download" size="large" style="height:3rem; color: black;" class="icon-button"
-            v-tooltip.top="'Exportar a Excel'" text @click="exportarExcel"/>        
-          <Button id="btnExcluir" type="btn" icon="pi pi-trash" size="large" style="height:3rem" class="icon-button"
-            v-tooltip.top="'Excluir'" text @click="excluir" />
-          <Button id="btnReprocesar" type="button" icon="pi pi-external-link" size="large" style="height:3rem;" class="icon-button" 
-            v-tooltip.top="'Reprocesar'" text  @click="reprocesar" /> 
+        <FmGridActions size="large" @export="exportarExcel" @delete="excluir" @refresh="reprocesar" />
       </template>
-      <template #empty> <p class="py-1 pl-8 text-xl"> No se encontraron resultados. </p></template>
-      <Column selectionMode="multiple" headerStyle="width: 3rem"/>
+
+      <template #paginatorend>
+        <span class="fm-grid-counter">Mostrando {{ store.rows.length ? 1 : 0 }} - {{ Math.min(10, store.rows.length) }} de {{ store.rows.length }}</span>
+      </template>
+
+      <template #empty>
+        <div class="fm-grid-empty">No hay resultados</div>
+      </template>
+
+      <Column selectionMode="multiple" headerStyle="width: 3rem; min-width: 3rem" bodyStyle="width: 3rem; min-width: 3rem" />
+
       <Column
-        v-for="(col, index) in cols"
-        :key=col.field
-        :field=col.field
-        :header=col.header
-        :sortable=col.sort
-        :filter=col.filter
-        :filterField=col.field
-        :showFilterMenu=col.filter
-        :hidden=col.hidden
-        :exportable=col.exportable
+        v-for="col in cols"
+        :key="col.field"
+        :field="col.field"
+        :header="col.header"
+        :sortable="col.sort !== false"
+        :filter="col.filter !== false"
+        :filterField="col.field"
+        :showFilterMenu="false"
+        :hidden="col.hidden"
+        :exportable="col.exportable"
+        :style="columnStyle(col)"
+        :headerStyle="columnStyle(col)"
+        :bodyStyle="columnStyle(col)"
       >
         <template #filter="{ filterModel, filterCallback }">
-          <InputText 
-            v-if="col.filter"
-            type="text" 
-            v-model="filterModel.value" 
-            @input="filterCallback()" 
-            class="p-column-filter" 
-            :placeholder="`Search`"
-          />
+          <div v-if="col.filter !== false" class="fm-filter-cell">
+            <span class="fm-filter-prefix">~</span>
+            <InputText type="text" v-model="filterModel.value" @input="filterCallback()" class="fm-column-filter" />
+            <span class="fm-filter-more">...</span>
+          </div>
         </template>
         <template #body="{ data }">
-          <div :class="{ 'disabled-content': isDisabled(data) }">
-            <div v-if="col.field === 'tieneNota'" >
-              <div v-if="data['nota'] && data['nota'] !== ''"> 
-                <span @click.stop="handleAction(data,'nota')" :class="{ 'disabled-click': isDisabled(data) }">
-                  <img alt="nota" src="@/assets/icons/notes.png" class="image">
-                </span> 
-              </div>
-              <div v-else></div>
-            </div>
-            <div v-if="col.field === 'incluir'" >
-              <div v-if="data['excluida'] === 'S'" > 
-                <span @click="handleAction(data,'incluir')" :class="{ 'disabled-click': isDisabled(data) }">
-                  <img alt="nota" src="@/assets/icons/inclusion-icon.png" class="image">
-                </span> 
-              </div>
-              <div v-else></div>
-            </div>
-            <div v-else>
-              {{ data[col.field] ?? '' }}
-            </div>
-          </div>
-        </template>   
+          <button v-if="isActionColumnVisible(col, data)" :class="col.buttonClass" type="button" :title="col.title" :aria-label="col.ariaLabel" @click.stop="runColumnAction(col, data)"><i :class="col.icon"></i></button>
+          <span v-else-if="col.type !== 'action'" class="fm-cell-text" :title="String(data[col.field] ?? '')">{{ data[col.field] ?? '' }}</span>
+        </template>
       </Column>
     </DataTable>
 
-    <ExcluirDialog
-      v-model:visibleExc="showExcluir"
-      :selected-rows="selectedRows"
+    <FmTypingLoader
+      v-if="showReprocesoLoader"
+      overlay
+      variant="grid"
+      title="Cargando aviso"
+      message="Preparando el mensaje"
     />
 
-    <IncluirDialog
-      v-model:visibleInc="showIncluir"
+    <ExcluirDialog v-model:visible="showExcluir" :selected-rows="selectedRows" />
+    <IncluirDialog v-model:visible="showIncluir" :row="includeRow" />
+    <NotaDialog v-model:visible="showNota" :row="noteRow" />
+    <ReprocesoDialog
+      v-model:visible="showReprocesoDialog"
+      :type="reprocesoDialog.type"
+      :title="reprocesoDialog.title"
+      :message="reprocesoDialog.message"
     />
-
-  </div>
+  </FmGridShell>
 </template>
 
 <script setup>
-import { ref, onMounted, computed} from 'vue'
-import InputText from 'primevue/inputtext';
-import { FilterMatchMode } from '@primevue/core/api';
+import { computed, ref } from 'vue'
+import InputText from 'primevue/inputtext'
+import { FilterMatchMode } from '@primevue/core/api'
 import { columns } from './columns'
-import { useFallidasCtStore } from '../store/CtFallidaStore';
-import ExcluirDialog from './ExcluirDialog.vue';
-import IncluirDialog from './IncluirDialog.vue';
-import { useExcelExport } from '@/composables/useExportExcel';
+import { useFallidasCtStore } from '../store/CtFallidaStore'
+import ExcluirDialog from './ExcluirDialog.vue'
+import IncluirDialog from './IncluirDialog.vue'
+import NotaDialog from './NotaDialog.vue'
+import ReprocesoDialog from './ReprocesoDialog.vue'
+import { useExcelExport } from '@/composables/useExportExcel'
 
 const store = useFallidasCtStore()
 const cols = ref(columns)
 const dt = ref()
 const showExcluir = ref(false)
 const showIncluir = ref(false)
-let rowId = null
+const showNota = ref(false)
+const showReprocesoLoader = ref(false)
+const showReprocesoDialog = ref(false)
+const includeRow = ref(null)
+const noteRow = ref(null)
+const reprocesoDialog = ref({ type: 'warning', title: 'Alerta', message: '' })
 const { exportToExcel, parseDataFromTable } = useExcelExport()
 
-const filters = ref({
-    nroOrdenTrabajo: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    tareaCodigo: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    tecnicoCierre: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    contratista: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    // Agregar el resto
-});
-
+const filters = ref(Object.fromEntries(columns.filter((col) => !col.hidden).map((col) => [col.field, { value: null, matchMode: FilterMatchMode.CONTAINS }])))
+const selectableRows = computed(() => store.rows.filter((row) => row.excluida !== 'S'))
+const allSelectableSelected = computed(() => selectableRows.value.length > 0 && selectableRows.value.every((row) => store.selectedRows.includes(row.id)))
 const selectedRows = computed({
-  get: () => store.rows.filter(row =>
-    store.selectedRows.includes(row.id)
-  ),
-  set: (value) => store.setSelectedRows(value.map(v => v.id))
+  get: () => store.rows.filter((row) => store.selectedRows.includes(row.id)),
+  set: (value) => store.setSelectedRows(value.map((row) => row.id))
 })
 
-const isDisabled = (rowData) => {
-  return rowData?.excluida === 'S'
+const wait = (time = 850) => new Promise((resolve) => setTimeout(resolve, time))
+
+const columnStyle = (col) => ({
+  width: col.width || '120px',
+  minWidth: col.minWidth || col.width || '80px'
+})
+
+const rowClass = (data) => ({
+  'fm-disabled-row': data?.excluida === 'S',
+  'fm-enabled-row': data?.excluida === 'N',
+  'fm-selected-row': store.selectedRows.includes(data?.id)
+})
+
+const isRowSelectable = (event) => event?.data?.excluida !== 'S'
+const onSelectAllChange = () => store.setSelectedRows(allSelectableSelected.value ? [] : selectableRows.value.map((row) => row.id))
+const onRowClick = (event) => { if (event?.data) store.toggleSelectedRow(event.data) }
+const abrirNota = (row) => { noteRow.value = row; showNota.value = true }
+const abrirIncluir = (row) => { includeRow.value = row; showIncluir.value = true }
+
+const isActionColumnVisible = (col, row) => {
+  if (col.type !== 'action') return false
+  if (!col.showWhenField) return true
+  return row?.[col.showWhenField] === col.showWhenValue
 }
 
-const rowClass = (data) => {
-  return {
-    'disabled-row': data?.excluida === 'S',
-    'enabled-row': data?.excluida === 'N'
-  }
+const runColumnAction = (col, row) => {
+  if (col.action === 'nota') abrirNota(row)
+  if (col.action === 'incluir') abrirIncluir(row)
 }
 
-const handleAction = (data,actionType) => {
-  if (isDisabled(data) && actionType !== 'incluir') {
-    console.log('WO excluida')
-    return
-  } 
-  if (actionType === 'nota') {
-    alert("nota")
-  } else if (actionType === 'incluir') {
-    store.rowId = data.id
-    showIncluir.value = true
-  }
+const abrirReprocesoDialog = (data) => {
+  reprocesoDialog.value = data
+  showReprocesoDialog.value = true
 }
 
 const excluir = () => {
-  console.log(store.selectedRows.length)
-  if(store.selectedRows.length > 0){
+  showReprocesoDialog.value = false
+
+  if (store.selectedRows.length > 0) {
     showExcluir.value = true
-  } else {
-    alert("agregar toast")
+    return
   }
+
+  abrirReprocesoDialog({
+    type: 'warning',
+    title: 'Alerta',
+    message: 'Debe seleccionar al menos una OT para excluir.'
+  })
 }
 
+const reprocesar = async () => {
+  showReprocesoDialog.value = false
 
-const reprocesar = () => {
-  store.sendReproceso()
+  if (store.selectedRows.length === 0) {
+    abrirReprocesoDialog({
+      type: 'warning',
+      title: 'Alerta',
+      message: 'No hay datos para la consulta efectuada'
+    })
+    return
+  }
+
+  showReprocesoLoader.value = true
+  await wait()
+  const result = await store.reprocesar()
+  showReprocesoLoader.value = false
+
+  abrirReprocesoDialog({
+    type: result?.status === false ? 'warning' : 'success',
+    title: result?.status === false ? 'Alerta' : 'Reproceso finalizado',
+    message: result?.respuesta || 'Las OTs seleccionadas fueron reprocesadas correctamente.'
+  })
 }
 
 const exportarExcel = () => {
-  let { rows, fields } = parseDataFromTable(dt)
-  let exportedFields = fields.filter((f) => {
-    let col = cols.value.find((c) => c.field === f)
+  const parsed = parseDataFromTable(dt)
+  const rows = parsed.rows
+  const fields = parsed.fields.filter((field) => {
+    const col = cols.value.find((column) => column.field === field)
     return col && col.exportable !== false
   })
-  exportToExcel({
-    rows,
-    fields: exportedFields,
-    columns: cols.value,
-    filename: 'Ot_FallidasReproceso.xlsx',
-    columnTypes: {},
-    groupField: null,
-  })
+  exportToExcel({ rows, fields, columns: cols.value, filename: 'Ot_FallidasReproceso.xlsx', columnTypes: {}, groupField: null })
 }
-
 </script>
 
 <style scoped>
-/* 1. Modify the height rule to ONLY target data rows and main header titles */
-.p-datatable .p-datatable-thead > tr:not(.p-filter-row) > th,
-.p-datatable .p-datatable-tbody > tr > td {
-  height: 60px;
-  padding: 0 1rem;
-  box-sizing: border-box;
+.fm-grid-counter {
+  font-size: 12px;
+  color: #222;
+  padding-right: 8px;
 }
 
-/* 2. Give the filter row container its own relaxed, padded breathing room */
-.p-datatable .p-datatable-thead > tr.p-filter-row > th {
-  /* padding: 0.5rem 1rem; */
-  height: auto; /* Allows input fields to scale without squishing */
+.otf-grid-shell {
+  border-left-width: 2px !important;
 }
 
-/* 3. Ensure the custom input element scales fluidly within your resizable columns */
-.p-column-filter {
-  width: 100%;
-  box-sizing: border-box;
-  height: 25px;
+:deep(#tabla.fm-pass-grid),
+:deep(#tabla.p-datatable) {
+  border-left-width: 2px !important;
+  border-left-style: solid !important;
+  border-left-color: #00a9bd !important;
 }
 
-.image {
-  max-width: 20px;
-  height: auto;
-  padding-top: auto;
-  padding-bottom: auto;
+:deep(.p-datatable-tbody > tr) {
+  cursor: pointer;
 }
 
-/* Row styling */
-.disabled-row {
-  background-color: rgb(58, 52, 52) !important;
-  opacity: 0.7;
-  pointer-events: none; 
-  cursor: not-allowed;
+:deep(#tabla .fm-icon-btn) {
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  padding: 0 !important;
+  color: #001f2f !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
-.enabled-row {
-  background-color: #ffffff;
+:deep(#tabla .fm-icon-btn:hover),
+:deep(#tabla .fm-icon-btn:focus),
+:deep(#tabla .fm-icon-btn:focus-visible) {
+  color: #006f7d !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
-/* Style for buttons */
-:deep(.p-datatable .disabled-row .status-column) {
-  pointer-events: auto;
+:deep(#tabla .fm-icon-btn .pi),
+:deep(#tabla .fm-icon-btn .pi::before) {
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  font-size: 18px !important;
+  line-height: 18px !important;
 }
-
-:deep(.p-button:disabled) {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 </style>
