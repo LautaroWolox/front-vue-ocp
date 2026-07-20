@@ -1,101 +1,47 @@
 <template>
   <div class="fm-panel-content fm-panel-content--accent fm-filters otf-filters">
     <div class="fm-filter-grid otf-filter-grid">
-      <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableNroOt }">
-        <label for="otf-nro-ot">Nro. OT</label>
-        <InputText id="otf-nro-ot" v-model="store.filters.nroOT" :disabled="disableNroOt" class="w-full" autocomplete="off" />
-      </div>
-
-      <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
-        <label for="otf-fecha-desde">Fecha desde</label>
-        <CtDatePicker
-          v-model="store.filters.fechaCierreOTDesde"
-          inputId="otf-fecha-desde"
-          placeholder="Desde"
-          :disabled="disableAdvancedFilters"
-        />
-      </div>
-
-      <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
-        <label for="otf-fecha-hasta">Fecha hasta</label>
-        <CtDatePicker
-          v-model="store.filters.fechaCierreOTHasta"
-          inputId="otf-fecha-hasta"
-          placeholder="Hasta"
-          :disabled="disableAdvancedFilters"
-        />
-      </div>
-
-      <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
-        <label for="otf-contratista">Contratista</label>
-        <Select
-          id="otf-contratista"
-          v-model="contratistaSelected"
-          :options="contratistaOptions"
-          optionLabel="nombre"
-          :loading="commonStatus.contratistas === 'loading'"
-          :disabled="disableAdvancedFilters || commonStatus.contratistas === 'loading'"
-          class="w-full"
-        />
-      </div>
-
-      <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
-        <label for="otf-error">Descripción error</label>
-        <InputText id="otf-error" v-model="store.filters.descripcionError" :disabled="disableAdvancedFilters" class="w-full" autocomplete="off" />
-      </div>
-
-      <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
-        <label for="otf-excluida">Excluida</label>
-        <Select id="otf-excluida" v-model="store.filters.excluida" :options="excluidaOptions" optionLabel="label" optionValue="value" :disabled="disableAdvancedFilters" class="w-full" />
-      </div>
-
-      <div class="fm-field fm-field--span-3" :class="{ 'otf-filter-element--disabled': disableAdvancedFilters }">
-        <label for="otf-pais">País</label>
-        <Select id="otf-pais" v-model="store.filters.pais" :options="paisOptions" optionLabel="label" optionValue="value" :disabled="disableAdvancedFilters" class="w-full" />
-      </div>
+      <NroOT :disabled="disableNroOt" />
+      <FechaDesde :disabled="disableAdvancedFilters" />
+      <FechaHasta :disabled="disableAdvancedFilters" />
+      <Contratista :disabled="disableAdvancedFilters" />
+      <DescError :disabled="disableAdvancedFilters" />
+      <Excluida :disabled="disableAdvancedFilters" />
+      <Pais :disabled="disableAdvancedFilters" />
     </div>
 
     <div class="fm-actions fm-filter-actions otf-filter-actions">
-      <FmButton class="fm-filter-action-button" label="BUSCAR" icon="pi-search" :disabled="store.loading" @click="buscar" />
-      <FmButton class="fm-filter-action-button" label="LIMPIAR" icon="pi-filter-slash" variant="outline" :disabled="store.loading" @click="limpiar" />
+      <FmButton
+        class="fm-filter-action-button"
+        label="BUSCAR"
+        icon="pi-search"
+        :disabled="store.loading"
+        @click="buscar"
+      />
+      <FmButton
+        class="fm-filter-action-button"
+        label="LIMPIAR"
+        icon="pi-filter-slash"
+        variant="outline"
+        :disabled="store.loading"
+        @click="limpiar"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
-import InputText from 'primevue/inputtext'
-import CtDatePicker from './CtDatePicker.vue'
+import { computed } from 'vue'
 import { useFallidasCtStore } from '../store/CtFallidaStore'
-import { useCommonCtStore } from '@/store/commonCt'
+import NroOT from './elementos/NroOT.vue'
+import FechaDesde from './elementos/FechaDesde.vue'
+import FechaHasta from './elementos/FechaHasta.vue'
+import Contratista from './elementos/Contratista.vue'
+import DescError from './elementos/DescError.vue'
+import Excluida from './elementos/Excluida.vue'
+import Pais from './elementos/Pais.vue'
 
 const store = useFallidasCtStore()
-const commonCT = useCommonCtStore()
-const { contratistas, status: commonStatus } = storeToRefs(commonCT)
-
-const contratistaOptions = computed(() => [
-  { empresaId: 0, codigo: '', nombre: '', tipo: 'Contratista', activo: 'S' },
-  ...(contratistas.value ?? [])
-])
-
-const contratistaSelected = computed({
-  get: () => contratistaOptions.value.find((item) => item.codigo === store.filters.contratista) ?? contratistaOptions.value[0],
-  set: (value) => store.setFilter('contratista', value?.codigo ?? '')
-})
-
-const excluidaOptions = [
-  { label: '', value: '' },
-  { label: 'SI', value: 'S' },
-  { label: 'NO', value: 'N' }
-]
-
-const paisOptions = [
-  { label: '', value: '' },
-  { label: 'ARG', value: 'ARG' },
-  { label: 'UY', value: 'UY' },
-  { label: 'PY', value: 'PY' }
-]
 
 const hasValue = (value) => {
   if (value === null || value === undefined) return false
@@ -125,8 +71,6 @@ const limpiar = () => {
   if (store.loading) return
   store.clearFilters()
 }
-
-onMounted(() => commonCT.setContratistas())
 </script>
 
 <style scoped>
@@ -138,10 +82,6 @@ onMounted(() => commonCT.setContratistas())
   align-items: end;
 }
 
-.otf-filter-grid :deep(.ct-date-picker) {
-  width: 100% !important;
-}
-
 .otf-filter-actions {
   margin-top: 14px !important;
 }
@@ -151,35 +91,14 @@ onMounted(() => commonCT.setContratistas())
   min-width: 104px;
 }
 
-.otf-filter-element--disabled {
-  opacity: 1 !important;
-}
-
-.otf-filter-element--disabled label {
-  color: #52616c !important;
-}
-
-.otf-filter-element--disabled :deep(.p-inputtext),
-.otf-filter-element--disabled :deep(.p-select),
-.otf-filter-element--disabled :deep(.ct-date-button) {
-  background: #d5dde3 !important;
-  border-color: #9eacb7 !important;
-  color: #53636f !important;
-  cursor: not-allowed !important;
-}
-
-.otf-filter-element--disabled :deep(.ct-date-button svg) {
-  stroke: #53636f !important;
-}
-
 @media (max-width: 900px) {
-  .otf-filter-grid > .fm-field {
+  .otf-filter-grid > :deep(.fm-field) {
     grid-column: span 6;
   }
 }
 
 @media (max-width: 620px) {
-  .otf-filter-grid > .fm-field {
+  .otf-filter-grid > :deep(.fm-field) {
     grid-column: span 12;
   }
 }
