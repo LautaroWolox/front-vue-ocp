@@ -26,11 +26,13 @@
       :isDataSelectable="isRowSelectable"
       :selectAll="allSelectableSelected"
       paginator
-      :rows="10"
+      :first="first"
+      :rows="pageSize"
       :rowsPerPageOptions="[10, 50, 100, 500]"
       paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
       currentPageReportTemplate="Página {currentPage} de {totalPages}"
       showGridlines
+      @page="onPage"
       @row-click="onRowClick"
       @select-all-change="onSelectAllChange"
     >
@@ -39,7 +41,9 @@
       </template>
 
       <template #paginatorend>
-        <span class="fm-grid-counter">Mostrando {{ store.rows.length ? 1 : 0 }} - {{ Math.min(10, store.rows.length) }} de {{ store.rows.length }}</span>
+        <span class="fm-grid-counter">
+          Mostrando {{ displayStart }} - {{ displayEnd }} de {{ store.rows.length }}
+        </span>
       </template>
 
       <template #empty>
@@ -98,7 +102,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import InputText from 'primevue/inputtext'
 import { FilterMatchMode } from '@primevue/core/api'
 import { columns } from './columns'
@@ -112,6 +116,8 @@ import { useExcelExport } from '@/composables/useExportExcel'
 const store = useFallidasCtStore()
 const cols = ref(columns)
 const dt = ref()
+const first = ref(0)
+const pageSize = ref(10)
 const showExcluir = ref(false)
 const showIncluir = ref(false)
 const showNota = ref(false)
@@ -129,8 +135,19 @@ const selectedRows = computed({
   get: () => store.rows.filter((row) => store.selectedRows.includes(row.id)),
   set: (value) => store.setSelectedRows(value.map((row) => row.id))
 })
+const displayStart = computed(() => store.rows.length ? first.value + 1 : 0)
+const displayEnd = computed(() => Math.min(first.value + pageSize.value, store.rows.length))
+
+watch(() => store.rows.length, () => {
+  first.value = 0
+})
 
 const wait = (time = 850) => new Promise((resolve) => setTimeout(resolve, time))
+
+const onPage = (event) => {
+  first.value = event.first
+  pageSize.value = event.rows
+}
 
 const columnStyle = (col) => ({
   width: col.width || '120px',
