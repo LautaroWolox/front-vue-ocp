@@ -1,0 +1,51 @@
+.otf-filter-element {
+  min-width: 0;
+}
+
+.otf-filter-element label {
+  white-space: nowrap;
+}
+
+.otf-filter-element .p-inputtext,
+.otf-filter-element .p-select,
+.otf-filter-element .ct-date-picker {
+  width: 100%;
+  min-width: 0;
+}
+
+.otf-filter-element--disabled {
+  opacity: 1 !important;
+}
+
+.otf-filter-element--disabled label {
+  color: #52616c !important;
+}
+
+.otf-filter-element--disabled .p-inputtext,
+.otf-filter-element--disabled .p-select,
+.otf-filter-element--disabled .ct-date-button {
+  background: #d5dde3 !important;
+  background-color: #d5dde3 !important;
+  border-color: #9eacb7 !important;
+  color: #53636f !important;
+  cursor: not-allowed !important;
+}
+
+.otf-filter-element--disabled .p-inputtext::placeholder,
+.otf-filter-element--disabled .ct-date-button span,
+.otf-filter-element--disabled .p-select-label,
+.otf-filter-element--disabled .p-select-dropdown {
+  color: #53636f !important;
+}
+
+.otf-filter-element--disabled .ct-date-button svg {
+  stroke: #53636f !important;
+}
+
+.otf-filter-element__error {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  color: #c62828;
+  font-size: 12px;
+}
