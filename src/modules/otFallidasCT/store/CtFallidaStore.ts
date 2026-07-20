@@ -1,36 +1,7 @@
 import { defineStore } from 'pinia'
-import { EncryptStorage } from 'encrypt-storage'
 import { useFetch } from '@vueuse/core'
 import type { Filters, Row, StoreState, ActionResponse, ExcluirRequest } from './types'
 import { emptyFilters } from './types'
-
-const clave = import.meta.env.VITE_PARAMETER1 as string
-export const fallidasCtStorage = new EncryptStorage(clave, { storageType: 'sessionStorage' })
-
-type SearchResponse =
-  | Row[]
-  | {
-      rows?: Row[]
-      content?: Row[]
-      items?: Row[]
-      data?: Row[]
-      resultados?: Row[]
-    }
-
-const extractRows = (payload: SearchResponse | null | undefined): Row[] => {
-  if (Array.isArray(payload)) return payload
-  if (!payload || typeof payload !== 'object') return []
-
-  const candidates = [
-    payload.rows,
-    payload.content,
-    payload.items,
-    payload.data,
-    payload.resultados
-  ]
-
-  return candidates.find(Array.isArray) ?? []
-}
 
 export const useFallidasCtStore = defineStore('fallidasCT', {
   state: (): StoreState => ({
@@ -61,27 +32,25 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
       if (this.loading) return
 
       this.loading = true
-      this.rows = []
-      this.selectedRows = []
-      this.rowId = null
 
       try {
-        const { data, error, response } = await useFetch(
+        // Se conserva literalmente el contrato del frontend recibido,
+        // que devuelve el listado completo como un array de Row.
+        const { data, error } = await useFetch(
           '/pc/registroOTFallidasReproceso/searchFallidas.html'
         )
           .post(this.filters)
-          .json<SearchResponse>()
+          .json<Row[]>()
 
-        if (error.value || (response.value?.status && response.value.status >= 400)) {
-          console.error('Error buscando OTs fallidas:', error.value)
+        if (data.value) {
+          this.activeTab = ['1']
+          this.rows = data.value
+          this.selectedRows = []
+          this.rowId = null
           return
         }
 
-        this.rows = extractRows(data.value)
-
-        if (!this.activeTab.includes('1')) {
-          this.activeTab = [...this.activeTab, '1']
-        }
+        console.error('Error buscando OTs fallidas:', error.value)
       } finally {
         this.loading = false
       }
@@ -186,18 +155,5 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
     clearStore(): void {
       this.$reset()
     }
-  },
-
-  persist: [
-    {
-      // Se cambia la clave para invalidar las 12 filas mock guardadas por la versión anterior.
-      // Sólo se persisten filtros y estado visual; nunca resultados ni selecciones.
-      key: 'fallidasCTFiltersV2',
-      storage: {
-        getItem: (key: string): string | null => fallidasCtStorage.getItem(key) ?? null,
-        setItem: (key: string, value: string): void => fallidasCtStorage.setItem(key, value)
-      },
-      pick: ['activeTab', 'filters']
-    }
-  ]
+  }
 })
