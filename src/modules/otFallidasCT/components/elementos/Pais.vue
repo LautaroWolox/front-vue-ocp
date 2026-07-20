@@ -1,32 +1,42 @@
 <template>
-    <div class="flex flex-column px-2">
-        <label for="pais">País</label>
-        <Select id="pais" v-model="pais" :options="paises" optionLabel="valor" class="w-full md:w-56" />
-    </div>
+  <div
+    class="fm-field fm-field--span-3 otf-filter-element otf-filter-element--pais"
+    :class="{ 'otf-filter-element--disabled': disabled }"
+  >
+    <label for="otf-pais">País</label>
+    <Select
+      inputId="otf-pais"
+      v-model="pais"
+      :options="options"
+      optionLabel="label"
+      optionValue="value"
+      :disabled="disabled"
+      class="w-full"
+    />
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
+import Select from 'primevue/select'
 import { useFallidasCtStore } from '../../store/CtFallidaStore'
+import './filter-element.css'
+
+defineProps({
+  disabled: { type: Boolean, default: false }
+})
 
 const store = useFallidasCtStore()
 
-const paises = ref([
-  { valor: '' },
-  { valor: 'ARG' },
-  { valor: 'UY' },
-  { valor: 'PY' },
-])
+const options = [
+  { label: '', value: '' },
+  { label: 'ARG', value: 'ARG' },
+  { label: 'UY', value: 'UY' },
+  { label: 'PY', value: 'PY' }
+]
 
 const pais = computed({
-  get: () =>
-    paises.value.find(p => p.valor === store.filters.pais) ?? paises.value[0],
-
-  set: (value) =>
-    store.setFilter('pais', value?.valor ?? '')
+  get: () => store.filters.pais,
+  set: (value) => store.setFilter('pais', value ?? '')
 })
-
 </script>
-
-<style scoped>
-</style>
