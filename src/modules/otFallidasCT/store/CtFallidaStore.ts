@@ -7,6 +7,31 @@ import { emptyFilters } from './types'
 const clave = import.meta.env.VITE_PARAMETER1 as string
 export const fallidasCtStorage = new EncryptStorage(clave, { storageType: 'sessionStorage' })
 
+type SearchResponse =
+  | Row[]
+  | {
+      rows?: Row[]
+      content?: Row[]
+      items?: Row[]
+      data?: Row[]
+      resultados?: Row[]
+    }
+
+const extractRows = (payload: SearchResponse | null | undefined): Row[] => {
+  if (Array.isArray(payload)) return payload
+  if (!payload || typeof payload !== 'object') return []
+
+  const candidates = [
+    payload.rows,
+    payload.content,
+    payload.items,
+    payload.data,
+    payload.resultados
+  ]
+
+  return candidates.find(Array.isArray) ?? []
+}
+
 export const useFallidasCtStore = defineStore('fallidasCT', {
   state: (): StoreState => ({
     activeTab: ['0'],
@@ -36,23 +61,23 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
       if (this.loading) return
 
       this.loading = true
+      this.rows = []
+      this.selectedRows = []
+      this.rowId = null
 
       try {
         const { data, error, response } = await useFetch(
           '/pc/registroOTFallidasReproceso/searchFallidas.html'
         )
           .post(this.filters)
-          .json<Row[]>()
+          .json<SearchResponse>()
 
         if (error.value || (response.value?.status && response.value.status >= 400)) {
           console.error('Error buscando OTs fallidas:', error.value)
-          this.rows = []
-          this.selectedRows = []
           return
         }
 
-        this.rows = Array.isArray(data.value) ? data.value : []
-        this.selectedRows = []
+        this.rows = extractRows(data.value)
 
         if (!this.activeTab.includes('1')) {
           this.activeTab = [...this.activeTab, '1']
@@ -165,11 +190,14 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
 
   persist: [
     {
-      key: 'fallidasCT',
+      // Se cambia la clave para invalidar las 12 filas mock guardadas por la versión anterior.
+      // Sólo se persisten filtros y estado visual; nunca resultados ni selecciones.
+      key: 'fallidasCTFiltersV2',
       storage: {
         getItem: (key: string): string | null => fallidasCtStorage.getItem(key) ?? null,
         setItem: (key: string, value: string): void => fallidasCtStorage.setItem(key, value)
-      }
+      },
+      pick: ['activeTab', 'filters']
     }
   ]
 })
