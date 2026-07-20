@@ -90,15 +90,24 @@ export const useFallidasCtStore = defineStore('fallidasCT', {
       try {
         const { data, error, response } = await useFetch(
           '/pc/registroOTFallidasReproceso/reprocesar.html'
-        )
-          .post(this.selectedRows)
-          .json<ActionResponse>()
+        ).post(this.selectedRows)
 
-        if (error.value || (response.value?.status && response.value.status >= 400)) {
-          return { status: false, respuesta: String(error.value || `Error ${response.value?.status}`) }
+        const status = response.value?.status
+
+        if (error.value || (status && status >= 400)) {
+          return { status: false, respuesta: String(error.value || `Error ${status}`) }
         }
 
-        return data.value ?? { status: true, respuesta: 'Reproceso enviado correctamente.' }
+        if (typeof data.value === 'string' && data.value.trim()) {
+          try {
+            const parsed = JSON.parse(data.value) as ActionResponse
+            if (typeof parsed?.status === 'boolean') return parsed
+          } catch {
+            return { status: true, respuesta: data.value }
+          }
+        }
+
+        return { status: true, respuesta: 'Reproceso enviado correctamente.' }
       } finally {
         this.loading = false
       }
